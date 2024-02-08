@@ -1,2 +1,2 @@
 # Harvest-Party
-EDA and dashboard of annual Harvest Party budget
+Exploratory Data Analysis and website of annual Harvest Party budget
