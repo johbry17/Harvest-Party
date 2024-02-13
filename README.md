@@ -25,7 +25,7 @@ The original data is in a chaotic Google Sheet:
 
 ![Sample of Original Google Sheet](./static/resources/images/HP%20Google%20Sheet%20Sample.png)
 
-The first task was to make a copy of the data, eliminating the flotsam and jetsam. I copied each year and manually categorized the data, like so:
+The first task was to make a copy of the data, eliminating the flotsam and jetsam. I copied each year, changed the purchase date to just the year, and manually categorized the data, like so:
 
 ![Sample of Cleaned Spreadsheet](./static/resources/images/HP%20Cleaned%20Sheet%20Sample.png)
 
@@ -33,7 +33,7 @@ I also created sheets for donations/year, attendees/year (based on Facebook, an 
 
 Git ignored, I created a script to give the participants pseudonyms and stitch the individual years together into one expense csv. It's dynamic, and will automatically work for future years (unless new names are added).
 
-Commencing an exploratory data analysis (EDA), I began what little data wrangling I had left. Using regex to strip '$' and ',', I converted all currency to floats, renamed a few columns, and dropped a few nulls from the donations. One category, Costco, I semi-arbitrarily broke into thirds, assigning 1/3 to Food and 2/3 to the Bar.
+Commencing an exploratory data analysis (EDA), I began what little data wrangling I had left. Using regex to strip '$' and ',', I converted all currency to floats, renamed a few columns, and dropped a few nulls from the donations. One category, Costco, I semi-arbitrarily broke apart, assigning 1/3 to Food and 2/3 to the Bar.
 
 And then I plotted like a crazed banshee frothing at the mouth (and learned Seaborn and more Plotly while I was at it).
 
