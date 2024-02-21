@@ -37,6 +37,8 @@ Commencing an exploratory data analysis (EDA), I began what little data wranglin
 
 And then I plotted like a crazed banshee frothing at the mouth (and learned Seaborn and more Plotly while I was at it).
 
+Results were unsurprising. Costs have gone up due to inflation (i.e., increasing musician and house cleaning costs) and adding features to the party (i.e., better logo design, cleaners day-of-party).
+
 ## Gallery
 
 ## References
