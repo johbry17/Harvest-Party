@@ -23,11 +23,11 @@ Names have been changed to protect the guilty.
 
 The original data is in a chaotic Google Sheet:
 
-![Sample of Original Google Sheet](./static/resources/images/HP%20Google%20Sheet%20Sample.png)
+![Sample of Original Google Sheet](./resources/images/HP%20Google%20Sheet%20Sample.png)
 
 The first task was to make a copy of the data, eliminating the flotsam and jetsam. I copied each year, changed the purchase date to just the year, and manually categorized the data, like so:
 
-![Sample of Cleaned Spreadsheet](./static/resources/images/HP%20Cleaned%20Sheet%20Sample.png)
+![Sample of Cleaned Spreadsheet](./resources/images/HP%20Cleaned%20Sheet%20Sample.png)
 
 I also created sheets for donations/year, attendees/year (based on Facebook, an increasingly irrelevant metric), and reimbursements to whomsoever purchased items for a given year. All were exported as csv's.
 
