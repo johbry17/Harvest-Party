@@ -15,6 +15,8 @@ Development on this project has stopped.
 
 ## Description
 
+A python jupyter notebook exploratory data analysis of the financials of an annual party, followed by an explanatory data analysis in Tableau, designed to ensure transparency of funding for party attendees, to encourage donations.
+
 Names have been changed to protect the guilty.
 
 ## Usage
@@ -38,6 +40,10 @@ Commencing an exploratory data analysis (EDA), I began what little data wranglin
 And then I plotted like a crazed banshee frothing at the mouth (and learned Seaborn and more Plotly while I was at it).
 
 Results were unsurprising. Costs have gone up due to inflation (i.e., increasing musician and house cleaning costs) and adding features to the party (i.e., better logo design, cleaners day-of-party).
+
+I then cleaned up the EDA, adding comments on my thought process and the value (or not) of relevant charts.
+
+It helped me brainstorm what I wanted to put into Tableau.
 
 ## Gallery
 
