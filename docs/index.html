@@ -9,21 +9,12 @@
 </head>
 <body>
     <h1>Harvest Party</h1>
-    <!-- dropdown menu?? -->
-    <!-- <div class="dropdown">
-        <button class="dropbtn">Menu</button>
-        <div class="dropdown-content">
-            <a href="index.html">Home</a>
-            <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
-        </div>
-    </div>     -->
     <div class="carousel-images">
         <!-- <img src="images/harvest-party.jpg" alt="Harvest Party"> -->
     </div>
     <!-- year dropdown menu -->
     <select id="year" onchange="updateYear()">
-        <option value="2010">Total</option>
+        <option value="2010">Total</option> <!-- sneaky, eh? -->
         <option value="2014">2014</option>
         <option value="2015">2015</option>
         <option value="2016">2016</option>
@@ -35,11 +26,26 @@
         <option value="2022">2022</option>
         <option value="2023">2023</option>
     </select>
-        
-    <!-- plots based on year -->
-     <div id="total-number">
-        <h2 id="total-amount">Total Amount: $0.00</h2>
-     </div>
+    
+    <div id="view-2014-2016" class="view">
+        <h2>We Were Young Once</h2>
+        <br>
+        <p>Data unknown. Probably $400 for a band and a keg of PBR</p>
+    </div>
+
+    <div id="2020" class="view">
+        <h2>2020</h2>
+        <br>
+        <p>0</p>
+    </div>
+
+    <div id="view-other-years" class="view">    
+        <!-- plots based on year -->
+        <div id="total-number">
+            <h2 id="total-expenses">Total Amount: $0.00</h2>
+            <h2 id="total-donations">Total Donations: 0</h2>
+        </div>
+    </div>
 
     <!-- JavaScript -->
      <!-- <script src="js/carousel-images.js"></script> -->
