@@ -7,7 +7,10 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(([expenseText, donationText]) => {
             const expenseData = d3.csvParse(expenseText);
             const donationData = d3.csvParse(donationText);
-            
+
+            // populate year dropdown
+            populateYearDropdown();
+
             // initial call to update year
             updateYear(expenseData, donationData);
 
@@ -18,6 +21,26 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => console.error('Error fetching or parsing CSV:', error));
 });
+
+// populate the year dropdown
+function populateYearDropdown() {
+    const yearSelect = document.getElementById('year');
+
+    // add "Total" manually
+    const totalOption = document.createElement('option');
+    totalOption.value = '2010';
+    totalOption.textContent = 'Total';
+    yearSelect.appendChild(totalOption);
+
+    // add years dynamically
+    const years = [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023];
+    years.forEach(year => {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        yearSelect.appendChild(option);
+    });
+}
 
 // switch divs shown
 function switchView(selectedYear) {
@@ -43,9 +66,9 @@ function updateYear(expenseData, donationData) {
         return;
     }
 
+    // select year, update view
     const yearSelect = document.getElementById('year');
     const selectedYear = parseInt(yearSelect.value);
-
     switchView(selectedYear);
 
     const totalAmount = calculateTotalAmount(expenseData, selectedYear);
