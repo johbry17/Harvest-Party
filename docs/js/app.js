@@ -75,9 +75,11 @@ function updateYear(expenseData, donationData) {
     if (selectedYear === 1) {
         displayMultipleImages('../resources/images/hp_pics/*.jpg');
         updateTotal(expenseData, donationData, 'all');
+        barPlot(expenseData, selectedYear);
     } else {
         displaySingleImage(`../resources/images/hp_logos/hp_${selectedYear}.jpg`);
         updateTotal(expenseData, donationData, selectedYear);
+        barPlot(expenseData, selectedYear);
     }
 }
 
