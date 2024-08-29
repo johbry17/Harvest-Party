@@ -28,7 +28,7 @@ function populateYearDropdown() {
 
     // add "Total" manually
     const totalOption = document.createElement('option');
-    totalOption.value = '2010';
+    totalOption.value = '1';
     totalOption.textContent = 'Total';
     yearSelect.appendChild(totalOption);
 
@@ -71,22 +71,44 @@ function updateYear(expenseData, donationData) {
     const selectedYear = parseInt(yearSelect.value);
     switchView(selectedYear);
 
-    const totalAmount = calculateTotalAmount(expenseData, selectedYear);
-    const donationEntry = donationData.find(item => parseInt(item.Year) === selectedYear);
+    // conditional for grand total or others
+    if (selectedYear === 1) {
+        const totalAmount = calculateTotalAmount(expenseData, 'all');
+        const totalDonations = calculateTotalDonations(donationData, 'all');
 
-    document.getElementById('total-expenses').textContent = `Total Amount: $${totalAmount.toFixed(2)}`;
-    if (donationEntry) {
-        const totalDonations = parseFloat(donationEntry.Donations);
+        document.getElementById('total-expenses').textContent = `Total Amount: $${totalAmount.toFixed(2)}`;
         document.getElementById('total-donations').textContent = `Total Donations: $${totalDonations.toFixed(2)}`;
     } else {
-        document.getElementById('total-donations').textContent = `Total Donations: $0.00`;
+        const totalAmount = calculateTotalAmount(expenseData, selectedYear);
+        const totalDonations = calculateTotalDonations(donationData, selectedYear);
+
+        document.getElementById('total-expenses').textContent = `Total Amount: $${totalAmount.toFixed(2)}`;
+        document.getElementById('total-donations').textContent = `Total Donations: $${totalDonations.toFixed(2)}`;
     }
 }
 
 // calculate total amount for selected year
 function calculateTotalAmount(data, selectedYear) {
-    return data
-        .filter(item => parseInt(item.Year) === selectedYear)
-        .reduce((total, item) => total + parseFloat(item.Amount), 0);
+    if (selectedYear === 'all') {
+        return data.reduce((total, item) => total + parseFloat(item.Amount), 0);
+    } else {
+        return data
+            .filter(item => parseInt(item.Year) === selectedYear)
+            .reduce((total, item) => total + parseFloat(item.Amount), 0);
+    }
+}
+
+// calculate total donations for selected year
+function calculateTotalDonations(data, selectedYear) {
+    if (selectedYear === 'all') {
+        return data.reduce((total, item) => total + parseFloat(item.Donations), 0);
+    } else {
+        const donationEntry = data.find(item => parseInt(item.Year) === selectedYear);
+        if (donationEntry) {
+            return parseFloat(donationEntry.Donations);
+        } else {
+            return 0;
+        }
+    }
 }
 
