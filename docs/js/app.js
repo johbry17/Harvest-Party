@@ -73,18 +73,21 @@ function updateYear(expenseData, donationData) {
 
     // conditional for grand total or others
     if (selectedYear === 1) {
-        const totalAmount = calculateTotalAmount(expenseData, 'all');
-        const totalDonations = calculateTotalDonations(donationData, 'all');
-
-        document.getElementById('total-expenses').textContent = `Total Amount: $${totalAmount.toFixed(2)}`;
-        document.getElementById('total-donations').textContent = `Total Donations: $${totalDonations.toFixed(2)}`;
+        displayMultipleImages('../resources/images/hp_pics/*.jpg');
+        updateTotal(expenseData, donationData, 'all');
     } else {
-        const totalAmount = calculateTotalAmount(expenseData, selectedYear);
-        const totalDonations = calculateTotalDonations(donationData, selectedYear);
-
-        document.getElementById('total-expenses').textContent = `Total Amount: $${totalAmount.toFixed(2)}`;
-        document.getElementById('total-donations').textContent = `Total Donations: $${totalDonations.toFixed(2)}`;
+        displaySingleImage(`../resources/images/hp_logos/hp_${selectedYear}.jpg`);
+        updateTotal(expenseData, donationData, selectedYear);
     }
+}
+
+// update total amount and donations for selected year
+function updateTotal(expenseData, donationData, selectedYear) {
+    const totalAmount = calculateTotalAmount(expenseData, selectedYear);
+    const totalDonations = calculateTotalDonations(donationData, selectedYear);
+
+    document.getElementById('total-expenses').textContent = `Total Amount: $${totalAmount.toFixed(2)}`;
+    document.getElementById('total-donations').textContent = `Total Donations: $${totalDonations.toFixed(2)}`;
 }
 
 // calculate total amount for selected year
