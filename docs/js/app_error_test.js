@@ -11,10 +11,17 @@ document.addEventListener('DOMContentLoaded', function() {
         // initial call to update year
         updateYear(data);
 
-        // event listener for year selection
+        // the problem: 
+        // the data is passed as undefined to updateYear before the eventListener is called
+
+        // the only time this doesn't happen is with the initial call, above
+
         // interestingly, if you add a debouncer here, it will only "work" with 'change'
-        // meaning that the undefined and actual data go through
-        // with 'initial', the undefined data is sent to updateYear... and then the data doesn't go
+        // meaning undefined and actual data go through, website appears to work, but an error is thrown
+        // an error that I think prevents github pages from showing a functional website
+        // with 'initial', undefined data is sent to updateYear, but real data isn't, website doesn't work
+                
+        // event listener for year selection
         document.getElementById('year').addEventListener('change', function() {
             // the data is passed as undefined before here
             const selectedYear = parseInt(this.value);
