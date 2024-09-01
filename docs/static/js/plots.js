@@ -36,3 +36,30 @@ function barPlot(data, selectedYear) {
     // plot chart
     Plotly.newPlot('bar-plot', [trace], layout);
 }
+
+//treemap plot that aggregates Amount by Category
+function treemapPlot(data, selectedYear) {
+    // filter data by year
+    const filteredData = selectedYear === 1 ? data : data.filter(item => parseInt(item.Year) === selectedYear);
+
+    // aggregate data by category
+    const categorySums = filteredData.reduce((acc, item) => {
+        const category = item.Category;
+        const amount = parseFloat(item.Amount);
+        acc[category] = (acc[category] || 0) + amount;
+        return acc;
+    }, {});
+
+    // create trace
+    const trace = {
+        type: 'treemap',
+        labels: Object.keys(categorySums),
+        parents: Object.keys(categorySums).map(category => ''),
+        values: Object.values(categorySums),
+        textinfo: 'label+value',
+    };
+
+    // plot chart
+    Plotly.newPlot('treemap-plot', [trace]);
+}
+
