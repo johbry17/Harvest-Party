@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const donationData = d3.csvParse(donationText);
 
       // populate year dropdown
-      populateYearDropdown();
+      populateYearDropdown(expenseData);
 
       // initial call to update year
       updateYear(expenseData, donationData);
@@ -27,8 +27,14 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // populate the year dropdown
-function populateYearDropdown() {
+function populateYearDropdown(expenseData) {
   const yearSelect = document.getElementById("year");
+
+  // determine max year
+  const maxYear = expenseData.reduce((max, d) => {
+    const year = parseInt(d.Year);
+    return year > max ? year : max;
+  }, 2014); // party started in 2014 - in fact, no data before 2017
 
   // add "Total" manually
   const totalOption = document.createElement("option");
@@ -37,13 +43,19 @@ function populateYearDropdown() {
   yearSelect.appendChild(totalOption);
 
   // add years dynamically
-  const years = [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023];
-  years.forEach((year) => {
+  for (let year = 2014; year <= maxYear; year++) {
     const option = document.createElement("option");
     option.value = year;
     option.textContent = year;
     yearSelect.appendChild(option);
-  });
+  }
+//   const years = [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023];
+//   years.forEach((year) => {
+//     const option = document.createElement("option");
+//     option.value = year;
+//     option.textContent = year;
+//     yearSelect.appendChild(option);
+//   });
 }
 
 // switch divs shown
