@@ -68,15 +68,8 @@ function switchView(selectedYear) {
   }
 }
 
-// update year based on selected year
+// update based on selected year
 function updateYear(expenseData, donationData) {
-  // hacky, but upDateYear mysteriously is passed undefined data without being called...
-  // ...and then the eventListener calls updateYear and it works fine
-  if (!expenseData) {
-    console.error("Data is undefined or null in updateYear.");
-    return;
-  }
-
   // select year, update view
   const yearSelect = document.getElementById("year");
   const selectedYear = parseInt(yearSelect.value);
