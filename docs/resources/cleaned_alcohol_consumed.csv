@@ -1,0 +1,59 @@
+Year,Quantity,Packaging,Ounces,Potable
+2018,1.0,keg,1984.0,Port City Porter
+2018,6.0,sixtel,3966.0,Kolsch
+2018,3.0,sixtel,1983.0,IPA
+2018,1.0,sixtel,661.0,DC Brau Wings of Armageddon
+2018,1.5,sixtel,991.5,ESB
+2018,1.0,sixtel,661.0,Blonde Stout
+2018,2.0,handle,118.0,Fireball
+2018,2.0,handle,118.0,vodka
+2018,2.0,handle,118.0,whiskey
+2018,1.0,handle,59.0,rum
+2018,1.0,handle,59.0,tequila
+2019,1.0,keg,1984.0,Port City Porter
+2019,1.0,keg,1984.0,Bold Rock Cider
+2019,8.0,sixtel,5288.0,Cream Ale
+2019,2.0,sixtel,1322.0,Kolsch
+2019,1.0,sixtel,661.0,Sour
+2019,1.0,sixtel,661.0,Rando
+2019,150.0,can,1800.0,beer
+2019,1.0,handle,59.0,liquor
+2019,3.0,handle,177.0,vodka
+2019,1.0,handle,59.0,tequila
+2019,1.0,handle,59.0,rum
+2019,2.0,handle,118.0,Fireball
+2019,2.0,handle,118.0,whiskey
+2021,1.0,keg,1984.0,Eastcider's Dry
+2021,1.0,keg,1984.0,Devil's Backbone Vienna Lager
+2021,0.5,keg,992.0,Bell's Two Hearted
+2021,0.5,keg,992.0,Port City Porter
+2021,1.0,sixtel,661.0,Sour Berry Blast
+2021,1.0,sixtel,661.0,Christmas Ale
+2021,3.0,handle,177.0,vodka
+2021,1.0,handle,59.0,tequila
+2021,1.0,handle,59.0,rum
+2021,1.0,handle,59.0,gin
+2021,1.0,handle,59.0,whiskey
+2022,1.0,keg,1984.0,Eastcider's Dry
+2022,1.0,keg,1984.0,Devil's Backbone Vienna Lager
+2022,3.0,sixtel,1983.0,IPA
+2022,1.0,sixtel,661.0,Marzen?
+2022,6.0,sixtel,3966.0,Cream Ale
+2022,3.0,handle,177.0,vodka
+2022,1.0,handle,59.0,tequila
+2022,1.0,handle,59.0,rum
+2022,1.0,handle,59.0,gin
+2022,2.0,handle,118.0,whiskey
+2022,2.0,handle,118.0,Fireball
+2022,40.0,can,480.0,beer
+2023,1.0,keg,1984.0,Devil's Backbone Vienna Lager
+2023,1.0,keg,1984.0,Bold Rock Cider
+2023,8.0,sixtel,5288.0,Red Lager
+2023,2.0,sixtel,1322.0,IPA
+2023,1.0,sixtel,661.0,Cider
+2023,2.0,handle,118.0,vodka
+2023,1.0,handle,59.0,tequila
+2023,2.0,handle,118.0,whiskey
+2023,2.0,handle,118.0,Fireball
+2023,0.25,handle,14.75,Triple Sec
+2023,0.5,handle,29.5,rum

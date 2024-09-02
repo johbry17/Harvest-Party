@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
   // load and parse csv's
   Promise.all([
-    fetch("../resources/cleaned_expenses.csv").then((response) =>
+    fetch("./resources/cleaned_expenses.csv").then((response) =>
       response.text()
     ),
-    fetch("../resources/cleaned_donations.csv").then((response) =>
+    fetch("./resources/cleaned_donations.csv").then((response) =>
       response.text()
     ),
   ])

@@ -15,7 +15,7 @@ Development on this project has stopped.
 
 ## Description
 
-A python jupyter notebook exploratory data analysis of the financials of an annual party, followed by an explanatory data analysis in Tableau, designed to ensure transparency of funding for party attendees, to encourage donations.
+A python jupyter notebook exploratory data analysis of the financials of an annual party, followed by an explanatory data analysis in Tableau, designed to ensure transparency of funding for party attendees, to encourage donations. Accompanied by a website.
 
 Names have been changed to protect the guilty.
 
@@ -61,4 +61,4 @@ And to all of the attendees of Harvest Party, past and future.
 
 ## Author
 
-Bryan Johns, February 2024
+Bryan Johns, September 2024
