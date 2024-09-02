@@ -49,13 +49,6 @@ function populateYearDropdown(expenseData) {
     option.textContent = year;
     yearSelect.appendChild(option);
   }
-//   const years = [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023];
-//   years.forEach((year) => {
-//     const option = document.createElement("option");
-//     option.value = year;
-//     option.textContent = year;
-//     yearSelect.appendChild(option);
-//   });
 }
 
 // switch divs shown
