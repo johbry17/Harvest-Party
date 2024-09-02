@@ -14,12 +14,12 @@ function displayMultipleImages(imagePaths) {
     carouselDiv.innerHTML = '';
 
     const images = [
-        '../resources/images/hp_pics/1.jpg',
-        '../resources/images/hp_pics/2.jpg',
-        '../resources/images/hp_pics/3.jpg',
-        '../resources/images/hp_pics/4.jpg',
-        '../resources/images/hp_pics/5.jpg',
-        '../resources/images/hp_pics/6.jpg',
+        './resources/images/hp_pics/1.jpg',
+        './resources/images/hp_pics/2.jpg',
+        './resources/images/hp_pics/3.jpg',
+        './resources/images/hp_pics/4.jpg',
+        './resources/images/hp_pics/5.jpg',
+        './resources/images/hp_pics/6.jpg',
     ]
 
     images.forEach((src, index) => {

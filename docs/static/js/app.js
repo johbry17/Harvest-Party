@@ -77,12 +77,12 @@ function updateYear(expenseData, donationData) {
 
   // conditional for grand total or others
   if (selectedYear === 1) {
-    displayMultipleImages("../resources/images/hp_pics/*.jpg");
+    displayMultipleImages("./resources/images/hp_pics/*.jpg");
     updateTotal(expenseData, donationData, "all");
     barPlot(expenseData, selectedYear);
     treemapPlot(expenseData, selectedYear);
   } else {
-    displaySingleImage(`../resources/images/hp_logos/hp_${selectedYear}.jpg`);
+    displaySingleImage(`./resources/images/hp_logos/hp_${selectedYear}.jpg`);
     updateTotal(expenseData, donationData, selectedYear);
     barPlot(expenseData, selectedYear);
     treemapPlot(expenseData, selectedYear);
