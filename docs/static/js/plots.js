@@ -164,13 +164,13 @@ function individualExpensesBarPlot(data, selectedYear, colorMap) {
 
 // sunburst plot that shows expenses by category, year, and expense
 function sunburstPlot(data, selectedYear, colorMap) {
-  // Filter data by year
+  // filter data by year
   const filteredData =
     selectedYear === 1
       ? data
       : data.filter((item) => parseInt(item.Year) === selectedYear);
 
-  // Aggregate data by category, year, and expense
+  // aggregate data by category, year, and expense in hierarchy
   const hierarchy = filteredData.reduce((acc, item) => {
     const category = item.Category;
     const year = item.Year;
@@ -183,7 +183,7 @@ function sunburstPlot(data, selectedYear, colorMap) {
     if (!acc[category].years[year].expenses[expense])
       acc[category].years[year].expenses[expense] = 0;
 
-    // Accumulate amounts
+    // accumulate amounts for each level of the hierarchy
     acc[category].total += amount;
     acc[category].years[year].total += amount;
     acc[category].years[year].expenses[expense] += amount;
@@ -191,31 +191,31 @@ function sunburstPlot(data, selectedYear, colorMap) {
     return acc;
   }, {});
 
-  // Prepare hierarchical data for sunburst
+  // prep hierarchical data lists for sunburst
   let labels = [];
   let parents = [];
   let values = [];
   let texts = [];
 
-  // Add categories
+  // categories
   Object.keys(hierarchy).forEach((category) => {
     labels.push(category);
     parents.push("");
-    values.push(hierarchy[category].total); // Use accumulated total for category
+    values.push(hierarchy[category].total);
     texts.push(category);
 
-    // Add years under each category
+    // years under each category
     Object.keys(hierarchy[category].years).forEach((year) => {
-      const yearLabel = `${category}-${year}`; // Ensure unique labels
+      const yearLabel = `${category}-${year}`; // it wants unique labels
       labels.push(yearLabel);
       parents.push(category);
-      values.push(hierarchy[category].years[year].total); // Use accumulated total for year
+      values.push(hierarchy[category].years[year].total);
       texts.push(year);
 
-      // Add expenses under each year
+      // expenses under each year
       Object.keys(hierarchy[category].years[year].expenses).forEach(
         (expense) => {
-          const expenseLabel = `${yearLabel}-${expense}`; // Ensure unique labels
+          const expenseLabel = `${yearLabel}-${expense}`; // it wants unique labels
           labels.push(expenseLabel);
           parents.push(yearLabel);
           values.push(hierarchy[category].years[year].expenses[expense]);
@@ -225,14 +225,14 @@ function sunburstPlot(data, selectedYear, colorMap) {
     });
   });
 
-  // Ensure colorMap has default colors for missing labels
+  // set default colors for missing labels
   const defaultColor = "#FFFFFF";
   const colors = labels.map((label) => {
-    const originalLabel = label.split("-")[0]; // Use original label for colorMap lookup
+    const originalLabel = label.split("-")[0]; // original label for colorMap lookup
     return colorMap[originalLabel] || defaultColor;
   });
 
-  // Create trace
+  // create trace
   const trace = {
     type: "sunburst",
     labels: labels,
@@ -248,17 +248,15 @@ function sunburstPlot(data, selectedYear, colorMap) {
     branchvalues: "total",
   };
 
-  // Create layout
+  // create layout
   const layout = {
     title: `Expenses by Category, Year, and Expense for ${
       selectedYear === 1 ? "All Years" : selectedYear
     }`,
     margin: { t: 50, l: 25, r: 25, b: 25 },
-    sunburstcolorwy: colors,
-    extendsunburstcolors: true,
   };
 
-  // Plot chart
+  // plot chart
   Plotly.newPlot("sunburst-plot", [trace], layout);
 }
 
