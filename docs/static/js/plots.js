@@ -5,6 +5,13 @@ function totalPlots(data, selectedYear, colorMap) {
   expenseTable(data, selectedYear);
 }
 
+function singleYearPlots(data, selectedYear, colorMap) {
+    barPlot(data, selectedYear);
+    treemapPlot(data, selectedYear, colorMap);
+    individualExpensesBarPlot(data, selectedYear, colorMap);
+    expenseTable(data, selectedYear);
+}
+
 // colormap for categories, assigning blue and orange to Bar and Music
 function getColorMap(data) {
   // aggregate data by category (to get total amount for each category)

@@ -99,10 +99,7 @@ function updateYear(homePageInfo, expenseData, donationData, colorMap) {
   } else {
     displaySingleImage(`./resources/images/hp_logos/hp_${selectedYear}.jpg`);
     updateTotal(expenseData, donationData, selectedYear);
-    barPlot(expenseData, selectedYear);
-    treemapPlot(expenseData, selectedYear, colorMap);
-    individualExpensesBarPlot(expenseData, selectedYear, colorMap);
-    expenseTable(expenseData, selectedYear);
+    singleYearPlots(expenseData, selectedYear, colorMap);
   }
 }
 
