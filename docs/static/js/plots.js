@@ -4,6 +4,7 @@ function totalPlots(data, donationData, selectedYear, colorMap) {
   treemapPlot(data, selectedYear, colorMap);
   document.getElementById("individual-expenses-bar-plot").innerHTML = "";
   sunburstPlot(data, selectedYear, colorMap);
+  totalExpensesDonationsBarPlot(data, donationData);
   totalExpensesDonationsLinePlot(data, donationData);
   donationsVExpensesPlot(data, donationData);
   expenseTable(data, selectedYear);
@@ -14,6 +15,7 @@ function singleYearPlots(data, donationData, selectedYear, colorMap) {
   treemapPlot(data, selectedYear, colorMap);
   individualExpensesBarPlot(data, selectedYear, colorMap);
   sunburstPlot(data, selectedYear, colorMap);
+  document.getElementById("total-expenses-donations-bar-plot").innerHTML = "";
   document.getElementById("total-expenses-donations-line-plot").innerHTML = "";
   document.getElementById("donations-v-expenses-plot").innerHTML = "";
   expenseTable(data, selectedYear);
@@ -372,6 +374,64 @@ function expenseTable(data, selectedYear) {
   Plotly.newPlot("expense-table", [trace], layout);
 }
 
+// bar plot that shows total expenses and donations over time
+function totalExpensesDonationsBarPlot(expenseData, donationData) {
+    // aggregate data by year
+    const expenseSums = expenseData.reduce((acc, item) => {
+      const year = item.Year;
+      const amount = parseFloat(item.Amount);
+      acc[year] = (acc[year] || 0) + amount;
+      return acc;
+    }, {});
+  
+    // create traces
+    const expenseTrace = {
+      x: Object.keys(expenseSums),
+      y: Object.values(expenseSums),
+      type: "bar",
+      name: "Expenses",
+      marker: { color: "blue" },
+      text: Object.values(expenseSums).map((value) => `$${value.toFixed(2)}`),
+      textposition: "auto",
+      hovertemplate: "<b>Year: %{x}</b><br>Expenses: $%{y:.2f}<extra></extra>",
+    };
+  
+    const donationTrace = {
+      x: donationData.map((item) => item.Year),
+      y: donationData.map((item) => parseFloat(item.Donations)),
+      mode: "lines+markers+text",
+      type: "scatter",
+      name: "Donations",
+      line: { color: "orange" },
+      marker: { color: "orange" },
+      text: donationData.map(
+        (item) => `$${parseFloat(item.Donations).toFixed(2)}`
+      ),
+      textposition: donationData.map((_, index) =>
+        index % 3 === 2 ? "bottom right" : "top center"
+      ),
+      textfont: { 
+          color: "orange",
+          family: "Arial Black, sans-serif, bold",
+      },
+      hovertemplate: "<b>Year: %{x}</b><br>Donations: $%{y:.2f}<extra></extra>",
+    };
+  
+    // create layout
+    const layout = {
+      title: `Total Expenses and Donations Over Time`,
+      xaxis: { title: "Year" },
+      yaxis: { title: "Amount ($)" },
+    };
+  
+    // plot chart
+    Plotly.newPlot(
+      "total-expenses-donations-bar-plot",
+      [expenseTrace, donationTrace],
+      layout
+    );
+  }
+
 // line plot that shows total expenses and donations over time
 function totalExpensesDonationsLinePlot(expenseData, donationData) {
   // aggregate data by year
@@ -381,13 +441,6 @@ function totalExpensesDonationsLinePlot(expenseData, donationData) {
     acc[year] = (acc[year] || 0) + amount;
     return acc;
   }, {});
-
-//   const donationSums = donationData.reduce((acc, item) => {
-//     const year = item.Year;
-//     const amount = parseFloat(item.Donations);
-//     acc[year] = (acc[year] || 0) + amount;
-//     return acc;
-//   }, {});
 
   // create traces
   const expenseTrace = {
@@ -401,10 +454,8 @@ function totalExpensesDonationsLinePlot(expenseData, donationData) {
   };
 
   const donationTrace = {
-    // x: Object.keys(donationSums),
-    // y: Object.values(donationSums),
-    x: donationData.map(item => item.Year),
-    y: donationData.map(item => parseFloat(item.Donations)),
+    x: donationData.map((item) => item.Year),
+    y: donationData.map((item) => parseFloat(item.Donations)),
     mode: "lines+markers",
     name: "Donations",
     line: { color: "orange" },
@@ -429,7 +480,7 @@ function totalExpensesDonationsLinePlot(expenseData, donationData) {
 
 // line plot of difference between expenses and donations over time
 function donationsVExpensesPlot(expenseData, donationData) {
-  // Aggregate expenses by year
+  // aggregate expenses by year
   const expenseSums = expenseData.reduce((acc, item) => {
     const year = item.Year;
     const amount = parseFloat(item.Amount) || 0;
@@ -437,43 +488,34 @@ function donationsVExpensesPlot(expenseData, donationData) {
     return acc;
   }, {});
 
-//   // Aggregate donations by year
-//   const donationSums = donationData.reduce((acc, item) => {
-//     const year = item.Year;
-//     const amount = parseFloat(item.Donations) || 0;
-//     acc[year] = (acc[year] || 0) + amount;
-//     return acc;
-//   }, {});
-
-  // Combine data into a single structure
+  // combine data into a single structure
   const allYears = new Set([
     ...Object.keys(expenseSums),
-    // ...Object.keys(donationSums),
-    ...donationData.map(item => item.Year),
+    ...donationData.map((item) => item.Year),
   ]);
   const combinedData = Array.from(allYears).map((year) => {
     return {
       Year: year,
       Expenses: expenseSums[year] || 0,
-    //   Donations: donationSums[year] || 0,
-      Donations: donationData.find(item => item.Year === year)?.Donations || 0,
+      Donations:
+        donationData.find((item) => item.Year === year)?.Donations || 0,
     };
   });
 
-  // Calculate donations minus expenses
+  // calculate donations minus expenses
   const years = combinedData.map((d) => d.Year);
   const difference = combinedData.map((d) => d.Donations - d.Expenses);
 
-  // Create an array of text positions
+  // array of text positions to fit text on plot
   const textPositions = difference.map((value, index) => {
-    // Alternate positions to avoid overlap
+    // alternate positions to avoid overlap
     return index % 2 === 0 ? "top center" : "bottom center";
   });
 
-  // Create an array of text colors based on the difference values
+  // color text based on "in the red" or "in the black"
   const textColors = difference.map((value) => (value < 0 ? "red" : "black"));
 
-  // Create trace
+  // create trace
   const trace = {
     x: years,
     y: difference,
@@ -489,7 +531,7 @@ function donationsVExpensesPlot(expenseData, donationData) {
     textfont: { color: textColors },
   };
 
-  // Create layout
+  // create layout
   const layout = {
     title: "Total Donations Minus Expenses by Year",
     xaxis: { title: "Year" },
@@ -510,6 +552,6 @@ function donationsVExpensesPlot(expenseData, donationData) {
     ],
   };
 
-  // Plot chart
+  // plot chart
   Plotly.newPlot("donations-v-expenses-plot", [trace], layout);
 }
