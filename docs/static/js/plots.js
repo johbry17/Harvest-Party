@@ -2,6 +2,7 @@
 function totalPlots(data, selectedYear, colorMap) {
   barPlot(data, selectedYear);
   treemapPlot(data, selectedYear, colorMap);
+  document.getElementById("individual-expenses-bar-plot").innerHTML = "";
   sunburstPlot(data, selectedYear, colorMap);
   expenseTable(data, selectedYear);
 }
@@ -10,6 +11,7 @@ function singleYearPlots(data, selectedYear, colorMap) {
   barPlot(data, selectedYear);
   treemapPlot(data, selectedYear, colorMap);
   individualExpensesBarPlot(data, selectedYear, colorMap);
+  sunburstPlot(data, selectedYear, colorMap);
   expenseTable(data, selectedYear);
 }
 
