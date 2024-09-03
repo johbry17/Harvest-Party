@@ -36,6 +36,12 @@ function populateYearDropdown(expenseData) {
     return year > max ? year : max;
   }, 2014); // party started in 2014 - in fact, no data before 2017
 
+  // add "Home" manually
+    const homeOption = document.createElement("option");
+    homeOption.value = "42";
+    homeOption.textContent = "Home";
+    yearSelect.appendChild(homeOption);
+
   // add "Total" manually
   const totalOption = document.createElement("option");
   totalOption.value = "1";
@@ -59,7 +65,9 @@ function switchView(selectedYear) {
     .forEach((view) => (view.style.display = "none"));
 
   // show view based on selected year
-  if (selectedYear >= 2014 && selectedYear <= 2016) {
+  if (selectedYear === 42) {
+    document.getElementById("home").style.display = "block";
+  } else if (selectedYear >= 2014 && selectedYear <= 2016) {
     document.getElementById("view-2014-2016").style.display = "block";
   } else if (selectedYear === 2020) {
     document.getElementById("2020").style.display = "block";
@@ -76,7 +84,13 @@ function updateYear(expenseData, donationData) {
   switchView(selectedYear);
 
   // conditional for grand total or others
-  if (selectedYear === 1) {
+  if (selectedYear === 42) {
+    displaySingleImage(`./resources/images/welcome.jpg`);
+    populateMarkdown();
+    // updateTotal(expenseData, donationData, "all");
+    // barPlot(expenseData, selectedYear);
+    // treemapPlot(expenseData, selected);
+  } else if (selectedYear === 1) {
     displayMultipleImages("./resources/images/hp_pics/*.jpg");
     updateTotal(expenseData, donationData, "all");
     barPlot(expenseData, selectedYear);
@@ -87,6 +101,21 @@ function updateYear(expenseData, donationData) {
     barPlot(expenseData, selectedYear);
     treemapPlot(expenseData, selectedYear);
   }
+}
+
+// populate markdown field
+function populateMarkdown() {
+  const markdownDiv = document.getElementById("markdown");
+
+  // clear previous markdown
+  markdownDiv.innerHTML = "";
+
+  // fetch and populate markdown div
+  fetch('./resources/home_page.md')
+    .then((response) => response.text())
+    .then(text => {
+      markdownDiv.innerHTML = marked.parse(text);
+    });
 }
 
 // update total amount and donations for selected year

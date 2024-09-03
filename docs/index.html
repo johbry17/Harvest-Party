@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Harvest Party</title>
-    <link rel="stylesheet" href="static/css/styles.css">
+    <link rel="stylesheet" href="./static/css/styles.css">
 </head>
 <body>
     <h1>Harvest Party</h1>
@@ -13,7 +13,26 @@
     <br>
     <!-- year dropdown menu -->
     <select id="year"></select>
-    
+
+    <div id="home" class="view">
+        <h2>Welcome to Harvest Party</h2>
+        <br>
+        <h3>Harvest Party is a yearly event that takes place in the fall. It is a time to celebrate the harvest and the end of the growing season. The event is a fundraiser for the Capital Area Food Bank. The event features live music, food, and drinks. The event is open to the public and is a great way to support the local community.</h3>
+        <div id="markdown"></div>
+        <div id="email-form">
+            <h3>Sign up for our newsletter</h3>
+            <form id="form" action="https://formspree.io/f/xqazjagw" method="POST">
+                <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                <br><br>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <input type="hidden" name="_subject" value="Harvest Party Email">
+                <br><br>
+                <textarea rows="5" id="message" name="message" placeholder="Enter your message" required></textarea>
+                <br><br>
+                <button type="submit">Send</button>
+            </form>
+    </div>
+
     <div id="view-2014-2016" class="view">
         <h2>We Were Young Once</h2>
         <br>
@@ -41,6 +60,7 @@
     <!-- JavaScript -->
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="static/js/carousel-images.js"></script>
     <script src="static/js/plots.js"></script>
     <script src="static/js/app.js"></script>
