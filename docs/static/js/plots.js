@@ -240,6 +240,7 @@ function sunburstPlot(data, selectedYear, colorMap) {
     values: values,
     text: texts,
     textinfo: "text+value",
+    hoverinfo: "text+value",
     texttemplate: "%{text}",
     hovertemplate: "<b>%{text}</b><br>Amount: $%{value:.2f}<extra></extra>",
     marker: {
@@ -258,22 +259,6 @@ function sunburstPlot(data, selectedYear, colorMap) {
 
   // plot chart
   Plotly.newPlot("sunburst-plot", [trace], layout);
-
-  // event listener to get amount to display on mobile
-  document.getElementById('sunburst-plot').on('plotly_click', function(data) {
-    const point = data.points[0];
-    const hoverInfo = `<b>${point.text}</b><br>Amount: $${point.value.toFixed(2)}`;
-    
-    // display hover information
-    Plotly.Fx.hover('sunburst-plot', [
-      {
-        curveNumber: point.curveNumber,
-        pointNumber: point.pointNumber,
-        x: point.x,
-        y: point.y
-      }
-    ]);
-  });
 }
 
 // table of expenses for selected year with plotly
