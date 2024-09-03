@@ -2,6 +2,7 @@
 function totalPlots(data, selectedYear, colorMap) {
   barPlot(data, selectedYear);
   treemapPlot(data, selectedYear, colorMap);
+  sunburstPlot(data, selectedYear, colorMap);
   expenseTable(data, selectedYear);
 }
 
@@ -88,7 +89,7 @@ function barPlot(data, selectedYear) {
   Plotly.newPlot("bar-plot", [trace], layout);
 }
 
-//treemap plot that aggregates Amount by Category
+// treemap plot that aggregates Amount by Category
 function treemapPlot(data, selectedYear, colorMap) {
   // filter data by year
   const filteredData =
@@ -158,6 +159,159 @@ function individualExpensesBarPlot(data, selectedYear, colorMap) {
   // plot chart
   Plotly.newPlot("individual-expenses-bar-plot", [trace], layout);
 }
+
+// sunburst plot that shows expenses by category and subcategory
+// function sunburstPlot(data, selectedYear, colorMap) {
+//     // filter data by year
+//     const filteredData = selectedYear === 1
+//         ? data
+//         : data.filter(item => parseInt(item.Year) === selectedYear);
+
+//     // aggregate data by category and subcategory
+//     const categorySums = filteredData.reduce((acc, item) => {
+//         const category = item.Category;
+//         const subcategory = item.Expense; // Assuming 'Expense' is the subcategory
+//         const amount = parseFloat(item.Amount);
+
+//         if (!acc[category]) acc[category] = {};
+//         if (!acc[category][subcategory]) acc[category][subcategory] = 0;
+//         acc[category][subcategory] += amount;
+
+//         return acc;
+//     }, {});
+
+//     // Prepare hierarchical data for sunburst
+//     let labels = [];
+//     let parents = [];
+//     let values = [];
+    
+//     Object.keys(categorySums).forEach(category => {
+//         labels.push(category);
+//         parents.push("");
+//         values.push(0);
+
+//         Object.keys(categorySums[category]).forEach((subcategory, index) => {
+//             const uniqueSubcategory = `${subcategory} (${index})`; // it seems to want unique labels
+//             labels.push(uniqueSubcategory);
+//             parents.push(category);
+//             values.push(categorySums[category][subcategory]);
+//         });
+//     });
+
+//     // ensure colorMap has default colors for missing labels
+//     const defaultColor = "#FFFFFF";
+//     const colors = labels.map(label => colorMap[label.split(' (')[0]] || defaultColor); // original labels for colorMap lookup
+
+//     // create trace
+//     const trace = {
+//         type: "sunburst",
+//         labels: labels,
+//         parents: parents,
+//         values: values,
+//         textinfo: "label+value",
+//         texttemplate: "<b>%{label}</b><br>$%{value:.2f}",
+//         hovertemplate: "<b>%{label}</b><br>Amount: $%{value:.2f}<extra></extra>",
+//         marker: {
+//             colors: colors
+//         },
+//     };
+
+//     // create layout
+//     const layout = {
+//         title: `Expenses by Category and Subcategory for ${selectedYear === 1 ? "All Years" : selectedYear}`,
+//         margin: { t: 50, l: 25, r: 25, b: 25 },
+//     };
+
+//     // plot chart
+//     Plotly.newPlot("sunburst-plot", [trace], layout);
+// }
+
+// sunburst plot that shows expenses by category, year, and expense
+function sunburstPlot(data, selectedYear, colorMap) {
+    // filter data by year
+    const filteredData = selectedYear === 1
+        ? data
+        : data.filter(item => parseInt(item.Year) === selectedYear);
+
+    // aggregate data by category, year, and expense
+    const hierarchy = filteredData.reduce((acc, item) => {
+        const category = item.Category;
+        const year = item.Year;
+        const expense = item.Expense;
+        const amount = parseFloat(item.Amount);
+
+        if (!acc[category]) acc[category] = {};
+        if (!acc[category][year]) acc[category][year] = {};
+        if (!acc[category][year][expense]) acc[category][year][expense] = 0;
+
+        acc[category][year][expense] += amount;
+        return acc;
+    }, {});
+
+    // prep hierarchical data for sunburst
+    let labels = [];
+    let parents = [];
+    let values = [];
+    let texts = [];
+
+    // add categories
+    Object.keys(hierarchy).forEach(category => {
+        labels.push(category);
+        parents.push("");
+        values.push(0);
+        texts.push(category);
+
+        // years under each category
+        Object.keys(hierarchy[category]).forEach(year => {
+            const yearLabel = `${category}-${year}`; // it seems to want unique labels
+            labels.push(yearLabel);
+            parents.push(category);
+            values.push(0);
+            texts.push(year);
+
+            // expenses under each year
+            Object.keys(hierarchy[category][year]).forEach(expense => {
+                const expenseLabel = `${yearLabel}-${expense}`; // it seems to want unique labels
+                labels.push(expenseLabel);
+                parents.push(yearLabel);
+                values.push(hierarchy[category][year][expense]);
+                texts.push(expense);
+            });
+        });
+    });
+
+    // ensure colorMap has default colors for missing labels
+    const defaultColor = "#FFFFFF";
+    const colors = labels.map(label => {
+        const originalLabel = label.split('-')[0]; // original label for colorMap lookup
+        return colorMap[originalLabel] || defaultColor;
+    });
+
+    // create trace
+    const trace = {
+        type: "sunburst",
+        labels: labels,
+        parents: parents,
+        values: values,
+        text: texts,
+        textinfo: "text+value",
+        texttemplate: "%{text}",
+        hovertemplate: "<b>%{text}</b><br>Amount: $%{value:.2f}<extra></extra>",
+        marker: {
+            colors: colors
+        },
+    };
+
+    // create layout
+    const layout = {
+        title: `Expenses by Category, Year, and Expense for ${selectedYear === 1 ? "All Years" : selectedYear}`,
+        margin: { t: 50, l: 25, r: 25, b: 25 },
+    };
+
+    // plot chart
+    Plotly.newPlot("sunburst-plot", [trace], layout);
+}
+
 
 // table of expenses for selected year with plotly
 function expenseTable(data, selectedYear) {
