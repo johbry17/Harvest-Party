@@ -63,7 +63,10 @@ function barPlot(data, selectedYear) {
   }, {});
 
   // calculate total expenses
-  const totalExpenses = Object.values(categorySums).reduce((acc, amount) => acc + amount, 0);
+  const totalExpenses = Object.values(categorySums).reduce(
+    (acc, amount) => acc + amount,
+    0
+  );
 
   // sort categories descending by amount
   const sortedCategories = Object.keys(categorySums).sort(
@@ -75,7 +78,9 @@ function barPlot(data, selectedYear) {
   const sortedValues = sortedCategories.map(
     (category) => categorySums[category]
   );
-  const percentages = sortedValues.map((value) => value / totalExpenses * 100);
+  const percentages = sortedValues.map(
+    (value) => (value / totalExpenses) * 100
+  );
 
   // create trace
   const trace = {
@@ -83,7 +88,8 @@ function barPlot(data, selectedYear) {
     y: sortedKeys,
     type: "bar",
     orientation: "h",
-    hovertemplate: "<b>%{y}</b><br>Amount: $%{x:.2f}<br>Percentage: %{customdata:.2f}%<extra></extra>",
+    hovertemplate:
+      "<b>%{y}</b><br>Amount: $%{x:.2f}<br>Percentage: %{customdata:.2f}%<extra></extra>",
     customdata: percentages,
     text: sortedValues.map((value) => `$${value.toFixed(2)}`),
     textposition: "auto",
@@ -119,7 +125,10 @@ function treemapPlot(data, selectedYear, colorMap) {
   }, {});
 
   // calculate total expenses
-  const totalExpenses = Object.values(categorySums).reduce((acc, amount) => acc + amount, 0);
+  const totalExpenses = Object.values(categorySums).reduce(
+    (acc, amount) => acc + amount,
+    0
+  );
 
   // create trace
   const trace = {
@@ -128,13 +137,15 @@ function treemapPlot(data, selectedYear, colorMap) {
     parents: Object.keys(categorySums).map(() => ""),
     values: Object.values(categorySums),
     textinfo: "label+value",
-    texttemplate: "<b><span style='text-decoration: underline;'>%{label}</span></b><br>$%{value:.2f}<br>%{customdata.percent:.2%}",
-    hovertemplate: "<b><span style='text-decoration: underline;'>%{label}</span></b><br>$%{value:.2f}<br>%{customdata.percent:.2%}<extra></extra>",
+    texttemplate:
+      "<b><span style='text-decoration: underline;'>%{label}</span></b><br>$%{value:.2f}<br>%{customdata.percent:.2%}",
+    hovertemplate:
+      "<b><span style='text-decoration: underline;'>%{label}</span></b><br>$%{value:.2f}<br>%{customdata.percent:.2%}<extra></extra>",
     marker: {
       colors: Object.keys(categorySums).map((category) => colorMap[category]),
     },
-    customdata: Object.values(categorySums).map(value => ({
-        percent: value / totalExpenses
+    customdata: Object.values(categorySums).map((value) => ({
+      percent: value / totalExpenses,
     })),
   };
 
@@ -181,126 +192,129 @@ function individualExpensesBarPlot(data, selectedYear, colorMap) {
 
 // sunburst plot that shows expenses by category, year, and expense
 function sunburstPlot(data, selectedYear, colorMap) {
-    // filter data by year
-    const filteredData =
-      selectedYear === 1
-        ? data
-        : data.filter((item) => parseInt(item.Year) === selectedYear);
-  
-    // aggregate data by category, year, and expense in hierarchy
-    const hierarchy = filteredData.reduce((acc, item) => {
-      const category = item.Category;
-      const year = item.Year;
-      const expense = item.Expense;
-      const amount = parseFloat(item.Amount);
-  
-      if (!acc[category]) acc[category] = { total: 0, years: {} };
-      if (!acc[category].years[year])
-        acc[category].years[year] = { total: 0, expenses: {} };
-      if (!acc[category].years[year].expenses[expense])
-        acc[category].years[year].expenses[expense] = 0;
-  
-      // accumulate amounts for each level of the hierarchy
-      acc[category].total += amount;
-      acc[category].years[year].total += amount;
-      acc[category].years[year].expenses[expense] += amount;
-  
-      return acc;
-    }, {});
-  
-    // prep hierarchical data lists for sunburst
-    let labels = [];
-    let parents = [];
-    let values = [];
-    let texts = [];
-  
-    // conditional for all years or individual year
-    if (selectedYear === 1) { // for all years
-      // categories
-      Object.keys(hierarchy).forEach((category) => {
-        labels.push(category);
-        parents.push("");
-        values.push(hierarchy[category].total);
-        texts.push(category);
-  
-        // years under each category
-        Object.keys(hierarchy[category].years).forEach((year) => {
-          const yearLabel = `${category}-${year}`; // it wants unique labels
-          labels.push(yearLabel);
-          parents.push(category);
-          values.push(hierarchy[category].years[year].total);
-          texts.push(year);
-  
-          // expenses under each year
-          Object.keys(hierarchy[category].years[year].expenses).forEach(
-            (expense) => {
-              const expenseLabel = `${yearLabel}-${expense}`; // it wants unique labels
-              labels.push(expenseLabel);
-              parents.push(yearLabel);
-              values.push(hierarchy[category].years[year].expenses[expense]);
-              texts.push(expense);
-            }
-          );
-        });
-      });
-    } else { // for individual years
-      // categories
-      Object.keys(hierarchy).forEach((category) => {
-        labels.push(category);
-        parents.push("");
-        values.push(hierarchy[category].total);
-        texts.push(category);
-  
-        // assign selected year
-        const year = selectedYear.toString();
-  
-        // expenses under category
+  // filter data by year
+  const filteredData =
+    selectedYear === 1
+      ? data
+      : data.filter((item) => parseInt(item.Year) === selectedYear);
+
+  // aggregate data by category, year, and expense in hierarchy
+  const hierarchy = filteredData.reduce((acc, item) => {
+    const category = item.Category;
+    const year = item.Year;
+    const expense = item.Expense;
+    const amount = parseFloat(item.Amount);
+
+    if (!acc[category]) acc[category] = { total: 0, years: {} };
+    if (!acc[category].years[year])
+      acc[category].years[year] = { total: 0, expenses: {} };
+    if (!acc[category].years[year].expenses[expense])
+      acc[category].years[year].expenses[expense] = 0;
+
+    // accumulate amounts for each level of the hierarchy
+    acc[category].total += amount;
+    acc[category].years[year].total += amount;
+    acc[category].years[year].expenses[expense] += amount;
+
+    return acc;
+  }, {});
+
+  // prep hierarchical data lists for sunburst
+  let labels = [];
+  let parents = [];
+  let values = [];
+  let texts = [];
+
+  // conditional for all years or individual year
+  if (selectedYear === 1) {
+    // for all years
+    // categories
+    Object.keys(hierarchy).forEach((category) => {
+      labels.push(category);
+      parents.push("");
+      values.push(hierarchy[category].total);
+      texts.push(category);
+
+      // years under each category
+      Object.keys(hierarchy[category].years).forEach((year) => {
+        const yearLabel = `${category}-${year}`; // it wants unique labels
+        labels.push(yearLabel);
+        parents.push(category);
+        values.push(hierarchy[category].years[year].total);
+        texts.push(year);
+
+        // expenses under each year
         Object.keys(hierarchy[category].years[year].expenses).forEach(
           (expense) => {
-            const expenseLabel = `${category}-${expense}`; // it wants unique labels
+            const expenseLabel = `${yearLabel}-${expense}`; // it wants unique labels
             labels.push(expenseLabel);
-            parents.push(category);
+            parents.push(yearLabel);
             values.push(hierarchy[category].years[year].expenses[expense]);
             texts.push(expense);
           }
         );
       });
-    }
-  
-    // default colors for missing labels
-    const defaultColor = "#FFFFFF";
-    const colors = labels.map((label) => {
-      const originalLabel = label.split("-")[0]; // original label for colorMap lookup
-      return colorMap[originalLabel] || defaultColor;
     });
-  
-    // create trace
-    const trace = {
-      type: "sunburst",
-      labels: labels,
-      parents: parents,
-      values: values,
-      text: texts,
-      textinfo: "text+value",
-      hoverinfo: "text+value",
-      texttemplate: "%{text}<br><span style='font-size:10px;'>$%{value:.2f}</span>",
-      hovertemplate: "<b>%{text}</b><br>Amount: $%{value:.2f}<extra></extra>",
-      marker: {
-        colors: colors,
-      },
-      branchvalues: "total",
-    };
-  
-    // create layout
-    const layout = {
-      title: `Expenses by Category, Year, and Expense for ${
-        selectedYear === 1 ? "All Years" : selectedYear
-      }`,
-      margin: { t: 50, l: 25, r: 25, b: 25 },
-    };
-  
-    // plot chart
-    Plotly.newPlot("sunburst-plot", [trace], layout);
+  } else {
+    // for individual years
+    // categories
+    Object.keys(hierarchy).forEach((category) => {
+      labels.push(category);
+      parents.push("");
+      values.push(hierarchy[category].total);
+      texts.push(category);
+
+      // assign selected year
+      const year = selectedYear.toString();
+
+      // expenses under category
+      Object.keys(hierarchy[category].years[year].expenses).forEach(
+        (expense) => {
+          const expenseLabel = `${category}-${expense}`; // it wants unique labels
+          labels.push(expenseLabel);
+          parents.push(category);
+          values.push(hierarchy[category].years[year].expenses[expense]);
+          texts.push(expense);
+        }
+      );
+    });
+  }
+
+  // default colors for missing labels
+  const defaultColor = "#FFFFFF";
+  const colors = labels.map((label) => {
+    const originalLabel = label.split("-")[0]; // original label for colorMap lookup
+    return colorMap[originalLabel] || defaultColor;
+  });
+
+  // create trace
+  const trace = {
+    type: "sunburst",
+    labels: labels,
+    parents: parents,
+    values: values,
+    text: texts,
+    textinfo: "text+value",
+    hoverinfo: "text+value",
+    texttemplate:
+      "%{text}<br><span style='font-size:10px;'>$%{value:.2f}</span>",
+    hovertemplate: "<b>%{text}</b><br>Amount: $%{value:.2f}<extra></extra>",
+    marker: {
+      colors: colors,
+    },
+    branchvalues: "total",
+  };
+
+  // create layout
+  const layout = {
+    title: `Expenses by Category, Year, and Expense for ${
+      selectedYear === 1 ? "All Years" : selectedYear
+    }`,
+    margin: { t: 50, l: 25, r: 25, b: 25 },
+  };
+
+  // plot chart
+  Plotly.newPlot("sunburst-plot", [trace], layout);
 }
 
 // table of expenses for selected year with plotly
@@ -360,132 +374,142 @@ function expenseTable(data, selectedYear) {
 
 // line plot that shows total expenses and donations over time
 function totalExpensesDonationsLinePlot(expenseData, donationData) {
-    // aggregate data by year
-    const expenseSums = expenseData.reduce((acc, item) => {
-        const year = item.Year;
-        const amount = parseFloat(item.Amount);
-        acc[year] = (acc[year] || 0) + amount;
-        return acc;
-    }, {});
-    
-    const donationSums = donationData.reduce((acc, item) => {
-        const year = item.Year;
-        const amount = parseFloat(item.Donations);
-        acc[year] = (acc[year] || 0) + amount;
-        return acc;
-    }, {});
-    
-    // create traces
-    const expenseTrace = {
-        x: Object.keys(expenseSums),
-        y: Object.values(expenseSums),
-        mode: "lines+markers",
-        name: "Expenses",
-        line: { color: "blue" },
-        marker: { color: "blue" },
-        hovertemplate: "<b>Year: %{x}</b><br>Expenses: $%{y:.2f}<extra></extra>",
-    };
-    
-    const donationTrace = {
-        x: Object.keys(donationSums),
-        y: Object.values(donationSums),
-        mode: "lines+markers",
-        name: "Donations",
-        line: { color: "orange" },
-        marker: { color: "orange" },
-        hovertemplate: "<b>Year: %{x}</b><br>Donations: $%{y:.2f}<extra></extra>",
-    };
-    
-    // create layout
-    const layout = {
-        title: `Total Expenses and Donations Over Time`,
-        xaxis: { title: "Year" },
-        yaxis: { title: "Amount ($)" },
-    };
-    
-    // plot chart
-    Plotly.newPlot("total-expenses-donations-line-plot", [expenseTrace, donationTrace], layout);
+  // aggregate data by year
+  const expenseSums = expenseData.reduce((acc, item) => {
+    const year = item.Year;
+    const amount = parseFloat(item.Amount);
+    acc[year] = (acc[year] || 0) + amount;
+    return acc;
+  }, {});
+
+//   const donationSums = donationData.reduce((acc, item) => {
+//     const year = item.Year;
+//     const amount = parseFloat(item.Donations);
+//     acc[year] = (acc[year] || 0) + amount;
+//     return acc;
+//   }, {});
+
+  // create traces
+  const expenseTrace = {
+    x: Object.keys(expenseSums),
+    y: Object.values(expenseSums),
+    mode: "lines+markers",
+    name: "Expenses",
+    line: { color: "blue" },
+    marker: { color: "blue" },
+    hovertemplate: "<b>Year: %{x}</b><br>Expenses: $%{y:.2f}<extra></extra>",
+  };
+
+  const donationTrace = {
+    // x: Object.keys(donationSums),
+    // y: Object.values(donationSums),
+    x: donationData.map(item => item.Year),
+    y: donationData.map(item => parseFloat(item.Donations)),
+    mode: "lines+markers",
+    name: "Donations",
+    line: { color: "orange" },
+    marker: { color: "orange" },
+    hovertemplate: "<b>Year: %{x}</b><br>Donations: $%{y:.2f}<extra></extra>",
+  };
+
+  // create layout
+  const layout = {
+    title: `Total Expenses and Donations Over Time`,
+    xaxis: { title: "Year" },
+    yaxis: { title: "Amount ($)" },
+  };
+
+  // plot chart
+  Plotly.newPlot(
+    "total-expenses-donations-line-plot",
+    [expenseTrace, donationTrace],
+    layout
+  );
 }
 
 // line plot of difference between expenses and donations over time
 function donationsVExpensesPlot(expenseData, donationData) {
-    // Aggregate expenses by year
-    const expenseSums = expenseData.reduce((acc, item) => {
-        const year = item.Year;
-        const amount = parseFloat(item.Amount) || 0;
-        acc[year] = (acc[year] || 0) + amount;
-        return acc;
-    }, {});
-    
-    // Aggregate donations by year
-    const donationSums = donationData.reduce((acc, item) => {
-        const year = item.Year;
-        const amount = parseFloat(item.Donations) || 0;
-        acc[year] = (acc[year] || 0) + amount;
-        return acc;
-    }, {});
-    
-    // Combine data into a single structure
-    const allYears = new Set([...Object.keys(expenseSums), ...Object.keys(donationSums)]);
-    const combinedData = Array.from(allYears).map(year => {
-        return {
-            Year: year,
-            Expenses: expenseSums[year] || 0,
-            Donations: donationSums[year] || 0,
-        };
-    });
-    
-    // Calculate donations minus expenses
-    const years = combinedData.map(d => d.Year);
-    const difference = combinedData.map(d => d.Donations - d.Expenses);
+  // Aggregate expenses by year
+  const expenseSums = expenseData.reduce((acc, item) => {
+    const year = item.Year;
+    const amount = parseFloat(item.Amount) || 0;
+    acc[year] = (acc[year] || 0) + amount;
+    return acc;
+  }, {});
 
-    // Create an array of text positions
-    const textPositions = difference.map((value, index) => {
-        // Alternate positions to avoid overlap
-        return index % 2 === 0 ? "top center" : "bottom center";
-    });
+//   // Aggregate donations by year
+//   const donationSums = donationData.reduce((acc, item) => {
+//     const year = item.Year;
+//     const amount = parseFloat(item.Donations) || 0;
+//     acc[year] = (acc[year] || 0) + amount;
+//     return acc;
+//   }, {});
 
-    // Create an array of text colors based on the difference values
-    const textColors = difference.map(value => value < 0 ? "red" : "black");
-
-        
-    // Create trace
-    const trace = {
-        x: years,
-        y: difference,
-        mode: "lines+markers+text",
-        type: "scatter",
-        name: "Donations - Expenses",
-        line: { color: "blue" },
-        marker: { color: "blue" },
-        text: difference.map(value => `$${value.toFixed(2)}`),
-        textposition: textPositions,
-        texttemplate: "%{text}",
-        hovertemplate: "<b>Year: %{x}</b><br>Difference: $%{y:.2f}<extra></extra>",
-        textfont: { color: textColors },
+  // Combine data into a single structure
+  const allYears = new Set([
+    ...Object.keys(expenseSums),
+    // ...Object.keys(donationSums),
+    ...donationData.map(item => item.Year),
+  ]);
+  const combinedData = Array.from(allYears).map((year) => {
+    return {
+      Year: year,
+      Expenses: expenseSums[year] || 0,
+    //   Donations: donationSums[year] || 0,
+      Donations: donationData.find(item => item.Year === year)?.Donations || 0,
     };
-    
-    // Create layout
-    const layout = {
-        title: "Total Donations Minus Expenses by Year",
-        xaxis: { title: "Year" },
-        yaxis: { title: "Total Donations Minus Expenses ($)" },
-        shapes: [
-            {
-                type: "line",
-                x0: Math.min(...years),
-                x1: Math.max(...years),
-                y0: 0,
-                y1: 0,
-                line: {
-                    color: "red",
-                    width: 2,
-                    dash: "dash",
-                },
-            },
-        ],
-    };
-    
-    // Plot chart
-    Plotly.newPlot("donations-v-expenses-plot", [trace], layout);
+  });
+
+  // Calculate donations minus expenses
+  const years = combinedData.map((d) => d.Year);
+  const difference = combinedData.map((d) => d.Donations - d.Expenses);
+
+  // Create an array of text positions
+  const textPositions = difference.map((value, index) => {
+    // Alternate positions to avoid overlap
+    return index % 2 === 0 ? "top center" : "bottom center";
+  });
+
+  // Create an array of text colors based on the difference values
+  const textColors = difference.map((value) => (value < 0 ? "red" : "black"));
+
+  // Create trace
+  const trace = {
+    x: years,
+    y: difference,
+    mode: "lines+markers+text",
+    type: "scatter",
+    name: "Donations - Expenses",
+    line: { color: "blue" },
+    marker: { color: "blue" },
+    text: difference.map((value) => `$${value.toFixed(2)}`),
+    textposition: textPositions,
+    texttemplate: "%{text}",
+    hovertemplate: "<b>Year: %{x}</b><br>Difference: $%{y:.2f}<extra></extra>",
+    textfont: { color: textColors },
+  };
+
+  // Create layout
+  const layout = {
+    title: "Total Donations Minus Expenses by Year",
+    xaxis: { title: "Year" },
+    yaxis: { title: "Total Donations Minus Expenses ($)" },
+    shapes: [
+      {
+        type: "line",
+        x0: Math.min(...years),
+        x1: Math.max(...years),
+        y0: 0,
+        y1: 0,
+        line: {
+          color: "red",
+          width: 2,
+          dash: "dash",
+        },
+      },
+    ],
+  };
+
+  // Plot chart
+  Plotly.newPlot("donations-v-expenses-plot", [trace], layout);
 }
