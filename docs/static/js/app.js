@@ -102,6 +102,7 @@ function updateYear(homePageInfo, expenseData, donationData, colorMap) {
     barPlot(expenseData, selectedYear);
     treemapPlot(expenseData, selectedYear, colorMap);
     individualExpensesBarPlot(expenseData, selectedYear, colorMap);
+    expenseTable(expenseData, selectedYear);
   }
 }
 

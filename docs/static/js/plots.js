@@ -2,6 +2,7 @@
 function totalPlots(data, selectedYear, colorMap) {
   barPlot(data, selectedYear);
   treemapPlot(data, selectedYear, colorMap);
+  expenseTable(data, selectedYear);
 }
 
 // colormap for categories, assigning blue and orange to Bar and Music
@@ -69,7 +70,9 @@ function barPlot(data, selectedYear) {
 
   // create layout
   const layout = {
-    title: `Amount by Category for ${selectedYear === 1 ? "All Years" : selectedYear}`,
+    title: `Amount by Category for ${
+      selectedYear === 1 ? "All Years" : selectedYear
+    }`,
     xaxis: { title: "Amount ($)" },
     yaxis: { title: "Category" },
   };
@@ -110,9 +113,11 @@ function treemapPlot(data, selectedYear, colorMap) {
 
   // create layout
   const layout = {
-    title: `Expenses by Category for ${selectedYear === 1 ? "All Years" : selectedYear}`,
+    title: `Expenses by Category for ${
+      selectedYear === 1 ? "All Years" : selectedYear
+    }`,
     margin: { t: 50, l: 25, r: 25, b: 25 },
-};
+  };
 
   // plot chart
   Plotly.newPlot("treemap-plot", [trace], layout);
@@ -130,7 +135,7 @@ function individualExpensesBarPlot(data, selectedYear, colorMap) {
     x: filteredData.map((item) => item.Expense),
     y: filteredData.map((item) => item.Amount),
     type: "bar",
-    marker: {color: filteredData.map((item) => colorMap[item.Category])},
+    marker: { color: filteredData.map((item) => colorMap[item.Category]) },
     text: filteredData.map((item) => item.Category),
     hovertemplate:
       "<b>%{x}</b><br>Amount: $%{y}<br>Category: %{text}<extra></extra>",
@@ -146,3 +151,57 @@ function individualExpensesBarPlot(data, selectedYear, colorMap) {
   // plot chart
   Plotly.newPlot("individual-expenses-bar-plot", [trace], layout);
 }
+
+// table of expenses for selected year with plotly
+function expenseTable(data, selectedYear) {
+    // filter data by year
+    const filteredData =
+      selectedYear === 1
+        ? data
+        : data.filter((item) => parseInt(item.Year) === selectedYear);
+
+    // sort data by amount, descending
+    filteredData.sort((a, b) => parseFloat(b.Amount) - parseFloat(a.Amount));
+  
+    // extract headers and values
+    const headers = ["Expense", "Amount", "Name", "Year", "Category"];
+    const rows = filteredData.map((item) => [
+      item.Expense,
+      `$${parseFloat(item.Amount).toFixed(2)}`,
+      item.Name,
+      item.Year,
+      item.Category,
+    ]);
+  
+    // transpose rows to columns for Plotly
+    const columns = headers.map((_, colIndex) => rows.map(row => row[colIndex]));
+  
+    // create trace
+    const trace = {
+      type: "table",
+      header: {
+        values: headers,
+        align: "left",
+        line: { width: 1, color: "black" },
+        fill: { color: "paleturquoise" },
+        font: { family: "Arial", size: 12, color: "black" },
+      },
+      cells: {
+        values: columns,
+        align: "left",
+        line: { width: 1, color: "black" },
+        fill: { color: "lavender" },
+        font: { family: "Arial", size: 11, color: ["black"] },
+      },
+    };
+  
+    // create layout
+    const layout = {
+      title: `Expenses for ${selectedYear === 1 ? 'All Years' : selectedYear}`,
+      margin: { t: 50, l: 25, r: 25, b: 25 },
+    };
+  
+    // plot chart
+    Plotly.newPlot("expense-table", [trace], layout);
+}
+
