@@ -17,12 +17,15 @@ document.addEventListener("DOMContentLoaded", function () {
       // populate year dropdown
       populateYearDropdown(expenseData);
 
+      // get color map for categories, to ensure consistent colors across plots
+      const colorMap = getColorMap(expenseData);
+
       // initial call to update year
-      updateYear(homePageInfo, expenseData, donationData);
+      updateYear(homePageInfo, expenseData, donationData, colorMap);
 
       // event listener for year selection
       document.getElementById("year").addEventListener("change", function () {
-        updateYear(homePageInfo, expenseData, donationData);
+        updateYear(homePageInfo, expenseData, donationData, colorMap);
       });
     })
     .catch((error) => console.error("Error fetching or parsing CSV:", error));
@@ -79,27 +82,26 @@ function switchView(selectedYear) {
 }
 
 // update based on selected year
-function updateYear(homePageInfo, expenseData, donationData) {
+function updateYear(homePageInfo, expenseData, donationData, colorMap) {
   // select year, update view
   const yearSelect = document.getElementById("year");
   const selectedYear = parseInt(yearSelect.value);
   switchView(selectedYear);
 
-  // conditional for grand total or others
+  // conditional for home page, grand total, or specific year
   if (selectedYear === 42) {
     displaySingleImage(`./resources/images/welcome.jpg`);
     document.getElementById("markdown-content").innerHTML = homePageInfo;
   } else if (selectedYear === 1) {
     displayMultipleImages(`./resources/images/hp_pics/*.jpg`);
     updateTotal(expenseData, donationData, "all");
-    totalPlots(expenseData, selectedYear);
-    // barPlot(expenseData, selectedYear);
-    // treemapPlot(expenseData, selectedYear);
+    totalPlots(expenseData, selectedYear, colorMap);
   } else {
     displaySingleImage(`./resources/images/hp_logos/hp_${selectedYear}.jpg`);
     updateTotal(expenseData, donationData, selectedYear);
     barPlot(expenseData, selectedYear);
-    treemapPlot(expenseData, selectedYear);
+    treemapPlot(expenseData, selectedYear, colorMap);
+    individualExpensesBarPlot(expenseData, selectedYear, colorMap);
   }
 }
 
