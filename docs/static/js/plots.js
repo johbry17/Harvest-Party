@@ -1,17 +1,19 @@
 // call plots for total view
-function totalPlots(data, selectedYear, colorMap) {
+function totalPlots(data, donationData, selectedYear, colorMap) {
   barPlot(data, selectedYear);
   treemapPlot(data, selectedYear, colorMap);
   document.getElementById("individual-expenses-bar-plot").innerHTML = "";
   sunburstPlot(data, selectedYear, colorMap);
+  totalExpensesDonationsLinePlot(data, donationData, selectedYear);
   expenseTable(data, selectedYear);
 }
 
-function singleYearPlots(data, selectedYear, colorMap) {
+function singleYearPlots(data, donationData, selectedYear, colorMap) {
   barPlot(data, selectedYear);
   treemapPlot(data, selectedYear, colorMap);
   individualExpensesBarPlot(data, selectedYear, colorMap);
   sunburstPlot(data, selectedYear, colorMap);
+  document.getElementById("total-expenses-donations-line-plot").innerHTML = "";
   expenseTable(data, selectedYear);
 }
 
@@ -352,4 +354,53 @@ function expenseTable(data, selectedYear) {
 
   // plot chart
   Plotly.newPlot("expense-table", [trace], layout);
+}
+
+// line plot that shows total expenses and donations over time
+function totalExpensesDonationsLinePlot(expenseData, donationData, selectedYear) {
+    // aggregate data by year
+    const expenseSums = expenseData.reduce((acc, item) => {
+        const year = item.Year;
+        const amount = parseFloat(item.Amount);
+        acc[year] = (acc[year] || 0) + amount;
+        return acc;
+    }, {});
+    
+    const donationSums = donationData.reduce((acc, item) => {
+        const year = item.Year;
+        const amount = parseFloat(item.Donations);
+        acc[year] = (acc[year] || 0) + amount;
+        return acc;
+    }, {});
+    
+    // create traces
+    const expenseTrace = {
+        x: Object.keys(expenseSums),
+        y: Object.values(expenseSums),
+        mode: "lines+markers",
+        name: "Expenses",
+        line: { color: "blue" },
+        marker: { color: "blue" },
+        hovertemplate: "<b>Year: %{x}</b><br>Expenses: $%{y:.2f}<extra></extra>",
+    };
+    
+    const donationTrace = {
+        x: Object.keys(donationSums),
+        y: Object.values(donationSums),
+        mode: "lines+markers",
+        name: "Donations",
+        line: { color: "orange" },
+        marker: { color: "orange" },
+        hovertemplate: "<b>Year: %{x}</b><br>Donations: $%{y:.2f}<extra></extra>",
+    };
+    
+    // create layout
+    const layout = {
+        title: `Total Expenses and Donations Over Time`,
+        xaxis: { title: "Year" },
+        yaxis: { title: "Amount ($)" },
+    };
+    
+    // plot chart
+    Plotly.newPlot("total-expenses-donations-line-plot", [expenseTrace, donationTrace], layout);
 }

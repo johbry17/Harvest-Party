@@ -95,11 +95,11 @@ function updateYear(homePageInfo, expenseData, donationData, colorMap) {
   } else if (selectedYear === 1) {
     displayMultipleImages(`./resources/images/hp_pics/*.jpg`);
     updateTotal(expenseData, donationData, "all");
-    totalPlots(expenseData, selectedYear, colorMap);
+    totalPlots(expenseData, donationData, selectedYear, colorMap);
   } else {
     displaySingleImage(`./resources/images/hp_logos/hp_${selectedYear}.jpg`);
     updateTotal(expenseData, donationData, selectedYear);
-    singleYearPlots(expenseData, selectedYear, colorMap);
+    singleYearPlots(expenseData, donationData, selectedYear, colorMap);
   }
 }
 
