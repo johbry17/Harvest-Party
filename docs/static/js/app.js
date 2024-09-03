@@ -90,10 +90,11 @@ function updateYear(homePageInfo, expenseData, donationData) {
     displaySingleImage(`./resources/images/welcome.jpg`);
     document.getElementById("markdown-content").innerHTML = homePageInfo;
   } else if (selectedYear === 1) {
-    displayMultipleImages("./resources/images/hp_pics/*.jpg");
+    displayMultipleImages(`./resources/images/hp_pics/*.jpg`);
     updateTotal(expenseData, donationData, "all");
-    barPlot(expenseData, selectedYear);
-    treemapPlot(expenseData, selectedYear);
+    totalPlots(expenseData, selectedYear);
+    // barPlot(expenseData, selectedYear);
+    // treemapPlot(expenseData, selectedYear);
   } else {
     displaySingleImage(`./resources/images/hp_logos/hp_${selectedYear}.jpg`);
     updateTotal(expenseData, donationData, selectedYear);

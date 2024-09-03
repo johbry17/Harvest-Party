@@ -1,3 +1,9 @@
+// call plots for total view
+function totalPlots(data, selectedYear) {
+    barPlot(data, selectedYear);
+    treemapPlot(data, selectedYear);
+}
+
 // bar plot that aggregates Amount by Category
 function barPlot(data, selectedYear) {
     // filter data by year
