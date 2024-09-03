@@ -255,6 +255,8 @@ function sunburstPlot(data, selectedYear, colorMap) {
       selectedYear === 1 ? "All Years" : selectedYear
     }`,
     margin: { t: 50, l: 25, r: 25, b: 25 },
+    hovermode: "closest",
+    clickmode: "event+select",
   };
 
   // plot chart
