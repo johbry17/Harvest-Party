@@ -241,7 +241,7 @@ function sunburstPlot(data, selectedYear, colorMap) {
     text: texts,
     textinfo: "text+value",
     hoverinfo: "text+value",
-    texttemplate: "%{text}",
+    texttemplate: "%{text}<br><span style='font-size:8px;'>$%{value:.2f}</span>",
     hovertemplate: "<b>%{text}</b><br>Amount: $%{value:.2f}<extra></extra>",
     marker: {
       colors: colors,
@@ -255,8 +255,6 @@ function sunburstPlot(data, selectedYear, colorMap) {
       selectedYear === 1 ? "All Years" : selectedYear
     }`,
     margin: { t: 50, l: 25, r: 25, b: 25 },
-    hovermode: "closest",
-    clickmode: "event+select",
   };
 
   // plot chart
