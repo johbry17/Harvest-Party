@@ -107,6 +107,9 @@ function treemapPlot(data, selectedYear, colorMap) {
     return acc;
   }, {});
 
+  // calculate total expenses
+  const totalExpenses = Object.values(categorySums).reduce((acc, amount) => acc + amount, 0);
+
   // create trace
   const trace = {
     type: "treemap",
@@ -114,11 +117,14 @@ function treemapPlot(data, selectedYear, colorMap) {
     parents: Object.keys(categorySums).map(() => ""),
     values: Object.values(categorySums),
     textinfo: "label+value",
-    texttemplate: "<b>%{label}</b><br>$%{value:.2f}",
-    hovertemplate: "<b>%{label}</b><br>$%{value:.2f}<extra></extra>",
+    texttemplate: "<b><span style='text-decoration: underline;'>%{label}</span></b><br>$%{value:.2f}<br>%{customdata.percent:.2%}",
+    hovertemplate: "<b><span style='text-decoration: underline;'>%{label}</span></b><br>$%{value:.2f}<br>%{customdata.percent:.2%}<extra></extra>",
     marker: {
       colors: Object.keys(categorySums).map((category) => colorMap[category]),
     },
+    customdata: Object.values(categorySums).map(value => ({
+        percent: value / totalExpenses
+    })),
   };
 
   // create layout
