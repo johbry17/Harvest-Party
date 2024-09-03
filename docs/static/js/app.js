@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   // load and parse csv's
   Promise.all([
+    fetch("./resources/home_page.md").then((response) => response.text()),
     fetch("./resources/cleaned_expenses.csv").then((response) =>
       response.text()
     ),
@@ -8,7 +9,8 @@ document.addEventListener("DOMContentLoaded", function () {
       response.text()
     ),
   ])
-    .then(([expenseText, donationText]) => {
+    .then(([homePageText, expenseText, donationText]) => {
+      const homePageInfo = marked.parse(homePageText);
       const expenseData = d3.csvParse(expenseText);
       const donationData = d3.csvParse(donationText);
 
@@ -16,11 +18,11 @@ document.addEventListener("DOMContentLoaded", function () {
       populateYearDropdown(expenseData);
 
       // initial call to update year
-      updateYear(expenseData, donationData);
+      updateYear(homePageInfo, expenseData, donationData);
 
       // event listener for year selection
       document.getElementById("year").addEventListener("change", function () {
-        updateYear(expenseData, donationData);
+        updateYear(homePageInfo, expenseData, donationData);
       });
     })
     .catch((error) => console.error("Error fetching or parsing CSV:", error));
@@ -37,10 +39,10 @@ function populateYearDropdown(expenseData) {
   }, 2014); // party started in 2014 - in fact, no data before 2017
 
   // add "Home" manually
-    const homeOption = document.createElement("option");
-    homeOption.value = "42";
-    homeOption.textContent = "Home";
-    yearSelect.appendChild(homeOption);
+  const homeOption = document.createElement("option");
+  homeOption.value = "42";
+  homeOption.textContent = "Home";
+  yearSelect.appendChild(homeOption);
 
   // add "Total" manually
   const totalOption = document.createElement("option");
@@ -77,7 +79,7 @@ function switchView(selectedYear) {
 }
 
 // update based on selected year
-function updateYear(expenseData, donationData) {
+function updateYear(homePageInfo, expenseData, donationData) {
   // select year, update view
   const yearSelect = document.getElementById("year");
   const selectedYear = parseInt(yearSelect.value);
@@ -86,10 +88,7 @@ function updateYear(expenseData, donationData) {
   // conditional for grand total or others
   if (selectedYear === 42) {
     displaySingleImage(`./resources/images/welcome.jpg`);
-    populateMarkdown();
-    // updateTotal(expenseData, donationData, "all");
-    // barPlot(expenseData, selectedYear);
-    // treemapPlot(expenseData, selected);
+    document.getElementById("markdown-content").innerHTML = homePageInfo;
   } else if (selectedYear === 1) {
     displayMultipleImages("./resources/images/hp_pics/*.jpg");
     updateTotal(expenseData, donationData, "all");
@@ -101,21 +100,6 @@ function updateYear(expenseData, donationData) {
     barPlot(expenseData, selectedYear);
     treemapPlot(expenseData, selectedYear);
   }
-}
-
-// populate markdown field
-function populateMarkdown() {
-  const markdownDiv = document.getElementById("markdown");
-
-  // clear previous markdown
-  markdownDiv.innerHTML = "";
-
-  // fetch and populate markdown div
-  fetch('./resources/home_page.md')
-    .then((response) => response.text())
-    .then(text => {
-      markdownDiv.innerHTML = marked.parse(text);
-    });
 }
 
 // update total amount and donations for selected year
