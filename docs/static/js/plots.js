@@ -64,12 +64,13 @@ function barPlot(data, selectedYear) {
     y: sortedKeys,
     type: "bar",
     orientation: "h",
+    hovertemplate: "<b>%{y}</b><br>Amount: $%{x:.2f}<extra></extra>",
   };
 
   // create layout
   const layout = {
-    title: "Amount by Category",
-    xaxis: { title: "Amount" },
+    title: `Amount by Category for ${selectedYear === 1 ? "All Years" : selectedYear}`,
+    xaxis: { title: "Amount ($)" },
     yaxis: { title: "Category" },
   };
 
@@ -97,16 +98,24 @@ function treemapPlot(data, selectedYear, colorMap) {
   const trace = {
     type: "treemap",
     labels: Object.keys(categorySums),
-    parents: Object.keys(categorySums).map((category) => ""),
+    parents: Object.keys(categorySums).map(() => ""),
     values: Object.values(categorySums),
     textinfo: "label+value",
+    texttemplate: "<b>%{label}</b><br>$%{value:.2f}",
+    hovertemplate: "<b>%{label}</b><br>$%{value:.2f}<extra></extra>",
     marker: {
       colors: Object.keys(categorySums).map((category) => colorMap[category]),
     },
   };
 
+  // create layout
+  const layout = {
+    title: `Expenses by Category for ${selectedYear === 1 ? "All Years" : selectedYear}`,
+    margin: { t: 50, l: 25, r: 25, b: 25 },
+};
+
   // plot chart
-  Plotly.newPlot("treemap-plot", [trace]);
+  Plotly.newPlot("treemap-plot", [trace], layout);
 }
 
 // bar plot that shows individual expenses for selected year
@@ -121,9 +130,7 @@ function individualExpensesBarPlot(data, selectedYear, colorMap) {
     x: filteredData.map((item) => item.Expense),
     y: filteredData.map((item) => item.Amount),
     type: "bar",
-    marker: {
-      color: filteredData.map((item) => colorMap[item.Category]),
-    },
+    marker: {color: filteredData.map((item) => colorMap[item.Category])},
     text: filteredData.map((item) => item.Category),
     hovertemplate:
       "<b>%{x}</b><br>Amount: $%{y}<br>Category: %{text}<extra></extra>",
@@ -131,9 +138,9 @@ function individualExpensesBarPlot(data, selectedYear, colorMap) {
 
   // create layout
   const layout = {
-    title: "Individual Expenses",
-    xaxis: { title: "Amount" },
-    yaxis: { title: "Category" },
+    title: `Individual Expenses for ${selectedYear}`,
+    xaxis: { title: "Category" },
+    yaxis: { title: "Amount ($)" },
   };
 
   // plot chart
