@@ -7,10 +7,10 @@ function totalPlots(data, selectedYear, colorMap) {
 }
 
 function singleYearPlots(data, selectedYear, colorMap) {
-    barPlot(data, selectedYear);
-    treemapPlot(data, selectedYear, colorMap);
-    individualExpensesBarPlot(data, selectedYear, colorMap);
-    expenseTable(data, selectedYear);
+  barPlot(data, selectedYear);
+  treemapPlot(data, selectedYear, colorMap);
+  individualExpensesBarPlot(data, selectedYear, colorMap);
+  expenseTable(data, selectedYear);
 }
 
 // colormap for categories, assigning blue and orange to Bar and Music
@@ -160,209 +160,157 @@ function individualExpensesBarPlot(data, selectedYear, colorMap) {
   Plotly.newPlot("individual-expenses-bar-plot", [trace], layout);
 }
 
-// sunburst plot that shows expenses by category and subcategory
-// function sunburstPlot(data, selectedYear, colorMap) {
-//     // filter data by year
-//     const filteredData = selectedYear === 1
-//         ? data
-//         : data.filter(item => parseInt(item.Year) === selectedYear);
-
-//     // aggregate data by category and subcategory
-//     const categorySums = filteredData.reduce((acc, item) => {
-//         const category = item.Category;
-//         const subcategory = item.Expense; // Assuming 'Expense' is the subcategory
-//         const amount = parseFloat(item.Amount);
-
-//         if (!acc[category]) acc[category] = {};
-//         if (!acc[category][subcategory]) acc[category][subcategory] = 0;
-//         acc[category][subcategory] += amount;
-
-//         return acc;
-//     }, {});
-
-//     // Prepare hierarchical data for sunburst
-//     let labels = [];
-//     let parents = [];
-//     let values = [];
-    
-//     Object.keys(categorySums).forEach(category => {
-//         labels.push(category);
-//         parents.push("");
-//         values.push(0);
-
-//         Object.keys(categorySums[category]).forEach((subcategory, index) => {
-//             const uniqueSubcategory = `${subcategory} (${index})`; // it seems to want unique labels
-//             labels.push(uniqueSubcategory);
-//             parents.push(category);
-//             values.push(categorySums[category][subcategory]);
-//         });
-//     });
-
-//     // ensure colorMap has default colors for missing labels
-//     const defaultColor = "#FFFFFF";
-//     const colors = labels.map(label => colorMap[label.split(' (')[0]] || defaultColor); // original labels for colorMap lookup
-
-//     // create trace
-//     const trace = {
-//         type: "sunburst",
-//         labels: labels,
-//         parents: parents,
-//         values: values,
-//         textinfo: "label+value",
-//         texttemplate: "<b>%{label}</b><br>$%{value:.2f}",
-//         hovertemplate: "<b>%{label}</b><br>Amount: $%{value:.2f}<extra></extra>",
-//         marker: {
-//             colors: colors
-//         },
-//     };
-
-//     // create layout
-//     const layout = {
-//         title: `Expenses by Category and Subcategory for ${selectedYear === 1 ? "All Years" : selectedYear}`,
-//         margin: { t: 50, l: 25, r: 25, b: 25 },
-//     };
-
-//     // plot chart
-//     Plotly.newPlot("sunburst-plot", [trace], layout);
-// }
-
 // sunburst plot that shows expenses by category, year, and expense
 function sunburstPlot(data, selectedYear, colorMap) {
-    // filter data by year
-    const filteredData = selectedYear === 1
-        ? data
-        : data.filter(item => parseInt(item.Year) === selectedYear);
+  // Filter data by year
+  const filteredData =
+    selectedYear === 1
+      ? data
+      : data.filter((item) => parseInt(item.Year) === selectedYear);
 
-    // aggregate data by category, year, and expense
-    const hierarchy = filteredData.reduce((acc, item) => {
-        const category = item.Category;
-        const year = item.Year;
-        const expense = item.Expense;
-        const amount = parseFloat(item.Amount);
+  // Aggregate data by category, year, and expense
+  const hierarchy = filteredData.reduce((acc, item) => {
+    const category = item.Category;
+    const year = item.Year;
+    const expense = item.Expense;
+    const amount = parseFloat(item.Amount);
 
-        if (!acc[category]) acc[category] = {};
-        if (!acc[category][year]) acc[category][year] = {};
-        if (!acc[category][year][expense]) acc[category][year][expense] = 0;
+    if (!acc[category]) acc[category] = { total: 0, years: {} };
+    if (!acc[category].years[year])
+      acc[category].years[year] = { total: 0, expenses: {} };
+    if (!acc[category].years[year].expenses[expense])
+      acc[category].years[year].expenses[expense] = 0;
 
-        acc[category][year][expense] += amount;
-        return acc;
-    }, {});
+    // Accumulate amounts
+    acc[category].total += amount;
+    acc[category].years[year].total += amount;
+    acc[category].years[year].expenses[expense] += amount;
 
-    // prep hierarchical data for sunburst
-    let labels = [];
-    let parents = [];
-    let values = [];
-    let texts = [];
+    return acc;
+  }, {});
 
-    // add categories
-    Object.keys(hierarchy).forEach(category => {
-        labels.push(category);
-        parents.push("");
-        values.push(0);
-        texts.push(category);
+  // Prepare hierarchical data for sunburst
+  let labels = [];
+  let parents = [];
+  let values = [];
+  let texts = [];
 
-        // years under each category
-        Object.keys(hierarchy[category]).forEach(year => {
-            const yearLabel = `${category}-${year}`; // it seems to want unique labels
-            labels.push(yearLabel);
-            parents.push(category);
-            values.push(0);
-            texts.push(year);
+  // Add categories
+  Object.keys(hierarchy).forEach((category) => {
+    labels.push(category);
+    parents.push("");
+    values.push(hierarchy[category].total); // Use accumulated total for category
+    texts.push(category);
 
-            // expenses under each year
-            Object.keys(hierarchy[category][year]).forEach(expense => {
-                const expenseLabel = `${yearLabel}-${expense}`; // it seems to want unique labels
-                labels.push(expenseLabel);
-                parents.push(yearLabel);
-                values.push(hierarchy[category][year][expense]);
-                texts.push(expense);
-            });
-        });
+    // Add years under each category
+    Object.keys(hierarchy[category].years).forEach((year) => {
+      const yearLabel = `${category}-${year}`; // Ensure unique labels
+      labels.push(yearLabel);
+      parents.push(category);
+      values.push(hierarchy[category].years[year].total); // Use accumulated total for year
+      texts.push(year);
+
+      // Add expenses under each year
+      Object.keys(hierarchy[category].years[year].expenses).forEach(
+        (expense) => {
+          const expenseLabel = `${yearLabel}-${expense}`; // Ensure unique labels
+          labels.push(expenseLabel);
+          parents.push(yearLabel);
+          values.push(hierarchy[category].years[year].expenses[expense]);
+          texts.push(expense);
+        }
+      );
     });
+  });
 
-    // ensure colorMap has default colors for missing labels
-    const defaultColor = "#FFFFFF";
-    const colors = labels.map(label => {
-        const originalLabel = label.split('-')[0]; // original label for colorMap lookup
-        return colorMap[originalLabel] || defaultColor;
-    });
+  // Ensure colorMap has default colors for missing labels
+  const defaultColor = "#FFFFFF";
+  const colors = labels.map((label) => {
+    const originalLabel = label.split("-")[0]; // Use original label for colorMap lookup
+    return colorMap[originalLabel] || defaultColor;
+  });
 
-    // create trace
-    const trace = {
-        type: "sunburst",
-        labels: labels,
-        parents: parents,
-        values: values,
-        text: texts,
-        textinfo: "text+value",
-        texttemplate: "%{text}",
-        hovertemplate: "<b>%{text}</b><br>Amount: $%{value:.2f}<extra></extra>",
-        marker: {
-            colors: colors
-        },
-    };
+  // Create trace
+  const trace = {
+    type: "sunburst",
+    labels: labels,
+    parents: parents,
+    values: values,
+    text: texts,
+    textinfo: "text+value",
+    texttemplate: "%{text}",
+    hovertemplate: "<b>%{text}</b><br>Amount: $%{value:.2f}<extra></extra>",
+    marker: {
+      colors: colors,
+    },
+    branchvalues: "total",
+  };
 
-    // create layout
-    const layout = {
-        title: `Expenses by Category, Year, and Expense for ${selectedYear === 1 ? "All Years" : selectedYear}`,
-        margin: { t: 50, l: 25, r: 25, b: 25 },
-    };
+  // Create layout
+  const layout = {
+    title: `Expenses by Category, Year, and Expense for ${
+      selectedYear === 1 ? "All Years" : selectedYear
+    }`,
+    margin: { t: 50, l: 25, r: 25, b: 25 },
+    sunburstcolorwy: colors,
+    extendsunburstcolors: true,
+  };
 
-    // plot chart
-    Plotly.newPlot("sunburst-plot", [trace], layout);
+  // Plot chart
+  Plotly.newPlot("sunburst-plot", [trace], layout);
 }
-
 
 // table of expenses for selected year with plotly
 function expenseTable(data, selectedYear) {
-    // filter data by year
-    const filteredData =
-      selectedYear === 1
-        ? data
-        : data.filter((item) => parseInt(item.Year) === selectedYear);
+  // filter data by year
+  const filteredData =
+    selectedYear === 1
+      ? data
+      : data.filter((item) => parseInt(item.Year) === selectedYear);
 
-    // sort data by amount, descending
-    filteredData.sort((a, b) => parseFloat(b.Amount) - parseFloat(a.Amount));
-  
-    // extract headers and values
-    const headers = ["Expense", "Amount", "Name", "Year", "Category"];
-    const rows = filteredData.map((item) => [
-      item.Expense,
-      `$${parseFloat(item.Amount).toFixed(2)}`,
-      item.Name,
-      item.Year,
-      item.Category,
-    ]);
-  
-    // transpose rows to columns for Plotly
-    const columns = headers.map((_, colIndex) => rows.map(row => row[colIndex]));
-  
-    // create trace
-    const trace = {
-      type: "table",
-      header: {
-        values: headers,
-        align: "left",
-        line: { width: 1, color: "black" },
-        fill: { color: "paleturquoise" },
-        font: { family: "Arial", size: 12, color: "black" },
-      },
-      cells: {
-        values: columns,
-        align: "left",
-        line: { width: 1, color: "black" },
-        fill: { color: "lavender" },
-        font: { family: "Arial", size: 11, color: ["black"] },
-      },
-    };
-  
-    // create layout
-    const layout = {
-      title: `Expenses for ${selectedYear === 1 ? 'All Years' : selectedYear}`,
-      margin: { t: 50, l: 25, r: 25, b: 25 },
-    };
-  
-    // plot chart
-    Plotly.newPlot("expense-table", [trace], layout);
+  // sort data by amount, descending
+  filteredData.sort((a, b) => parseFloat(b.Amount) - parseFloat(a.Amount));
+
+  // extract headers and values
+  const headers = ["Expense", "Amount", "Name", "Year", "Category"];
+  const rows = filteredData.map((item) => [
+    item.Expense,
+    `$${parseFloat(item.Amount).toFixed(2)}`,
+    item.Name,
+    item.Year,
+    item.Category,
+  ]);
+
+  // transpose rows to columns for Plotly
+  const columns = headers.map((_, colIndex) =>
+    rows.map((row) => row[colIndex])
+  );
+
+  // create trace
+  const trace = {
+    type: "table",
+    header: {
+      values: headers,
+      align: "left",
+      line: { width: 1, color: "black" },
+      fill: { color: "paleturquoise" },
+      font: { family: "Arial", size: 12, color: "black" },
+    },
+    cells: {
+      values: columns,
+      align: "left",
+      line: { width: 1, color: "black" },
+      fill: { color: "lavender" },
+      font: { family: "Arial", size: 11, color: ["black"] },
+    },
+  };
+
+  // create layout
+  const layout = {
+    title: `Expenses for ${selectedYear === 1 ? "All Years" : selectedYear}`,
+    margin: { t: 50, l: 25, r: 25, b: 25 },
+  };
+
+  // plot chart
+  Plotly.newPlot("expense-table", [trace], layout);
 }
-
