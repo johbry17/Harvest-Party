@@ -58,6 +58,9 @@ function barPlot(data, selectedYear) {
     return acc;
   }, {});
 
+  // calculate total expenses
+  const totalExpenses = Object.values(categorySums).reduce((acc, amount) => acc + amount, 0);
+
   // sort categories descending by amount
   const sortedCategories = Object.keys(categorySums).sort(
     (a, b) => categorySums[a] - categorySums[b]
@@ -68,6 +71,7 @@ function barPlot(data, selectedYear) {
   const sortedValues = sortedCategories.map(
     (category) => categorySums[category]
   );
+  const percentages = sortedValues.map((value) => value / totalExpenses * 100);
 
   // create trace
   const trace = {
@@ -75,7 +79,10 @@ function barPlot(data, selectedYear) {
     y: sortedKeys,
     type: "bar",
     orientation: "h",
-    hovertemplate: "<b>%{y}</b><br>Amount: $%{x:.2f}<extra></extra>",
+    hovertemplate: "<b>%{y}</b><br>Amount: $%{x:.2f}<br>Percentage: %{customdata:.2f}%<extra></extra>",
+    customdata: percentages,
+    text: sortedValues.map((value) => `$${value.toFixed(2)}`),
+    textposition: "auto",
   };
 
   // create layout
