@@ -167,7 +167,14 @@ function updateTotals(expenseData, donationData, attendeeData, selectedYear) {
     );
   }
 
+  // cost per attendee
+  const costPerYes = totalAmount / yesAttendees;
+  const costPerYesAndMaybe = totalAmount / (yesAttendees + maybeAttendees);
+
   // update HTML with data
+  document.getElementById(
+    "FB-stats"
+  ).textContent = `Went: ${yesAttendees} Maybe: ${maybeAttendees}`;
   document.getElementById(
     "total-expenses"
   ).textContent = `Total Amount: $${totalAmount.toFixed(2)}`;
@@ -175,8 +182,11 @@ function updateTotals(expenseData, donationData, attendeeData, selectedYear) {
     "total-donations"
   ).textContent = `Total Donations: $${totalDonations.toFixed(2)}`;
   document.getElementById(
-    "FB-stats"
-  ).textContent = `Yes: ${yesAttendees}     Maybe: ${maybeAttendees}`;
+    "cost-per-yes"
+  ).textContent = `Cost per Went: $${costPerYes.toFixed(2)}`;
+  document.getElementById(
+    "cost-per-yes-and-maybe"
+  ).textContent = `Cost per Went and Maybe: $${costPerYesAndMaybe.toFixed(2)}`;
 }
 
 // calculate total amount for selected year
