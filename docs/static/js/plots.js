@@ -1,3 +1,6 @@
+// I'm sure I could refactor many of these plot functions to be more DRY
+// But then I couldn't toggle them on and off easily
+
 // call plots for total view
 function totalPlots(
   data,

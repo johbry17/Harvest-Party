@@ -107,10 +107,10 @@ function updateYear(
 
   // conditional for home page, grand total, or specific year
   if (selectedYear === 42) {
-    displaySingleImage(`./resources/images/welcome.jpg`);
+    displayMultipleImages("home");
     document.getElementById("markdown-content").innerHTML = homePageInfo;
   } else if (selectedYear === 1) {
-    displayMultipleImages(`./resources/images/hp_pics/*.jpg`);
+    displayMultipleImages("total");
     updateTotals(expenseData, donationData, attendeeData, "all");
     totalPlots(
       expenseData,
