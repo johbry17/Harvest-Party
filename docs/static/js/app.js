@@ -173,26 +173,25 @@ function updateTotals(expenseData, donationData, attendeeData, selectedYear) {
     "FB-stats"
   ).textContent = `Went: ${yesAttendees} Maybe: ${maybeAttendees}`;
   document.getElementById(
-    "total-expenses"
-  ).textContent = `Total Amount: $${totalAmount.toFixed(2)}`;
+    "total-expenses-and-donations"
+  ).innerHTML = `Total Amount: $${totalAmount.toFixed(
+    2
+  )}<br> Total Donations: $${totalDonations.toFixed(2)}`;
+  document.getElementById("profit-or-loss").innerHTML = profitOrLossText(
+    profitOrLoss,
+    selectedYear,
+    expenseData,
+    donationData
+  );
   document.getElementById(
-    "total-donations"
-  ).textContent = `Total Donations: $${totalDonations.toFixed(2)}`;
-  document.getElementById(
-    "profit-or-loss"
-  ).textContent = profitOrLossText(profitOrLoss, selectedYear, expenseData, donationData);
-  document.getElementById(
-    "cost-per-yes"
-  ).textContent = `Cost per Went: $${costPerYes.toFixed(2)}`;
-  document.getElementById(
-    "cost-per-yes-and-maybe"
-  ).textContent = `Cost per Went and Maybe: $${costPerYesAndMaybe.toFixed(2)}`;
+    "cost-per-attendee"
+  ).innerHTML = `Cost per Went: $${costPerYes.toFixed(
+    2
+  )}<br> Cost per Went and Maybe: $${costPerYesAndMaybe.toFixed(2)}`;
 
   // Toggle visibility of cost per attendee elements based on selected year
   const displayStyle = selectedYear === "all" ? "none" : "block";
-  document.getElementById("cost-per-yes").style.display = displayStyle;
-  document.getElementById("cost-per-yes-and-maybe").style.display =
-    displayStyle;
+  document.getElementById("cost-per-attendee").style.display = displayStyle;
 }
 
 // calculate total amount for selected year
@@ -223,43 +222,59 @@ function calculateTotalDonations(data, selectedYear) {
 }
 
 // determine profit or loss text
-function profitOrLossText(profitOrLoss, selectedYear, expenseData, donationData) {
-    if (selectedYear === "all") {
-        // Group amounts by year
-        const yearlyTotals = expenseData.reduce((acc, item) => {
-            const year = parseInt(item.Year);
-            const amount = parseFloat(item.Amount);
+function profitOrLossText(
+  profitOrLoss,
+  selectedYear,
+  expenseData,
+  donationData
+) {
+  if (selectedYear === "all") {
+    // group amounts by year
+    const yearlyTotals = expenseData.reduce((acc, item) => {
+      const year = parseInt(item.Year);
+      const amount = parseFloat(item.Amount);
 
-            if (!acc[year]) {
-                acc[year] = 0;
-            }
+      if (!acc[year]) {
+        acc[year] = 0;
+      }
 
-            acc[year] += amount;
-            return acc;
-        }, {});
+      acc[year] += amount;
+      return acc;
+    }, {});
 
-        // Sum the profits ignoring loss years and the year 2019
-        const totalDonated = Object.keys(yearlyTotals).reduce((total, year) => {
-            const donations = parseFloat(donationData.find(d => parseInt(d.Year) === parseInt(year))?.Donations || 0);
-            const yearProfitOrLoss = donations - yearlyTotals[year];
+    // sum profits, ignoring loss years and the year 2019
+    const totalDonated = Object.keys(yearlyTotals).reduce((total, year) => {
+      const donations = parseFloat(
+        donationData.find((d) => parseInt(d.Year) === parseInt(year))
+          ?.Donations || 0
+      );
+      const yearProfitOrLoss = donations - yearlyTotals[year];
 
-            if (yearProfitOrLoss > 0 && parseInt(year) !== 2019) {
-                return total + yearProfitOrLoss;
-            }
-            return total;
-        }, 0);
+      if (yearProfitOrLoss > 0 && parseInt(year) !== 2019) {
+        return total + yearProfitOrLoss;
+      }
+      return total;
+    }, 0);
 
-        // Calculate the final profit or loss after subtracting total donations
-        const netProfitOrLoss = profitOrLoss - totalDonated;
+    // calculate net loss (after subtracting donations) to Harvest Party hosts
+    const netProfitOrLoss = profitOrLoss - totalDonated;
 
-        return `Loss: $${Math.abs(netProfitOrLoss).toFixed(2)}<br>Total Donated over the Years: $${totalDonated.toFixed(2)}`;
-    } else if (selectedYear === 2019) {
-        return `Profit: $${profitOrLoss.toFixed(2)}<br>The surplus was a surprise. Never turned a profit before. I think we threw a pizza party`;
-    } else if (profitOrLoss > 0) {
-        return `Profit: $${profitOrLoss.toFixed(2)}<br>Donated to Capital Area Food Bank`;
-    } else if (profitOrLoss < 0) {
-        return `Loss: -$${Math.abs(profitOrLoss).toFixed(2)}`;
-    } else {
-        return "Break-even";
-    }
+    return `Loss to Hosts: $${Math.abs(netProfitOrLoss).toFixed(
+      2
+    )}<br>Total Donated to Capital Area Food Bank over the Years: $${totalDonated.toFixed(
+      2
+    )}`;
+  } else if (selectedYear === 2019) {
+    return `Profit: $${profitOrLoss.toFixed(
+      2
+    )}<br>The surplus was a surprise. Never turned a profit before. I think we threw a pizza party`;
+  } else if (profitOrLoss > 0) {
+    return `Profit: $${profitOrLoss.toFixed(
+      2
+    )}<br>Donated to Capital Area Food Bank`;
+  } else if (profitOrLoss < 0) {
+    return `Loss: -$${Math.abs(profitOrLoss).toFixed(2)}`;
+  } else {
+    return "Break-even";
+  }
 }
