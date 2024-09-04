@@ -113,6 +113,7 @@ function updateYear(
   // select year, update view
   const selectedYear = parseInt(document.getElementById("year").value);
   switchView(selectedYear);
+  setHomeLogo();
 
   // conditional for home page, grand total, or specific year
   if (selectedYear === 42) {

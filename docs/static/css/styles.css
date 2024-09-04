@@ -32,13 +32,20 @@
     z-index: 1000; /* make sure it's on top of everything */
 }
 
-.home-link {
+/* .home-link {
     font-size: 1.2em;
     color: #333;
     text-decoration: none;
     padding: 5px 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
+} */
+
+.home-logo {
+    max-height: 50px;
+    width: auto;
+    display: block;
+    margin: auto;
 }
 
 .year-dropdown {

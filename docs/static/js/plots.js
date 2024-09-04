@@ -1,6 +1,24 @@
 // I'm sure I could refactor many of these plot functions to be more DRY
 // But then I couldn't toggle them on and off easily
 
+// set home logo
+function setHomeLogo() {
+//   document.getElementById("home-logo").src = "./resources/images/welcome.jpg";
+  const years = [2017, 2018, 2019, 2021, 2022, 2023];
+  const randomYear = years[Math.floor(Math.random() * years.length)];
+  const logoPath = `./resources/images/hp_logos/hp_${randomYear}.jpg`;
+
+  const homeLink = document.getElementById("home-link");
+  const logoImage = document.createElement("img");
+
+  logoImage.src = logoPath;
+  logoImage.alt = `Harvest Party ${randomYear} Logo`;
+  logoImage.classList.add("home-logo");
+
+  homeLink.innerHTML = "";
+  homeLink.appendChild(logoImage);
+}
+
 // call plots for total view
 function totalPlots(
   data,
