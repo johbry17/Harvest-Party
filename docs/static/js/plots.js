@@ -7,6 +7,7 @@ function totalPlots(data, donationData, attendeeData, selectedYear, colorMap) {
   totalExpensesDonationsBarPlot(data, donationData);
   totalExpensesDonationsLinePlot(data, donationData);
   donationsVExpensesPlot(data, donationData);
+  costPerAttendee(data, attendeeData);
   expenseTable(data, selectedYear);
 }
 
@@ -18,6 +19,7 @@ function singleYearPlots(data, selectedYear, colorMap) {
   document.getElementById("total-expenses-donations-bar-plot").innerHTML = "";
   document.getElementById("total-expenses-donations-line-plot").innerHTML = "";
   document.getElementById("donations-v-expenses-plot").innerHTML = "";
+  document.getElementById("cost-per-attendee-plot").innerHTML = "";
   expenseTable(data, selectedYear);
 }
 
@@ -554,4 +556,82 @@ function donationsVExpensesPlot(expenseData, donationData) {
 
   // plot chart
   Plotly.newPlot("donations-v-expenses-plot", [trace], layout);
+}
+
+// line plot of cost per attendee over time
+function costPerAttendee(expenseData, attendeeData) {
+    // aggregate expenses by year
+    const expenseSums = expenseData.reduce((acc, item) => {
+        const year = parseInt(item.Year);
+        if (year >= 2017) {
+            const amount = parseFloat(item.Amount) || 0;
+            acc[year] = (acc[year] || 0) + amount;
+        }
+        return acc;
+    }, {});
+
+    // aggregate attendees by year (Going, Going plus Maybes separately)
+    const attendees = attendeeData.reduce((acc, item) => {
+        const year = parseInt(item.Year);
+        if (year >= 2017) {
+            const going = parseInt(item.Going) || 0;
+            const maybes = parseInt(item.Maybes) || 0;
+            acc[year] = acc[year] || { going: 0, goingPlusMaybes: 0 };
+            acc[year].going += going;
+            acc[year].goingPlusMaybes += going + maybes;
+        }
+        return acc;
+    }, {});
+
+    // combine data into a single structure
+    const combinedData = Object.keys(expenseSums).map((year) => ({
+        Year: year,
+        Expenses: expenseSums[year] || 0,
+        Going: attendees[year]?.going || 0,
+        GoingPlusMaybes: attendees[year]?.goingPlusMaybes || 0,
+    }));
+
+    // calculate cost per attendee for both lines
+    const years = combinedData.map((d) => d.Year);
+    const costPerGoing = combinedData.map((d) => d.Going ? d.Expenses / d.Going : null);
+    const costPerGoingPlusMaybes = combinedData.map((d) => d.GoingPlusMaybes ? d.Expenses / d.GoingPlusMaybes : null);
+
+    // create traces
+    const traceGoing = {
+        x: years,
+        y: costPerGoing,
+        mode: "lines+markers",
+        type: "scatter",
+        name: "Cost per Went",
+        line: { color: "blue" },
+        marker: { color: "blue" },
+        text: costPerGoing.map((value) => value ? `$${value.toFixed(2)}` : ''),
+        textposition: "top center",
+        texttemplate: "$%{y:.2f}",
+        hovertemplate: "<b>Year: %{x}</b><br>Cost per Went: $%{y:.2f}<extra></extra>",
+    };
+
+    const traceGoingPlusMaybes = {
+        x: years,
+        y: costPerGoingPlusMaybes,
+        mode: "lines+markers",
+        type: "scatter",
+        name: "Cost per Went + Maybes",
+        line: { color: "green" },
+        marker: { color: "green" },
+        text: costPerGoingPlusMaybes.map((value) => value ? `$${value.toFixed(2)}` : ''),
+        textposition: "top center",
+        texttemplate: "$%{y:.2f}",
+        hovertemplate: "<b>Year: %{x}</b><br>Cost per Went + Maybes: $%{y:.2f}<extra></extra>",
+    };
+
+    // Create layout
+    const layout = {
+        title: "Cost per Attendee by Year",
+        xaxis: { title: "Year" },
+        yaxis: { title: "Cost per Attendee ($)" },
+    };
+
+    // Plot chart
+    Plotly.newPlot("cost-per-attendee-plot", [traceGoing, traceGoingPlusMaybes], layout);
 }
