@@ -80,22 +80,22 @@ function populateYearDropdown(expenseData) {
 
 // switch divs shown
 function switchView(selectedYear) {
-  // hide all views
+  // hide all views and attendee counter
   document
     .querySelectorAll(".view")
     .forEach((view) => (view.style.display = "none"));
-
-  document.getElementById("attendee-counter").style.display = "block";
+  document.getElementById("attendee-counter").style.display = "none";
 
   // show view based on selected year
   if (selectedYear === 42) {
-    document.getElementById("attendee-counter").style.display = "none";
     document.getElementById("home").style.display = "block";
   } else if (selectedYear >= 2014 && selectedYear <= 2016) {
+    document.getElementById("attendee-counter").style.display = "block";
     document.getElementById("view-2014-2016").style.display = "block";
   } else if (selectedYear === 2020) {
     document.getElementById("2020").style.display = "block";
   } else {
+    document.getElementById("attendee-counter").style.display = "block";
     document.getElementById("view-other-years").style.display = "block";
   }
 }
@@ -120,13 +120,7 @@ function updateYear(
   } else if (selectedYear === 1) {
     displayMultipleImages(`./resources/images/hp_pics/*.jpg`);
     updateTotals(expenseData, donationData, attendeeData, "all");
-    totalPlots(
-        expenseData, 
-        donationData, 
-        attendeeData, 
-        selectedYear, 
-        colorMap
-    );
+    totalPlots(expenseData, donationData, attendeeData, selectedYear, colorMap);
   } else {
     displaySingleImage(`./resources/images/hp_logos/hp_${selectedYear}.jpg`);
     updateTotals(expenseData, donationData, attendeeData, selectedYear);
@@ -142,36 +136,42 @@ function updateYear(
 
 // update expenses, donations, and attendees for selected year
 function updateTotals(expenseData, donationData, attendeeData, selectedYear) {
-  // extract data for selected year
+  // calculate total expenses and donations for the selected year
   const totalAmount = calculateTotalAmount(expenseData, selectedYear);
   const totalDonations = calculateTotalDonations(donationData, selectedYear);
 
-  let yesAttendees, maybeAttendees;
+  // calculate attendee counts based on selected year
+  const { yesAttendees, maybeAttendees } =
+    selectedYear === "all"
+      ? {
+          yesAttendees: attendeeData.reduce(
+            (total, item) => total + parseInt(item.Going),
+            0
+          ),
+          maybeAttendees: attendeeData.reduce(
+            (total, item) => total + parseInt(item.Maybes),
+            0
+          ),
+        }
+      : {
+          yesAttendees: parseInt(
+            attendeeData.find((item) => parseInt(item.Year) === selectedYear)
+              ?.Going || 0
+          ),
+          maybeAttendees: parseInt(
+            attendeeData.find((item) => parseInt(item.Year) === selectedYear)
+              ?.Maybes || 0
+          ),
+        };
 
-  // conditional for all years or specific year
-  if (selectedYear === "all") {
-    yesAttendees = attendeeData.reduce(
-      (total, item) => total + parseInt(item.Going),
-      0
-    );
-    maybeAttendees = attendeeData.reduce(
-      (total, item) => total + parseInt(item.Maybes),
-      0
-    );
-  } else {
-    yesAttendees = parseInt(
-      attendeeData.find((item) => parseInt(item.Year) === selectedYear)?.Going
-    );
-    maybeAttendees = parseInt(
-      attendeeData.find((item) => parseInt(item.Year) === selectedYear)?.Maybes
-    );
-  }
+  // calculate cost per attendee
+  const costPerYes = yesAttendees ? totalAmount / yesAttendees : 0;
+  const costPerYesAndMaybe =
+    yesAttendees + maybeAttendees
+      ? totalAmount / (yesAttendees + maybeAttendees)
+      : 0;
 
-  // cost per attendee
-  const costPerYes = totalAmount / yesAttendees;
-  const costPerYesAndMaybe = totalAmount / (yesAttendees + maybeAttendees);
-
-  // update HTML with data
+  // Update HTML with the calculated data
   document.getElementById(
     "FB-stats"
   ).textContent = `Went: ${yesAttendees} Maybe: ${maybeAttendees}`;
@@ -187,6 +187,12 @@ function updateTotals(expenseData, donationData, attendeeData, selectedYear) {
   document.getElementById(
     "cost-per-yes-and-maybe"
   ).textContent = `Cost per Went and Maybe: $${costPerYesAndMaybe.toFixed(2)}`;
+
+  // Toggle visibility of cost per attendee elements based on selected year
+  const displayStyle = selectedYear === "all" ? "none" : "block";
+  document.getElementById("cost-per-yes").style.display = displayStyle;
+  document.getElementById("cost-per-yes-and-maybe").style.display =
+    displayStyle;
 }
 
 // calculate total amount for selected year
