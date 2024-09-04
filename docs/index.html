@@ -7,22 +7,24 @@
     <link rel="stylesheet" href="./static/css/styles.css">
 </head>
 <body>
+    <!-- navbar -->
     <div class="responsive-navbar">
         <a href="#" id="home-link">Home</a>
         <span>Harvest Party</span>
         <select id="year" class="year-dropdown"></select>
     </div>
 
-    <!-- <h1>Harvest Party</h1> -->
     <!-- image container -->
     <div class="carousel-images"></div>
     <br>
 
+    <!-- attendee counter -->
     <div id="attendee-counter">
         <h2>Facebook Attendees</h2>
         <h4>A fine metric in the mid-2010's<br><span id="FB-stats">Went:    Maybe:</span></h4>
     </div>
 
+    <!-- home page view -->
     <div id="home" class="view">
         <h2>Welcome to Harvest Party</h2>
         <br>
@@ -43,20 +45,23 @@
         </div>
     </div>
 
+    <!-- views based on year -->
+    <!-- early years -->
     <div id="view-2014-2016" class="view">
         <h2>We Were Young Once</h2>
         <br>
         <h3>Data unknown. Probably $400 for a band and a keg of PBR</h3>
     </div>
 
+    <!-- 2020 view -->
     <div id="2020" class="view">
         <h2>2020</h2>
         <br>
         <h2>0</h2>
     </div>
 
+    <!-- plots based on year -->
     <div id="view-other-years" class="view">    
-        <!-- plots based on year -->
         <div id="total-number">
             <h2 id="total-expenses-and-donations">Total Amount: $0.00<br>Total Donations: $0.00</h2>
             <h2 id="profit-or-loss">Profit or Loss: $0.00</h2>
@@ -78,6 +83,7 @@
             <div id="expense-table"></div>
             <div id="corn-kings-and-queens"></div>
         </div>
+    </div>
 
     <!-- JavaScript -->
     <script src="https://d3js.org/d3.v6.min.js"></script>

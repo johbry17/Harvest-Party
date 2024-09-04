@@ -1,3 +1,23 @@
+// set home logo randomly
+function setHomeLogo(data) {
+    // get unique years, chose a random year, set the path
+    const years = [...new Set(data.map((d) => parseInt(d.Year)))];
+    const randomYear = years[Math.floor(Math.random() * years.length)];
+    const logoPath = `./resources/images/hp_logos/hp_${randomYear}.jpg`;
+  
+    const homeLink = document.getElementById("home-link");
+    const logoImage = document.createElement("img");
+ 
+    // set logo image
+    logoImage.src = logoPath;
+    logoImage.alt = `Harvest Party ${randomYear} Logo`;
+    logoImage.classList.add("home-logo");
+
+    // clear previous logo and add new one
+    homeLink.innerHTML = "";
+    homeLink.appendChild(logoImage);
+}
+    
 // what it says on the tin. display one image
 function displaySingleImage(imagePath) {
     const carouselDiv = document.querySelector('.carousel-images');
