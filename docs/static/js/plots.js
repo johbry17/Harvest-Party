@@ -9,7 +9,7 @@ function totalPlots(
 ) {
   barPlot(data, selectedYear);
   treemapPlot(data, selectedYear, colorMap);
-  document.getElementById("individual-expenses-bar-plot").innerHTML = "";
+  clearElements(["individual-expenses-bar-plot"]);
   sunburstPlot(data, selectedYear, colorMap);
   categoryLinePlot(data, colorMap);
   totalExpensesDonationsBarPlot(data, donationData);
@@ -25,13 +25,22 @@ function singleYearPlots(data, selectedYear, colorMap) {
   treemapPlot(data, selectedYear, colorMap);
   individualExpensesBarPlot(data, selectedYear, colorMap);
   sunburstPlot(data, selectedYear, colorMap);
-  document.getElementById("category-line-plot").innerHTML = "";
-  document.getElementById("total-expenses-donations-bar-plot").innerHTML = "";
-  document.getElementById("total-expenses-donations-line-plot").innerHTML = "";
-  document.getElementById("donations-v-expenses-plot").innerHTML = "";
-  document.getElementById("cost-per-attendee-plot").innerHTML = "";
   expenseTable(data, selectedYear);
-  document.getElementById("corn-kings-and-queens").innerHTML = "";
+
+  const elementsToClear = [
+    "category-line-plot",
+    "total-expenses-donations-bar-plot",
+    "total-expenses-donations-line-plot",
+    "donations-v-expenses-plot",
+    "cost-per-attendee-plot",
+    "corn-kings-and-queens",
+  ];
+  clearElements(elementsToClear);
+}
+
+// function to clear elements
+function clearElements(elementIds) {
+  elementIds.forEach((id) => (document.getElementById(id).innerHTML = ""));
 }
 
 // colormap for categories, assigning blue and orange to Bar and Music
@@ -334,66 +343,71 @@ function sunburstPlot(data, selectedYear, colorMap) {
 
 // line plot of expenses by category over time, that toggles categories
 function categoryLinePlot(data, colorMap) {
-    // aggregate data by year and category
-    const categorySums = data.reduce((acc, item) => {
-        const year = item.Year;
-        const category = item.Category;
-        const amount = parseFloat(item.Amount);
-        acc[year] = acc[year] || {};
-        acc[year][category] = (acc[year][category] || 0) + amount;
-        return acc;
-    }, {});
+  // aggregate data by year and category
+  const categorySums = data.reduce((acc, item) => {
+    const year = item.Year;
+    const category = item.Category;
+    const amount = parseFloat(item.Amount);
+    acc[year] = acc[year] || {};
+    acc[year][category] = (acc[year][category] || 0) + amount;
+    return acc;
+  }, {});
 
-    // extract all unique categories across all years
-    const categories = Array.from(new Set(data.map(item => item.Category)));
-    const years = Object.keys(categorySums).sort();
+  // extract all unique categories across all years
+  const categories = Array.from(new Set(data.map((item) => item.Category)));
+  const years = Object.keys(categorySums).sort();
 
-    // create traces for each category
-    const traces = categories.map((category) => {
-        const values = years.map((year) => categorySums[year]?.[category] || 0);
-        return {
-            x: years,
-            y: values,
-            mode: "lines+markers+text",
-            name: category,
-            line: { color: colorMap[category] },
-            marker: { color: colorMap[category] },
-            // text: values.map((value) => `$${value.toFixed(2)}`),
-            textposition: "top center",
-            textfont: { color: colorMap[category] },
-            hovertemplate: `<b>Year: %{x}</b><br>${category}: $%{y:.2f}<extra></extra>`,
-            opacity: 1  // default opacity for all lines
-        };
-    });
-
-    // create layout with updatemenus for toggling lines dim or highlighted
-    const layout = {
-        title: "Expenses by Category Over Time<br><sub>Click on a category to highlight</sub>",
-        xaxis: { title: "Year" },
-        yaxis: { title: "Amount ($)" },
-        updatemenus: [{
-            buttons: categories.map((category, index) => ({
-                method: 'restyle',
-                args: [
-                    { 'opacity': traces.map((_, i) => i === index ? 1 : 0.2) },
-                ],
-                label: category
-            })).concat([{
-                method: 'restyle',
-                args: [{ 'opacity': 1 }],
-                label: 'Show All'
-            }]),
-            direction: 'down',
-            showactive: true,
-            x: 0.1,
-            y: 1.15,
-            xanchor: 'left',
-            yanchor: 'top'
-        }]
+  // create traces for each category
+  const traces = categories.map((category) => {
+    const values = years.map((year) => categorySums[year]?.[category] || 0);
+    return {
+      x: years,
+      y: values,
+      mode: "lines+markers+text",
+      name: category,
+      line: { color: colorMap[category] },
+      marker: { color: colorMap[category] },
+      // text: values.map((value) => `$${value.toFixed(2)}`),
+      textposition: "top center",
+      textfont: { color: colorMap[category] },
+      hovertemplate: `<b>Year: %{x}</b><br>${category}: $%{y:.2f}<extra></extra>`,
+      opacity: 1, // default opacity for all lines
     };
+  });
 
-    // plot chart
-    Plotly.newPlot("category-line-plot", traces, layout);
+  // create layout with updatemenus for toggling lines dim or highlighted
+  const layout = {
+    title:
+      "Expenses by Category Over Time<br><sub>Click on a category to highlight</sub>",
+    xaxis: { title: "Year" },
+    yaxis: { title: "Amount ($)" },
+    updatemenus: [
+      {
+        buttons: categories
+          .map((category, index) => ({
+            method: "restyle",
+            args: [{ opacity: traces.map((_, i) => (i === index ? 1 : 0.2)) }],
+            label: category,
+          }))
+          .concat([
+            {
+              method: "restyle",
+              args: [{ opacity: 1 }],
+              label: "Show All",
+            },
+          ]),
+        direction: "down",
+        showactive: true,
+        x: 0.1,
+        y: 1.15,
+        xanchor: "left",
+        yanchor: "top",
+      },
+    ],
+  };
+
+  // plot chart
+  Plotly.newPlot("category-line-plot", traces, layout);
 }
 
 // bar plot that shows total expenses and donations over time
