@@ -10,7 +10,7 @@ function totalPlots(data, donationData, attendeeData, selectedYear, colorMap) {
   expenseTable(data, selectedYear);
 }
 
-function singleYearPlots(data, donationData, attendeeData, selectedYear, colorMap) {
+function singleYearPlots(data, selectedYear, colorMap) {
   barPlot(data, selectedYear);
   treemapPlot(data, selectedYear, colorMap);
   individualExpensesBarPlot(data, selectedYear, colorMap);
