@@ -330,61 +330,6 @@ function sunburstPlot(data, selectedYear, colorMap) {
   Plotly.newPlot("sunburst-plot", [trace], layout);
 }
 
-// table of expenses for selected year with plotly
-function expenseTable(data, selectedYear) {
-  // filter data by year
-  const filteredData =
-    selectedYear === 1
-      ? data
-      : data.filter((item) => parseInt(item.Year) === selectedYear);
-
-  // sort data by amount, descending
-  filteredData.sort((a, b) => parseFloat(b.Amount) - parseFloat(a.Amount));
-
-  // extract headers and values
-  const headers = ["Expense", "Amount", "Name", "Year", "Category"];
-  const rows = filteredData.map((item) => [
-    item.Expense,
-    `$${parseFloat(item.Amount).toFixed(2)}`,
-    item.Name,
-    item.Year,
-    item.Category,
-  ]);
-
-  // transpose rows to columns for Plotly
-  const columns = headers.map((_, colIndex) =>
-    rows.map((row) => row[colIndex])
-  );
-
-  // create trace
-  const trace = {
-    type: "table",
-    header: {
-      values: headers,
-      align: "left",
-      line: { width: 1, color: "black" },
-      fill: { color: "paleturquoise" },
-      font: { family: "Arial", size: 12, color: "black" },
-    },
-    cells: {
-      values: columns,
-      align: "left",
-      line: { width: 1, color: "black" },
-      fill: { color: "lavender" },
-      font: { family: "Arial", size: 11, color: ["black"] },
-    },
-  };
-
-  // create layout
-  const layout = {
-    title: `Expenses for ${selectedYear === 1 ? "All Years" : selectedYear}`,
-    margin: { t: 50, l: 25, r: 25, b: 25 },
-  };
-
-  // plot chart
-  Plotly.newPlot("expense-table", [trace], layout);
-}
-
 // bar plot that shows total expenses and donations over time
 function totalExpensesDonationsBarPlot(expenseData, donationData) {
   // aggregate data by year
@@ -655,6 +600,61 @@ function costPerAttendeePlot(expenseData, attendeeData) {
     [traceGoing, traceGoingPlusMaybes],
     layout
   );
+}
+
+// table of expenses for selected year with plotly
+function expenseTable(data, selectedYear) {
+  // filter data by year
+  const filteredData =
+    selectedYear === 1
+      ? data
+      : data.filter((item) => parseInt(item.Year) === selectedYear);
+
+  // sort data by amount, descending
+  filteredData.sort((a, b) => parseFloat(b.Amount) - parseFloat(a.Amount));
+
+  // extract headers and values
+  const headers = ["Expense", "Amount", "Name", "Year", "Category"];
+  const rows = filteredData.map((item) => [
+    item.Expense,
+    `$${parseFloat(item.Amount).toFixed(2)}`,
+    item.Name,
+    item.Year,
+    item.Category,
+  ]);
+
+  // transpose rows to columns for Plotly
+  const columns = headers.map((_, colIndex) =>
+    rows.map((row) => row[colIndex])
+  );
+
+  // create trace
+  const trace = {
+    type: "table",
+    header: {
+      values: headers,
+      align: "left",
+      line: { width: 1, color: "black" },
+      fill: { color: "paleturquoise" },
+      font: { family: "Arial", size: 12, color: "black" },
+    },
+    cells: {
+      values: columns,
+      align: "left",
+      line: { width: 1, color: "black" },
+      fill: { color: "lavender" },
+      font: { family: "Arial", size: 11, color: ["black"] },
+    },
+  };
+
+  // create layout
+  const layout = {
+    title: `Expenses for ${selectedYear === 1 ? "All Years" : selectedYear}`,
+    margin: { t: 50, l: 25, r: 25, b: 25 },
+  };
+
+  // plot chart
+  Plotly.newPlot("expense-table", [trace], layout);
 }
 
 // bar plot of each host's losses
