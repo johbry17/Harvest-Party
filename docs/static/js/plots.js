@@ -1,5 +1,5 @@
 // call plots for total view
-function totalPlots(data, donationData, selectedYear, colorMap) {
+function totalPlots(data, donationData, attendeeData, selectedYear, colorMap) {
   barPlot(data, selectedYear);
   treemapPlot(data, selectedYear, colorMap);
   document.getElementById("individual-expenses-bar-plot").innerHTML = "";
@@ -10,7 +10,7 @@ function totalPlots(data, donationData, selectedYear, colorMap) {
   expenseTable(data, selectedYear);
 }
 
-function singleYearPlots(data, donationData, selectedYear, colorMap) {
+function singleYearPlots(data, donationData, attendeeData, selectedYear, colorMap) {
   barPlot(data, selectedYear);
   treemapPlot(data, selectedYear, colorMap);
   individualExpensesBarPlot(data, selectedYear, colorMap);
