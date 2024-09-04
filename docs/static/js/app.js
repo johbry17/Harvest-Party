@@ -261,8 +261,17 @@ function profitOrLossText(
       return total;
     }, 0);
 
+    // calculate 2019 profit
+    const profitOrLoss2019 = yearlyTotals[2019]
+    ? parseFloat(donationData.find((d) => parseInt(d.Year) === 2019)
+        ?.Donations || 0) - yearlyTotals[2019]
+    : 0;
+
     // calculate net loss (after subtracting donations) to Harvest Party hosts
-    const netProfitOrLoss = profitOrLoss - totalDonated;
+    // technically, 2019 was a profit, but nobody knows what happened to the $179
+    // we were surprised to have a profit, probably got pizza
+    // flimsy justification for pocketing the money, but this is where the idea to donate came from
+    const netProfitOrLoss = profitOrLoss - totalDonated - profitOrLoss2019;
 
     return `Loss to Hosts: $${Math.abs(netProfitOrLoss).toFixed(
       2
