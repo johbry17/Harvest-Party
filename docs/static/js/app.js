@@ -11,12 +11,14 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch("./resources/cleaned_attendees.csv").then((response) =>
       response.text()
     ),
+    fetch("./resources/cleaned_reimbursements.csv").then((response) => response.text()),
   ])
-    .then(([homePageText, expenseText, donationText, attendeeText]) => {
+    .then(([homePageText, expenseText, donationText, attendeeText, reimbText]) => {
       const homePageInfo = marked.parse(homePageText);
       const expenseData = d3.csvParse(expenseText);
       const donationData = d3.csvParse(donationText);
       const attendeeData = d3.csvParse(attendeeText);
+      const reimbData = d3.csvParse(reimbText);
 
       // populate year dropdown
       populateYearDropdown(expenseData);
@@ -30,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
         expenseData,
         donationData,
         attendeeData,
+        reimbData,
         colorMap
       );
 
@@ -40,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
           expenseData,
           donationData,
           attendeeData,
+          reimbData,
           colorMap
         );
       });
@@ -106,6 +110,7 @@ function updateYear(
   expenseData,
   donationData,
   attendeeData,
+  reimbData,
   colorMap
 ) {
   // select year, update view
@@ -120,7 +125,7 @@ function updateYear(
   } else if (selectedYear === 1) {
     displayMultipleImages(`./resources/images/hp_pics/*.jpg`);
     updateTotals(expenseData, donationData, attendeeData, "all");
-    totalPlots(expenseData, donationData, attendeeData, selectedYear, colorMap);
+    totalPlots(expenseData, donationData, attendeeData, reimbData, selectedYear, colorMap);
   } else {
     displaySingleImage(`./resources/images/hp_logos/hp_${selectedYear}.jpg`);
     updateTotals(expenseData, donationData, attendeeData, selectedYear);
