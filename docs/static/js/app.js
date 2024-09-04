@@ -24,8 +24,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     // get color map for categories, to ensure consistent colors across plots
     const colorMap = getColorMap(expenseData);
 
-    // initial call to update year
+    // declare variables
     const yearSelect = document.getElementById("year");
+    const homeButton = document.getElementById("home-link");
     const updateView = () => {
       updateYear(
         homePageInfo,
@@ -36,8 +37,16 @@ document.addEventListener("DOMContentLoaded", async function () {
         colorMap
       );
     };
+
+    // initial call to update year
     updateView();
+
+    // eventListeners for year dropdown and home button
     yearSelect.addEventListener("change", updateView);
+    homeButton.addEventListener("click", () => {
+      yearSelect.value = 42;
+      updateView();
+    });
   } catch (error) {
     console.error("Error fetching or parsing CSV:", error);
   }
