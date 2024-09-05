@@ -28,7 +28,12 @@ function rollMask() {
     // stagger start times and animate each mask
     const delay = index * 0.6;
     mask.style.animation = `roll-across 7s linear forwards ${delay}s`;
-  });
+    
+    // hide the mask once the animation ends
+    mask.addEventListener('animationend', function() {
+        mask.style.display = "none";
+      }, { once: true }); // ensure the event listener is removed after it runs
+    });
 }
 
 // what it says on the tin. display one image
