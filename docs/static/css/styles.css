@@ -32,15 +32,6 @@
     z-index: 1000; /* make sure it's on top of everything */
 }
 
-/* .home-link {
-    font-size: 1.2em;
-    color: #333;
-    text-decoration: none;
-    padding: 5px 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-} */
-
 .home-logo {
     max-height: 50px;
     width: auto;
@@ -71,3 +62,24 @@ body {
     }
 }
 
+#mask-container {
+    position: fixed;
+    top: 40%; /* vertical position */
+    left: -100px; /* start mask off-screen */
+    z-index: 1000; /* on top of other content */
+    display: none; /* hide initially */
+}
+  
+#mask {
+    width: 50px; /* size of the mask */
+    animation: roll-across 5s linear forwards;
+}
+  
+@keyframes roll-across {
+    from {
+      transform: translateX(0) rotate(0deg);
+    }
+    to {
+      transform: translateX(110vw) rotate(360deg);
+    }
+}

@@ -18,6 +18,19 @@ function setHomeLogo(data) {
   homeLink.appendChild(logoImage);
 }
 
+// Roll mask across 2020 view
+function rollMask() {
+    const maskContainer = document.getElementById("mask-container");
+    const mask = document.getElementById("mask");
+  
+    maskContainer.style.display = "block"; // Show the mask container
+  
+    // Reset animation to re-run it
+    mask.style.animation = "none"; // remove existing animation
+    mask.offsetHeight; // trigger reflow to reset animation
+    mask.style.animation = ""; // reapply animation
+}
+
 // what it says on the tin. display one image
 function displaySingleImage(imagePath) {
   const carouselDiv = document.querySelector(".carousel-images");
