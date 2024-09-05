@@ -2,7 +2,8 @@
 $primary-color: #2a9d8f;
 $secondary-color: #e76f51;
 $highlight-color: #f4a261;
-$hover-color: #0077b6;
+$hover-color-blue: #0077b6;
+$hover-color-gold: #e9c46a;
 $background-color: #f9f9f9;
 $text-color: #333;
 $box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -26,7 +27,7 @@ $font-size-h3: 1.2em;
 // not used in this project
 @mixin dark-blue-w-gold-text {
     background-color: #264653;
-    color: #e9c46a;
+    color: $hover-color-gold;
     border: 2px solid #1e3d42;
     padding: $padding;
     border-radius: $border-radius;
@@ -190,7 +191,7 @@ h3 {
         font-weight: bold;
         transition: color 0.3s ease;
         &:hover {
-            color: $hover-color;
+            color: $hover-color-blue;
         }
     }
 
@@ -241,12 +242,14 @@ h3 {
     flex-direction: column;
     text-align: center;
     @include dark-blue-w-white-text-FB();
+    margin: 0 auto;
+    width: 30%;
 
     h2 {
         font-size: 1.6em;
         font-weight: bold;
         &:hover {
-            color: #e9c46a;
+            color: $hover-color-gold;
             transition: color 0.3s ease;
         }
     }
@@ -255,6 +258,35 @@ h3 {
         font-style: italic;
         color: lighten($text-color, 70%);
         font-size: 1em;
+    }
+
+    .attendee-stats {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding: $padding;
+
+        .stat {
+            text-align: center;
+
+            .stat-wrapper {
+                &:hover h2, &:hover p {
+                    color: $hover-color-gold;
+                }
+
+                h2 {
+                    font-size: 1.2em;
+                    margin-bottom: 5px;
+                    transition: color 0.3s ease;
+                }
+
+                p {
+                    font-size: 1.4em;
+                    font-weight: bold;
+                    transition: color 0.3s ease;
+                }
+            }
+        }
     }
 }
 
@@ -267,7 +299,7 @@ h3 {
 
     h2 {
         &:hover {
-            color: $hover-color !important;
+            color: $hover-color-blue !important;
             transition: color 0.3s ease;
         }
     }
@@ -383,7 +415,7 @@ h3 {
         color: $text-color;
         font-weight: bold;
         &:hover {
-            color: $hover-color;
+            color: $hover-color-blue;
             transition: color 0.3s ease;
         }
     }

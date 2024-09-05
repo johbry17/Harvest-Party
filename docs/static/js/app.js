@@ -185,9 +185,8 @@ function updateTotals(expenseData, donationData, attendeeData, selectedYear) {
   const profitOrLoss = totalDonations - totalAmount;
 
   // Update HTML with the calculated data
-  document.getElementById(
-    "FB-stats"
-  ).textContent = `RSVP'd: ${yesAttendees} Maybe: ${maybeAttendees}`;
+  document.getElementById("rsvp-count").textContent = yesAttendees;
+  document.getElementById("maybe-count").textContent = maybeAttendees;
   document.getElementById(
     "total-expenses-and-donations"
   ).innerHTML = `Total Amount: $${totalAmount.toFixed(

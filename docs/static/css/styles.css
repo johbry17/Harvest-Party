@@ -91,6 +91,8 @@ h3 {
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  width: 30%;
 }
 #attendee-counter h2 {
   font-size: 1.6em;
@@ -104,6 +106,28 @@ h3 {
   font-style: italic;
   color: #e6e6e6;
   font-size: 1em;
+}
+#attendee-counter .attendee-stats {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+}
+#attendee-counter .attendee-stats .stat {
+  text-align: center;
+}
+#attendee-counter .attendee-stats .stat .stat-wrapper:hover h2, #attendee-counter .attendee-stats .stat .stat-wrapper:hover p {
+  color: #e9c46a;
+}
+#attendee-counter .attendee-stats .stat .stat-wrapper h2 {
+  font-size: 1.2em;
+  margin-bottom: 5px;
+  transition: color 0.3s ease;
+}
+#attendee-counter .attendee-stats .stat .stat-wrapper p {
+  font-size: 1.4em;
+  font-weight: bold;
+  transition: color 0.3s ease;
 }
 
 #total-number {
