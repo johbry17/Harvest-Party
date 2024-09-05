@@ -16,17 +16,18 @@ function rollMask() {
   const masks = document.querySelectorAll("#mask-container .mask");
 
   // reset and run animations for all masks
-  masks.forEach((mask) => {
+  masks.forEach((mask, index) => {
     mask.style.display = "block"; // show mask
     mask.style.animation = "none"; // reset animation
     mask.offsetHeight; // trigger reflow, restart animation
 
-    // set random height between 10% and 80% of viewport height
-    const randomHeight = Math.random() * 70 + 10;
+    // set random height between 10% and 60% of viewport height
+    const randomHeight = Math.random() * 50 + 10;
     mask.style.top = `${randomHeight}vh`;
 
-    // apply animation
-    mask.style.animation = "roll-across 5s linear forwards";
+    // stagger start times and animate each mask
+    const delay = index * 0.6;
+    mask.style.animation = `roll-across 5s linear forwards ${delay}s`;
   });
 }
 

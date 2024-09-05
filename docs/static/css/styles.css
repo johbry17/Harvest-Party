@@ -63,14 +63,13 @@ body {
 }
 
 #mask-container {
-    /* width: 100vw; */
     z-index: 1000; /* on top of everything else */
 }
 
 .mask {
+    left: -100px; /* start off-screen */
     width: 50px;
     position: absolute;
-    /* animation: roll-across 5s linear forwards; */
 }
 
 @keyframes roll-across {
