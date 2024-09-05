@@ -87,6 +87,10 @@ function switchView(selectedYear) {
     .forEach((view) => (view.style.display = "none"));
   document.getElementById("attendee-counter").style.display = "none";
 
+  // turn on carousel-images (it's off for 2020)
+  const carouselDiv = document.querySelector(".carousel-images");
+  carouselDiv.style.display = "block";
+
   // show view based on selected year
   if (selectedYear === 42) {
     document.getElementById("home").style.display = "block";
@@ -94,6 +98,7 @@ function switchView(selectedYear) {
     document.getElementById("attendee-counter").style.display = "block";
     document.getElementById("view-2014-2016").style.display = "block";
   } else if (selectedYear === 2020) {
+    carouselDiv.style.display = "none";
     document.getElementById("2020").style.display = "block";
     rollMask(); // tee-hee
     setInterval(rollMask, 20000); // repeatedly roll mask

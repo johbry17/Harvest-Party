@@ -254,6 +254,22 @@ h3 {
   margin-bottom: 20px;
   color: gray;
 }
+.view #empty-garden {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.view #empty-garden #year-pic {
+  max-width: 100%; /* scale within the container */
+  max-height: 100%; /* scale within the container */
+  object-fit: contain;
+  border-radius: 10px;
+}
 
 @media (max-width: 768px) {
   .responsive-navbar {

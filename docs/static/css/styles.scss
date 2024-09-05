@@ -425,7 +425,29 @@ h3 {
         margin-bottom: 20px;
         color: lighten($text-color, 30%);
     }
+
+    // 2020 pic
+    #empty-garden {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        border-radius: $border-radius;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        #year-pic {
+            max-width: 100%; /* scale within the container */
+            max-height: 100%; /* scale within the container */
+            object-fit: contain;
+            border-radius: $border-radius;
+        }
+    }
 }
+
+
+
 
 @media (max-width: 768px) {
     .responsive-navbar {

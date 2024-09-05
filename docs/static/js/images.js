@@ -21,14 +21,14 @@ function rollMask() {
     mask.style.animation = "none"; // reset animation
     mask.offsetHeight; // trigger reflow, restart animation
 
-    // set random height between 10% and 60% of viewport height
-    const randomHeight = Math.random() * 50 + 10;
+    // set random height between 10% and 80% of viewport height
+    const randomHeight = Math.random() * 70 + 10;
     mask.style.top = `${randomHeight}vh`;
 
     // stagger start times and animate each mask
     const delay = index * 0.6;
     mask.style.animation = `roll-across 7s linear forwards ${delay}s`;
-    
+
     // hide the mask once the animation ends
     mask.addEventListener('animationend', function() {
         mask.style.display = "none";
