@@ -433,6 +433,7 @@ h3 {
         color: lighten($text-color, 30%);
     }
 
+    // view-2014-2016
     #early-years {
         @include light-orange-w-dark-text;
         width: 50%;
@@ -477,6 +478,32 @@ h3 {
             max-height: 100%; /* scale within the container */
             object-fit: contain;
             border-radius: $border-radius;
+        }
+    }
+
+    // plot instructions
+    #plot-instructions {
+        @include teal-w-white-text;
+        width: 50%;
+        @include flex-center();
+        flex-direction: column;
+        text-align: center;
+        margin: 0 auto;
+        padding: $padding;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: $hover-color-gold;
+        }
+    
+        h3 {
+            font-size: $font-size-h3;
+            margin-bottom: $padding;
+            font-weight: bold;
+            &:hover {
+                color: $hover-color-gold;
+                transition: color 0.3s ease;
+            }
         }
     }
 }
@@ -559,6 +586,14 @@ h3 {
 
     .view {
         padding: 5px;
+    }
+
+    #early-years {
+        width: 90%;
+    }
+
+    #plot-instructions {
+        width: 90%;
     }
 
     #empty-garden {

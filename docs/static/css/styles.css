@@ -307,6 +307,35 @@ h3 {
   object-fit: contain;
   border-radius: 10px;
 }
+.view #plot-instructions {
+  background-color: #2a9d8f;
+  color: #ffffff;
+  border: 2px solid #1d5d5c;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  margin: 0 auto;
+  padding: 10px;
+  transition: color 0.3s ease;
+}
+.view #plot-instructions:hover {
+  color: #e9c46a;
+}
+.view #plot-instructions h3 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+.view #plot-instructions h3:hover {
+  color: #e9c46a;
+  transition: color 0.3s ease;
+}
 
 @media (max-width: 768px) {
   .responsive-navbar {
@@ -371,6 +400,12 @@ h3 {
   }
   .view {
     padding: 5px;
+  }
+  #early-years {
+    width: 90%;
+  }
+  #plot-instructions {
+    width: 90%;
   }
   #empty-garden {
     height: 50vh;
