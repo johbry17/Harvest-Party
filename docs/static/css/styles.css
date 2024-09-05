@@ -85,18 +85,19 @@ h3 {
   align-items: center;
   flex-direction: column;
   text-align: center;
-  background-color: #264653;
+  background-color: #0077b6;
+  color: #f1faee;
+  border: 2px solid #004f6d;
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  color: #e9c46a;
 }
 #attendee-counter h2 {
   font-size: 1.6em;
   font-weight: bold;
 }
 #attendee-counter h2:hover {
-  color: #0077b6;
+  color: #e9c46a;
   transition: color 0.3s ease;
 }
 #attendee-counter h4 {
@@ -153,6 +154,7 @@ h3 {
   margin-top: 20px;
   background-color: #264653;
   color: #e9c46a;
+  border: 2px solid #1e3d42;
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

@@ -22,6 +22,134 @@ $font-size-h3: 1.2em;
     box-shadow: $box-shadow;
 }
 
+// a bunch of these are here for future reference,
+// not used in this project
+@mixin dark-blue-w-gold-text {
+    background-color: #264653;
+    color: #e9c46a;
+    border: 2px solid #1e3d42;
+    padding: $padding;
+    border-radius: $border-radius;
+    @include box-shadow;
+}
+
+@mixin light-orange-w-dark-text {
+    background-color: #f4a261;
+    color: #333333;
+    padding: $padding;
+    border-radius: $border-radius;
+    @include box-shadow;
+    border: 2px solid #d89a5f;
+}
+
+@mixin burnt-orange-w-white-text {
+    background-color: #e76f51;
+    color: #ffffff;
+    border: 2px solid #c54831;
+    padding: $padding;
+    border-radius: $border-radius;
+    @include box-shadow;
+}
+
+@mixin teal-w-white-text {
+    background-color: #2a9d8f;
+    color: #ffffff;
+    border: 2px solid #1d5d5c;
+    padding: $padding;
+    border-radius: $border-radius;
+    @include box-shadow;
+}
+
+@mixin dark-blue-w-white-text-FB {
+    background-color: #0077b6;
+    color: #f1faee;
+    border: 2px solid #004f6d;
+    padding: $padding;
+    border-radius: $border-radius;
+    @include box-shadow;
+}
+
+@mixin offwhite-w-black-text {
+    background-color: #f9f9f9;
+    color: #333333;
+    border: 2px solid #e0e0e0;
+    padding: $padding;
+    border-radius: $border-radius;
+    @include box-shadow;
+}
+
+@mixin muted-purple-w-white-text {
+    background-color: #6a4c93;
+    color: #ffffff;
+    border: 2px solid #503c73;
+    padding: $padding;
+    border-radius: $border-radius;
+    @include box-shadow;
+}
+
+@mixin olive-green-w-yellow-text {
+    background-color: #8a9a5b;
+    color: #f1e5b9;
+    border: 2px solid #707f46;
+    padding: $padding;
+    border-radius: $border-radius;
+    @include box-shadow;
+}
+
+@mixin dark-red-w-pale-pink-text {
+    background-color: #a83232;
+    color: #f7cac9;
+    border: 2px solid #7d2424;
+    padding: $padding;
+    border-radius: $border-radius;
+    @include box-shadow;
+}
+
+@mixin steel-blue-w-gray-text {
+    background-color: #4682b4;
+    color: #d3d3d3;
+    border: 2px solid #3a708e;
+    padding: $padding;
+    border-radius: $border-radius;
+    @include box-shadow;
+}
+
+@mixin forest-green-w-white-text {
+    background-color: #4CAF50;
+    color: #ffffff;
+    border: 2px solid #388e3c;
+    padding: $padding;
+    border-radius: $border-radius;
+    @include box-shadow;
+}
+
+@mixin deep-navy-w-soft-yellow-text {
+    background-color: #003366;
+    color: #fffacd;
+    border: 2px solid #00254d;
+    padding: $padding;
+    border-radius: $border-radius;
+    @include box-shadow;
+}
+
+@mixin bright-coral-w-white-text {
+    background-color: #ff6f61;
+    color: #ffffff;
+    border: 2px solid #e65b52;
+    padding: $padding;
+    border-radius: $border-radius;
+    @include box-shadow;
+}
+
+@mixin midnight-black-w-gold-text {
+    background-color: #000000;
+    color: #ffd700;
+    border: 2px solid #333333;
+    padding: $padding;
+    border-radius: $border-radius;
+    @include box-shadow;
+}
+
 // global styles
 #app-container {
     background-color: $background-color;
@@ -112,17 +240,13 @@ h3 {
     @include flex-center();
     flex-direction: column;
     text-align: center;
-    background-color: #264653;
-    padding: $padding;
-    border-radius: $border-radius;
-    @include box-shadow;
-    color: #e9c46a;
+    @include dark-blue-w-white-text-FB();
 
     h2 {
         font-size: 1.6em;
         font-weight: bold;
         &:hover {
-            color: $hover-color;
+            color: #e9c46a;
             transition: color 0.3s ease;
         }
     }
@@ -187,11 +311,7 @@ h3 {
 
     #markdown-content {
         margin-top: 20px;
-        background-color: #264653;
-        color: #e9c46a;
-        padding: $padding;
-        border-radius: $border-radius;
-        @include box-shadow;
+        @include dark-blue-w-gold-text;
         margin: 40px 40px;
     }
 
