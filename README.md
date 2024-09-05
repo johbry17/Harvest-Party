@@ -49,6 +49,10 @@ I built the website to be hosted by GitHub Pages.
 
 The email form is handled by Formspree.
 
+I am generally happy with the code. The plots are most likely inefficient - the math, traces, and layout for many could have been abstracted out into a separate function, but I wanted to be able to toggle them on and off with ease.
+
+The Sass, however, is a nightmare of inefficiency, clumsily evolving as I tackled each element. I know I could have streamlined it. I totally underestimated how much styling I needed, and how repetitive it can get. Variables and Mixins are the future. This is my first major web site styling, and I never want to do it again. Mobile-responsive CSS is officially Nightmare Fuel, I need Brain Bleach, and I would very much like to go back to my peaceful little data science Jupyter notebooks now.
+
 ## Gallery
 
 ## References
