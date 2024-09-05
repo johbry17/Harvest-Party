@@ -10,9 +10,9 @@ function totalPlots(
   selectedYear,
   colorMap
 ) {
+  document.getElementById("individual-expenses-bar-plot").style.display = "none";
   barPlot(data, selectedYear);
   treemapPlot(data, selectedYear, colorMap);
-  clearElements(["individual-expenses-bar-plot"]);
   sunburstPlot(data, selectedYear, colorMap);
   categoryLinePlot(data, colorMap);
   totalExpensesDonationsBarPlot(data, donationData);
@@ -25,6 +25,7 @@ function totalPlots(
 }
 
 function singleYearPlots(data, selectedYear, colorMap) {
+  document.getElementById("individual-expenses-bar-plot").style.display = "block";
   barPlot(data, selectedYear);
   treemapPlot(data, selectedYear, colorMap);
   individualExpensesBarPlot(data, selectedYear, colorMap);
@@ -653,7 +654,7 @@ function costPerAttendeePlot(expenseData, attendeeData) {
     y: costPerGoing,
     mode: "lines+markers+text",
     type: "scatter",
-    name: "Cost per RSVP'd",
+    name: "RSVP'd",
     line: { color: "blue" },
     marker: { color: "blue" },
     text: costPerGoing.map((value) => (value ? `$${value.toFixed(2)}` : "")),
@@ -668,9 +669,9 @@ function costPerAttendeePlot(expenseData, attendeeData) {
     y: costPerGoingPlusMaybes,
     mode: "lines+markers+text",
     type: "scatter",
-    name: "Cost per RSVP'd + Maybes",
-    line: { color: "green" },
-    marker: { color: "green" },
+    name: "RSVP'd + Maybes",
+    line: { color: "orange" },
+    marker: { color: "orange" },
     text: costPerGoingPlusMaybes.map((value) =>
       value ? `$${value.toFixed(2)}` : ""
     ),

@@ -95,7 +95,7 @@ function switchView(selectedYear) {
     document.getElementById("view-2014-2016").style.display = "block";
   } else if (selectedYear === 2020) {
     document.getElementById("2020").style.display = "block";
-    rollMask();
+    rollMask(); // tee-hee
     setInterval(rollMask, 20000); // repeatedly roll mask
   } else {
     document.getElementById("attendee-counter").style.display = "block";
@@ -201,9 +201,9 @@ function updateTotals(expenseData, donationData, attendeeData, selectedYear) {
   );
   document.getElementById(
     "cost-per-attendee"
-  ).innerHTML = `Cost per Went: $${costPerYes.toFixed(
+  ).innerHTML = `Cost per RSVP'd: $${costPerYes.toFixed(
     2
-  )}<br> Cost per Went and Maybe: $${costPerYesAndMaybe.toFixed(2)}`;
+  )}<br> Cost per RSVP'd and Maybe: $${costPerYesAndMaybe.toFixed(2)}`;
 
   // Toggle visibility of cost per attendee elements based on selected year
   document.getElementById("cost-per-attendee").style.display =
