@@ -2,7 +2,7 @@
 $primary-color: #2a9d8f;
 $secondary-color: #e76f51;
 $highlight-color: #f4a261;
-$hover-color-blue: #0077b6;
+$hover-color-blue: #00a8cc;
 $hover-color-gold: #e9c46a;
 $background-color: #f9f9f9;
 $text-color: #333;
@@ -61,7 +61,7 @@ $font-size-h3: 1.2em;
     @include box-shadow;
 }
 
-@mixin dark-blue-w-white-text-FB {
+@mixin light-blue-w-white-text-FB {
     background-color: #0077b6;
     color: #f1faee;
     border: 2px solid #004f6d;
@@ -244,7 +244,7 @@ h3 {
     @include flex-center();
     flex-direction: column;
     text-align: center;
-    @include dark-blue-w-white-text-FB();
+    @include light-blue-w-white-text-FB();
     margin: 0 auto;
     width: 30%;
 
@@ -295,30 +295,73 @@ h3 {
 
 // total number div
 #total-number {
+    @include light-orange-w-dark-text;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 0 auto;
     padding: $padding;
     border-radius: $border-radius;
     @include box-shadow;
-    text-align: center;
 
     h2 {
+        font-size: 1.6em;
+        font-weight: bold;
+        margin: 10px 0;
         &:hover {
             color: $hover-color-blue !important;
             transition: color 0.3s ease;
         }
     }
 
-    #total-expenses-and-donations {
-        color: $primary-color;
-    }
-    
-    #profit-or-loss {
-        color: $secondary-color;
-    }
-    
-    #cost-per-attendee {
-        color: $highlight-color;
+    .totals {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding: $padding;
+
+        .total {
+            text-align: center;
+
+            .total-wrapper {
+                &:hover h2, &:hover p {
+                    color: $hover-color-blue;
+                }
+
+                h2 {
+                    font-size: 1.4em;
+                    margin-bottom: 5px;
+                    transition: color 0.3s ease;
+                }
+
+                p {
+                    font-size: 1.4em;
+                    font-weight: bold;
+                    transition: color 0.3s ease;
+                }
+            }
+        }
     }
 }
+
+#cost-per-attendee {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    .totals {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+
+        .total {
+            flex-grow: 1;
+            margin: 0 10px;
+        }
+    }
+}
+
 
 @keyframes fadeIn {
     from { opacity: 0; }

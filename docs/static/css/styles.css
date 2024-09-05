@@ -39,7 +39,7 @@ h3 {
   transition: color 0.3s ease;
 }
 .responsive-navbar a:hover, .responsive-navbar select:hover {
-  color: #0077b6;
+  color: #00a8cc;
 }
 .responsive-navbar .home-logo {
   max-height: 50px;
@@ -134,23 +134,66 @@ h3 {
 }
 
 #total-number {
+  background-color: #f4a261;
+  color: #333333;
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid #d89a5f;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+#total-number h2 {
+  font-size: 1.6em;
+  font-weight: bold;
+  margin: 10px 0;
 }
 #total-number h2:hover {
-  color: #0077b6 !important;
+  color: #00a8cc !important;
   transition: color 0.3s ease;
 }
-#total-number #total-expenses-and-donations {
-  color: #2a9d8f;
+#total-number .totals {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
 }
-#total-number #profit-or-loss {
-  color: #e76f51;
+#total-number .totals .total {
+  text-align: center;
 }
-#total-number #cost-per-attendee {
-  color: #f4a261;
+#total-number .totals .total .total-wrapper:hover h2, #total-number .totals .total .total-wrapper:hover p {
+  color: #00a8cc;
+}
+#total-number .totals .total .total-wrapper h2 {
+  font-size: 1.4em;
+  margin-bottom: 5px;
+  transition: color 0.3s ease;
+}
+#total-number .totals .total .total-wrapper p {
+  font-size: 1.4em;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+#cost-per-attendee {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+#cost-per-attendee .totals {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+#cost-per-attendee .totals .total {
+  flex-grow: 1;
+  margin: 0 10px;
 }
 
 @keyframes fadeIn {
@@ -252,7 +295,7 @@ h3 {
   font-weight: bold;
 }
 .view h2:hover {
-  color: #0077b6;
+  color: #00a8cc;
   transition: color 0.3s ease;
 }
 .view h3 {
@@ -284,7 +327,7 @@ h3 {
   font-weight: bold;
 }
 .view #early-years h2:hover {
-  color: #0077b6;
+  color: #00a8cc;
   transition: color 0.3s ease;
 }
 .view #early-years h4 {

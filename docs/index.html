@@ -64,11 +64,9 @@
     <!-- early years -->
     <div id="view-2014-2016" class="view">
         <div id="early-years">
-            <br>
             <h2>We Were Young Once</h2>
             <br>
             <h4>Data unknown. Probably $400 for a band and a keg of PBR</h4>
-            <br>
         </div>
     </div>
 
@@ -87,9 +85,41 @@
     <!-- plots based on year -->
     <div id="view-other-years" class="view">    
         <div id="total-number">
-            <h2 id="total-expenses-and-donations">Total Amount: $0.00<br>Total Donations: $0.00</h2>
-            <h2 id="profit-or-loss">Profit or Loss: $0.00</h2>
-            <h2 id="cost-per-attendee">Cost per Went: $0.00<br>Cost per Went and Maybe: $0.00</h2>
+            <div class="totals">
+                <div class="total">
+                    <div class="total-wrapper">
+                        <h2>Total Expenses:</h2>
+                        <h2 id="total-amount">$0.00</h2>
+                    </div>
+                </div>
+                <div class="total"> 
+                    <div class="total-wrapper">
+                        <h2>Total Donations:</h2>
+                        <h2 id="total-donations">$0.00</h2>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="profit-loss">
+                <h2 id="profit-loss-value">$0.00</h2>
+            </div>
+            <br>
+            <div id="cost-per-attendee">
+                <div class="totals">
+                    <div class="total">
+                        <div class="total-wrapper">
+                            <h2>Cost per RSVP:</h2>
+                            <h2 id="rsvp-amount">$0.00</h2>
+                        </div>
+                    </div>
+                    <div class="total"> 
+                        <div class="total-wrapper">  
+                            <h2>Cost per RSVP and Maybe:</h2>
+                            <h2 id="rsvp-maybe-amount">$0.00</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <br>
         <h3 id="plot-instructions">Plots have limited interactivity.<br>Tap or click and explore.</h3>

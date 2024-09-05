@@ -192,22 +192,24 @@ function updateTotals(expenseData, donationData, attendeeData, selectedYear) {
   // Update HTML with the calculated data
   document.getElementById("rsvp-count").textContent = yesAttendees;
   document.getElementById("maybe-count").textContent = maybeAttendees;
-  document.getElementById(
-    "total-expenses-and-donations"
-  ).innerHTML = `Total Amount: $${totalAmount.toFixed(
+  document.getElementById("total-amount").innerHTML = `$${totalAmount.toFixed(
     2
-  )}<br> Total Donations: $${totalDonations.toFixed(2)}`;
-  document.getElementById("profit-or-loss").innerHTML = profitOrLossText(
+  )}`;
+  document.getElementById(
+    "total-donations"
+  ).textContent = `$${totalDonations.toFixed(2)}`;
+  document.getElementById("profit-loss-value").innerHTML = profitOrLossText(
     profitOrLoss,
     selectedYear,
     expenseData,
     donationData
   );
-  document.getElementById(
-    "cost-per-attendee"
-  ).innerHTML = `Cost per RSVP'd: $${costPerYes.toFixed(
+  document.getElementById("rsvp-amount").innerHTML = `$${costPerYes.toFixed(
     2
-  )}<br> Cost per RSVP'd and Maybe: $${costPerYesAndMaybe.toFixed(2)}`;
+  )}`;
+  document.getElementById(
+    "rsvp-maybe-amount"
+  ).innerHTML = `$${costPerYesAndMaybe.toFixed(2)}`;
 
   // Toggle visibility of cost per attendee elements based on selected year
   document.getElementById("cost-per-attendee").style.display =
@@ -255,21 +257,21 @@ function profitOrLossText(
     // flimsy justification for pocketing the money, but this is where the idea to donate came from
     const netProfitOrLoss = profitOrLoss - totalDonated - profitOrLoss2019;
 
-    return `Loss to Hosts: $${Math.abs(netProfitOrLoss).toFixed(
+    return `Loss to Hosts:<br>$${Math.abs(netProfitOrLoss).toFixed(
       2
     )}<br>Total Donated to Capital Area Food Bank over the Years: $${totalDonated.toFixed(
       2
     )}`;
   } else if (selectedYear === 2019) {
-    return `Profit: $${profitOrLoss.toFixed(
+    return `Profit:<br>$${profitOrLoss.toFixed(
       2
     )}<br>The surplus was a surprise. Never turned a profit before. I think we threw a pizza party`;
   } else if (profitOrLoss > 0) {
-    return `Profit: $${profitOrLoss.toFixed(
+    return `Profit:<br>$${profitOrLoss.toFixed(
       2
     )}<br>Donated to Capital Area Food Bank`;
   } else if (profitOrLoss < 0) {
-    return `Loss: -$${Math.abs(profitOrLoss).toFixed(2)}`;
+    return `Loss:<br>-$${Math.abs(profitOrLoss).toFixed(2)}`;
   } else {
     return "Break-even";
   }
