@@ -18,17 +18,31 @@ function setHomeLogo(data) {
   homeLink.appendChild(logoImage);
 }
 
-// Roll mask across 2020 view
+// roll mask across 2020 view
 function rollMask() {
-    const maskContainer = document.getElementById("mask-container");
-    const mask = document.getElementById("mask");
+    const masks = document.querySelectorAll("#mask-container .mask");
   
-    maskContainer.style.display = "block"; // Show the mask container
-  
-    // Reset animation to re-run it
-    mask.style.animation = "none"; // remove existing animation
-    mask.offsetHeight; // trigger reflow to reset animation
-    mask.style.animation = ""; // reapply animation
+    // reset and run animations for all masks
+    masks.forEach(mask => {
+        mask.style.display = "block"; // show mask
+        mask.style.animation = "none"; // remove any existing animation
+        mask.offsetHeight; // trigger reflow, so animation starts from the beginning
+    });
+
+    // set random heights for each mask, between 10% and 80% of viewport height
+    const randomHeight1 = Math.random() * 70 + 10;
+    const randomHeight2 = Math.random() * 70 + 10;
+    const randomHeight3 = Math.random() * 70 + 10;
+
+    // apply heights to each mask
+    masks[0].style.top = `${randomHeight1}vh`;
+    masks[1].style.top = `${randomHeight2}vh`;
+    masks[2].style.top = `${randomHeight3}vh`;
+
+    // reapply animation
+    masks.forEach(mask => {
+        mask.style.animation = `roll-across 5s linear forwards`; // apply animation
+    });
 }
 
 // what it says on the tin. display one image

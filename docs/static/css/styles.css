@@ -63,23 +63,21 @@ body {
 }
 
 #mask-container {
-    position: fixed;
-    top: 40%; /* vertical position */
-    left: -100px; /* start mask off-screen */
-    z-index: 1000; /* on top of other content */
-    display: none; /* hide initially */
+    /* width: 100vw; */
+    z-index: 1000; /* on top of everything else */
 }
-  
-#mask {
-    width: 50px; /* size of the mask */
-    animation: roll-across 5s linear forwards;
+
+.mask {
+    width: 50px;
+    position: absolute;
+    /* animation: roll-across 5s linear forwards; */
 }
-  
+
 @keyframes roll-across {
     from {
-      transform: translateX(0) rotate(0deg);
+        transform: translateX(-50px) rotate(0deg); /* start off-screen */
     }
     to {
-      transform: translateX(110vw) rotate(360deg);
+        transform: translateX(110vw) rotate(360deg); /* end beyond screen, one full rotation */
     }
 }
