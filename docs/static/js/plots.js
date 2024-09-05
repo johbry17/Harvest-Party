@@ -487,20 +487,28 @@ function totalExpensesDonationsLinePlot(expenseData, donationData) {
   const expenseTrace = {
     x: Object.keys(expenseSums),
     y: Object.values(expenseSums),
-    mode: "lines+markers",
+    mode: "lines+markers+text",
     name: "Expenses",
     line: { color: "blue" },
     marker: { color: "blue" },
+    text: Object.values(expenseSums).map((value) => `$${value.toFixed(2)}`),
+    textposition: "top center",
     hovertemplate: "<b>Year: %{x}</b><br>Expenses: $%{y:.2f}<extra></extra>",
   };
 
   const donationTrace = {
     x: donationData.map((item) => item.Year),
     y: donationData.map((item) => parseFloat(item.Donations)),
-    mode: "lines+markers",
+    mode: "lines+markers+text",
     name: "Donations",
     line: { color: "orange" },
     marker: { color: "orange" },
+    text: donationData.map(
+      (item) => `$${parseFloat(item.Donations).toFixed(2)}`
+    ),
+    textposition: donationData.map((_, index) =>
+      index % 3 === 1 ? "bottom right" : "top center"
+    ),
     hovertemplate: "<b>Year: %{x}</b><br>Donations: $%{y:.2f}<extra></extra>",
   };
 
@@ -687,6 +695,63 @@ function costPerAttendeePlot(expenseData, attendeeData) {
   );
 }
 
+// plot of attendees over time
+function attendeePlot(data) {
+  xValues = data.map((item) => parseInt(item.Year));
+  yValuesGoing = data.map((item) => parseInt(item.Going));
+  yValuesMaybes = data.map((item) => parseInt(item.Maybes));
+  yValuesTotal = yValuesGoing.map(
+    (going, index) => going + yValuesMaybes[index]
+  );
+
+  // create traces
+  const goingTrace = {
+    x: xValues,
+    y: yValuesGoing,
+    mode: "lines+markers+text",
+    name: "Going",
+    line: { color: "blue" },
+    marker: { color: "blue" },
+    text: yValuesGoing,
+    textposition: "top center",
+    hovertemplate: "<b>Year: %{x}</b><br>Going: %{y}<extra></extra>",
+  };
+
+  const maybeTrace = {
+    x: xValues,
+    y: yValuesMaybes,
+    mode: "lines+markers+text",
+    name: "Maybes",
+    line: { color: "orange" },
+    marker: { color: "orange" },
+    text: yValuesMaybes,
+    textposition: "top center",
+    hovertemplate: "<b>Year: %{x}</b><br>Maybes: %{y}<extra></extra>",
+  };
+
+  const totalTrace = {
+    x: xValues,
+    y: yValuesTotal,
+    mode: "lines+markers+text",
+    name: "Total",
+    line: { color: "green" },
+    marker: { color: "green" },
+    text: yValuesTotal,
+    textposition: "top center",
+    hovertemplate: "<b>Year: %{x}</b><br>Total: %{y}<extra></extra>",
+  };
+
+  // create layout
+  const layout = {
+    title: "Attendees Over Time",
+    xaxis: { title: "Year" },
+    yaxis: { title: "Number of Attendees" },
+  };
+
+  // plot chart
+  Plotly.newPlot("attendee-plot", [goingTrace, maybeTrace, totalTrace], layout);
+}
+
 // table of expenses for selected year with plotly
 function expenseTable(data, selectedYear) {
   // filter data by year
@@ -793,60 +858,4 @@ function hostLossPlot(expenseData, reimbData) {
 
   // plot chart
   Plotly.newPlot("corn-kings-and-queens", [trace], layout);
-}
-
-// plot of attendees over time
-function attendeePlot(data) {
-    
-    xValues = data.map((item) => parseInt(item.Year));
-    yValuesGoing = data.map((item) => parseInt(item.Going));
-    yValuesMaybes = data.map((item) => parseInt(item.Maybes));
-    yValuesTotal = yValuesGoing.map((going, index) => going + yValuesMaybes[index]);
-
-    // create traces
-    const goingTrace = {
-      x: xValues,
-      y: yValuesGoing,
-      mode: "lines+markers+text",
-      name: "Going",
-      line: { color: "blue" },
-      marker: { color: "blue" },
-      text: yValuesGoing,
-      textposition: "top center",
-      hovertemplate: "<b>Year: %{x}</b><br>Going: %{y}<extra></extra>",
-    };
-
-    const maybeTrace = {
-      x: xValues,
-      y: yValuesMaybes,
-      mode: "lines+markers+text",
-      name: "Maybes",
-      line: { color: "orange" },
-      marker: { color: "orange" },
-      text: yValuesMaybes,
-      textposition: "top center",
-      hovertemplate: "<b>Year: %{x}</b><br>Maybes: %{y}<extra></extra>",
-    };
-
-    const totalTrace = {
-        x: xValues,
-        y: yValuesTotal,
-        mode: "lines+markers+text",
-        name: "Total",
-        line: { color: "green" },
-        marker: { color: "green" },
-        text: yValuesTotal,
-        textposition: "top center",
-        hovertemplate: "<b>Year: %{x}</b><br>Total: %{y}<extra></extra>",
-        };
-
-    // create layout
-    const layout = {
-      title: "Attendees Over Time",
-      xaxis: { title: "Year" },
-      yaxis: { title: "Number of Attendees" },
-    };
-
-    // plot chart
-    Plotly.newPlot("attendee-plot", [goingTrace, maybeTrace, totalTrace], layout);
 }
