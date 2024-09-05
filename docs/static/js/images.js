@@ -27,7 +27,7 @@ function rollMask() {
 
     // stagger start times and animate each mask
     const delay = index * 0.6;
-    mask.style.animation = `roll-across 5s linear forwards ${delay}s`;
+    mask.style.animation = `roll-across 7s linear forwards ${delay}s`;
   });
 }
 
