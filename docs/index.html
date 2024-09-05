@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Harvest Party</title>
     <link rel="stylesheet" href="./static/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
     <!-- navbar -->
@@ -20,8 +22,9 @@
 
     <!-- attendee counter -->
     <div id="attendee-counter">
-        <h2>Facebook Attendees</h2>
-        <h4>A fine metric in the mid-2010's<br><span id="FB-stats">RSVP'd:    Maybe:</span></h4>
+        <h2><i class="fas fa-users"></i> Facebook Attendees</h2>
+        <h4>A fine metric in the mid-2010's</h4>
+        <h2 id="FB-stats">RSVP'd:    Maybe:</h2>
     </div>
 
     <!-- home page view -->
@@ -71,7 +74,7 @@
             <h2 id="cost-per-attendee">Cost per Went: $0.00<br>Cost per Went and Maybe: $0.00</h2>
         </div>
         <br>
-        <h2>Plots have some interactivity. Tap or click away.</h2>
+        <h3>Plots have some interactivity. Tap or click away.</h3>
         <br>
         <div id="plot-container">
             <div id="bar-plot" class="plot"></div>

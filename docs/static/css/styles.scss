@@ -57,6 +57,74 @@ body {
   margin: 20px 0;
 }
 
+#attendee-counter {
+    background-color: #264653;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    // color: #fff;
+    // margin-top: 20px;
+    color: #e9c46a;
+
+    h2 {
+        font-size: 1.6em;
+        // margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    h4 {
+        font-size: 1em;
+        margin-top: 5px;
+    }
+
+    FB-stats {
+        font-size: 1.6em;
+        color: #e9c46a;
+    }
+}
+
+#total-number {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+
+    h2 {
+        color: #333;
+        font-weight: bold;
+        margin: 10px 0;
+        font-size: 1.5em;
+    }
+
+    #total-expenses-and-donations {
+        color: #2a9d8f;
+    }
+    
+    #profit-or-loss {
+        color: #e76f51;
+    }
+    
+    #cost-per-attendee {
+        color: #f4a261;
+    }
+}
+
+#total-number h2:hover,
+#attendee-counter h2:hover {
+    color: #0077b6 !important;
+    transition: color 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+#total-number, #attendee-counter {
+    animation: fadeIn 1s ease-in-out;
+}
+
 #email-form {
   form {
     display: inline-block;
@@ -102,6 +170,10 @@ body {
 
     .home-link {
         margin-bottom: 10px;
+    }
+
+    #total-number h2 {
+        font-size: 1.2em;
     }
 }
 
