@@ -1,60 +1,39 @@
 // set home logo randomly
 function setHomeLogo(data) {
   // get unique years, chose a random year, set the path
-  const years = [...new Set(data.map((d) => parseInt(d.Year)))];
-  const randomYear = years[Math.floor(Math.random() * years.length)];
+  const uniqueYears = [...new Set(data.map((d) => parseInt(d.Year)))];
+  const randomYear =
+    uniqueYears[Math.floor(Math.random() * uniqueYears.length)];
   const logoPath = `./resources/images/hp_logos/hp_${randomYear}.jpg`;
 
+  // insert logo
   const homeLink = document.getElementById("home-link");
-  const logoImage = document.createElement("img");
-
-  // set logo image
-  logoImage.src = logoPath;
-  logoImage.alt = `Harvest Party ${randomYear} Logo`;
-  logoImage.classList.add("home-logo");
-
-  // clear previous logo and add new one
-  homeLink.innerHTML = "";
-  homeLink.appendChild(logoImage);
+  homeLink.innerHTML = `<img src="${logoPath}" alt="Harvest Party ${randomYear} Logo" class="home-logo">`;
 }
 
 // roll mask across 2020 view
 function rollMask() {
-    const masks = document.querySelectorAll("#mask-container .mask");
-  
-    // reset and run animations for all masks
-    masks.forEach(mask => {
-        mask.style.display = "block"; // show mask
-        mask.style.animation = "none"; // remove any existing animation
-        mask.offsetHeight; // trigger reflow, so animation starts from the beginning
-    });
+  const masks = document.querySelectorAll("#mask-container .mask");
 
-    // set random heights for each mask, between 10% and 80% of viewport height
-    const randomHeight1 = Math.random() * 70 + 10;
-    const randomHeight2 = Math.random() * 70 + 10;
-    const randomHeight3 = Math.random() * 70 + 10;
+  // reset and run animations for all masks
+  masks.forEach((mask) => {
+    mask.style.display = "block"; // show mask
+    mask.style.animation = "none"; // reset animation
+    mask.offsetHeight; // trigger reflow, restart animation
 
-    // apply heights to each mask
-    masks[0].style.top = `${randomHeight1}vh`;
-    masks[1].style.top = `${randomHeight2}vh`;
-    masks[2].style.top = `${randomHeight3}vh`;
+    // set random height between 10% and 80% of viewport height
+    const randomHeight = Math.random() * 70 + 10;
+    mask.style.top = `${randomHeight}vh`;
 
-    // reapply animation
-    masks.forEach(mask => {
-        mask.style.animation = `roll-across 5s linear forwards`; // apply animation
-    });
+    // apply animation
+    mask.style.animation = "roll-across 5s linear forwards";
+  });
 }
 
 // what it says on the tin. display one image
 function displaySingleImage(imagePath) {
   const carouselDiv = document.querySelector(".carousel-images");
-  // clear previous images
-  carouselDiv.innerHTML = "";
-
-  // add image
-  const img = document.createElement("img");
-  img.src = imagePath;
-  carouselDiv.appendChild(img);
+  carouselDiv.innerHTML = `<img src="${imagePath}">`;
 }
 
 // carousel for multiple images, auto-changing
