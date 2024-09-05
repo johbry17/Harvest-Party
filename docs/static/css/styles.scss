@@ -96,6 +96,7 @@ h3 {
     height: 50vh;
     overflow: hidden;
     position: relative;
+    border-radius: $border-radius;
 
     img {
         width: 100%;
@@ -187,21 +188,28 @@ h3 {
     #markdown-content {
         margin-top: 20px;
         background-color: #264653;
+        color: #e9c46a;
         padding: $padding;
         border-radius: $border-radius;
         @include box-shadow;
-        color: #e9c46a;
         margin: 40px 40px;
     }
 
     // email form
     #email-form {
-        background-color: $background-color;
+        background-color: $highlight-color;
+        border-radius: $border-radius;
         
         h3 {
             margin-bottom: 20px;
-            background-color: $secondary-color;
+            background-color: $highlight-color;
             border-radius: $border-radius;
+            color: $text-color;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            &:hover {
+                background-color: darken($secondary-color, 10%);
+            }
         }
 
         form {
@@ -235,7 +243,7 @@ h3 {
                     cursor: pointer;
                     transition: background-color 0.3s ease;
                     &:hover {
-                    background-color: darken($primary-color, 10%);
+                        background-color: darken($primary-color, 10%);
                     }
                 }
             }

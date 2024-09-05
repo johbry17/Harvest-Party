@@ -69,6 +69,7 @@ h3 {
   height: 50vh;
   overflow: hidden;
   position: relative;
+  border-radius: 10px;
 }
 .carousel-images img {
   width: 100%;
@@ -151,19 +152,26 @@ h3 {
 #home #markdown-content {
   margin-top: 20px;
   background-color: #264653;
+  color: #e9c46a;
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  color: #e9c46a;
   margin: 40px 40px;
 }
 #home #email-form {
-  background-color: #f9f9f9;
+  background-color: #f4a261;
+  border-radius: 10px;
 }
 #home #email-form h3 {
   margin-bottom: 20px;
-  background-color: #e76f51;
+  background-color: #f4a261;
   border-radius: 10px;
+  color: #333;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+#home #email-form h3:hover {
+  background-color: #e14a24;
 }
 #home #email-form form {
   display: inline-block; /* center form */
