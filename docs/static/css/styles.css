@@ -1,7 +1,7 @@
 /* rounded corners */
 #app-container {
   background-color: #f9f9f9;
-  padding-top: 60px; /* prevent hiding rest of content under header */
+  padding-top: 15vh; /* prevent hiding rest of content under header */
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   color: #333;
@@ -77,9 +77,9 @@ h3 {
   object-fit: contain;
   border-radius: 10px;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 50%; /* position top-left corner of image at center of container */
+  left: 50%; /* see above */
+  transform: translate(-50%, -50%); /* reverses the above, centering the image */
 }
 
 #attendee-counter {
@@ -260,7 +260,7 @@ h3 {
 .view #empty-garden {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - 60px);
   overflow: hidden;
   border-radius: 10px;
   display: flex;
@@ -280,6 +280,39 @@ h3 {
   }
   .responsive-navbar a, .responsive-navbar select {
     margin: 10px 0;
+  }
+  #app-container {
+    padding-top: 20vh;
+  }
+  #empty-garden {
+    height: 60vh;
+  }
+}
+@media (max-width: 480px) {
+  .responsive-navbar {
+    padding: 5px;
+    flex-direction: column;
+  }
+  .responsive-navbar a, .responsive-navbar select {
+    margin: 10px 0;
+  }
+  #app-container {
+    padding-top: 20vh;
+  }
+  #attendee-counter {
+    width: 90%;
+  }
+  #total-number {
+    width: 90%;
+  }
+  #home {
+    padding: 5px;
+  }
+  .view {
+    padding: 5px;
+  }
+  #empty-garden {
+    height: 50vh;
   }
 }
 #mask-container {

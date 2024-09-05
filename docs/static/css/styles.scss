@@ -154,7 +154,7 @@ $font-size-h3: 1.2em;
 // global styles
 #app-container {
     background-color: $background-color;
-    padding-top: 60px; /* prevent hiding rest of content under header */
+    padding-top: 15vh; /* prevent hiding rest of content under header */
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     color: $text-color;
@@ -233,9 +233,9 @@ h3 {
         object-fit: contain;
         border-radius: $border-radius;
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        top: 50%; /* position top-left corner of image at center of container */
+        left: 50%; /* see above */
+        transform: translate(-50%, -50%); /* reverses the above, centering the image */
     }    
 }
 
@@ -433,7 +433,7 @@ h3 {
     #empty-garden {
         position: relative;
         width: 100%;
-        height: 100vh;
+        height: calc(100vh - 60px);
         overflow: hidden;
         border-radius: $border-radius;
         display: flex;
@@ -449,15 +449,54 @@ h3 {
     }
 }
 
-
-
-
 @media (max-width: 768px) {
     .responsive-navbar {
         flex-direction: column;
         a, select {
             margin: 10px 0;
         }
+    }
+
+    #app-container {
+        padding-top: 20vh;
+    }
+
+    #empty-garden {
+        height: 60vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .responsive-navbar {
+        padding: 5px;
+        flex-direction: column;
+        a, select {
+            margin: 10px 0;
+        }
+    }
+
+    #app-container {
+        padding-top: 20vh;
+    }
+
+    #attendee-counter {
+        width: 90%;
+    }
+
+    #total-number {
+        width: 90%;
+    }
+
+    #home {
+        padding: 5px;
+    }
+
+    .view {
+        padding: 5px;
+    }
+
+    #empty-garden {
+        height: 50vh;
     }
 }
 
