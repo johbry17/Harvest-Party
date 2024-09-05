@@ -433,6 +433,34 @@ h3 {
         color: lighten($text-color, 30%);
     }
 
+    #early-years {
+        @include light-orange-w-dark-text;
+        width: 50%;
+        @include flex-center();
+        flex-direction: column;
+        text-align: center;
+        margin: 0 auto;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    
+        h2 {
+            font-size: $font-size-h2;
+            margin-bottom: $padding;
+            color: #333333; /* override color */
+            font-weight: bold;
+            &:hover {
+                color: $hover-color-blue;
+                transition: color 0.3s ease;
+            }
+        }
+    
+        h4 {
+            font-style: italic;
+            // color: $text-color;
+            font-size: 1em;
+        }
+    }
+
     // 2020 pic
     #empty-garden {
         position: relative;
@@ -450,32 +478,6 @@ h3 {
             object-fit: contain;
             border-radius: $border-radius;
         }
-    }
-}
-
-#view-2014-2016 {
-    @include light-orange-w-dark-text;
-    width: 50%;
-    @include flex-center();
-    flex-direction: column;
-    text-align: center;
-    margin: 0 auto;
-
-    h2 {
-        font-size: $font-size-h2;
-        margin-bottom: $padding;
-        color: #333333; /* override color */
-        font-weight: bold;
-        &:hover {
-            color: $hover-color-blue;
-            transition: color 0.3s ease;
-        }
-    }
-
-    h4 {
-        font-style: italic;
-        // color: $text-color;
-        font-size: 1em;
     }
 }
 
