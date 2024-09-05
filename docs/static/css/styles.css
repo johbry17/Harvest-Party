@@ -1,21 +1,45 @@
-body {
+/* rounded corners */
+#app-container {
+  background-color: #f9f9f9;
   padding-top: 60px; /* prevent hiding rest of content under header */
-  margin: 0;
   font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  color: #333;
+}
+
+h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+h3 {
+  font-size: 1.2em;
+  margin: 20px 0;
 }
 
 .responsive-navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  position: fixed; /* stay at top of screen */
+  top: 0; /* stay at top of screen */
+  left: 0; /* take up full width */
+  right: 0; /* take up full width */
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  justify-content: space-between;
   padding: 10px;
-  background-color: #fff;
+  background-color: #f9f9f9;
   border-bottom: 1px solid #ddd;
   z-index: 1000; /* make sure it's on top of everything */
+}
+.responsive-navbar a, .responsive-navbar select { /* links and dropdowns */
+  text-decoration: none;
+  margin: 0 10px;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+.responsive-navbar a:hover, .responsive-navbar select:hover {
+  color: #0077b6;
 }
 .responsive-navbar .home-logo {
   max-height: 50px;
@@ -23,11 +47,17 @@ body {
   display: block;
   margin: auto;
 }
+.responsive-navbar #title {
+  font-size: 1.8em;
+  color: #f4a261;
+  font-weight: bold;
+}
 .responsive-navbar .year-dropdown {
   font-size: 1.2em;
   padding: 5px;
   border: 1px solid #ddd;
   border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .carousel-images {
@@ -44,19 +74,18 @@ body {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  border-radius: 8px;
+  border-radius: 10px;
   position: absolute;
 }
 
-#attendee-counter,
-#email-form {
-  text-align: center;
-  margin: 20px 0;
-}
-
 #attendee-counter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
   background-color: #264653;
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   color: #e9c46a;
@@ -65,27 +94,25 @@ body {
   font-size: 1.6em;
   font-weight: bold;
 }
-#attendee-counter h4 {
-  font-size: 1em;
-  margin-top: 5px;
+#attendee-counter h2:hover {
+  color: #0077b6;
+  transition: color 0.3s ease;
 }
-#attendee-counter FB-stats {
-  font-size: 1.6em;
-  color: #e9c46a;
+#attendee-counter h4 {
+  font-style: italic;
+  color: #e6e6e6;
+  font-size: 1em;
 }
 
 #total-number {
-  background-color: #f9f9f9;
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
-#total-number h2 {
-  color: #333;
-  font-weight: bold;
-  margin: 10px 0;
-  font-size: 1.5em;
+#total-number h2:hover {
+  color: #0077b6 !important;
+  transition: color 0.3s ease;
 }
 #total-number #total-expenses-and-donations {
   color: #2a9d8f;
@@ -95,12 +122,6 @@ body {
 }
 #total-number #cost-per-attendee {
   color: #f4a261;
-}
-
-#total-number h2:hover,
-#attendee-counter h2:hover {
-  color: #0077b6 !important;
-  transition: color 0.3s ease;
 }
 
 @keyframes fadeIn {
@@ -115,48 +136,97 @@ body {
   animation: fadeIn 1s ease-in-out;
 }
 
-#email-form form {
-  display: inline-block;
+#home {
+  padding: 10px;
+}
+#home h2 {
+  margin-bottom: 10px;
+}
+#home h3 {
+  margin: 20px 0;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+#home #markdown-content {
+  margin-top: 20px;
+  background-color: #264653;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #e9c46a;
+  margin: 40px 40px;
+}
+#home #email-form {
+  background-color: #f9f9f9;
+}
+#home #email-form h3 {
+  margin-bottom: 20px;
+  background-color: #e76f51;
+  border-radius: 10px;
+}
+#home #email-form form {
+  display: inline-block; /* center form */
   width: 100%;
   max-width: 400px;
 }
-#email-form input,
-#email-form textarea,
-#email-form button {
+#home #email-form form input, #home #email-form form textarea, #home #email-form form button {
   width: 100%;
-  margin-bottom: 10px;
+  margin: 10px 0;
   font-family: inherit;
   font-size: inherit;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box; /* Ensures padding does not affect the width */
+  border: 1px solid gray;
+  border-radius: 10px;
+  box-sizing: border-box; /* ensure padding doesn't affect width */
 }
-#email-form textarea {
+#home #email-form form textarea {
   resize: vertical; /* only allow resizing vertically */
 }
-#email-form button {
+#home #email-form form button {
+  padding: 10px 20px;
   background-color: #4CAF50;
   color: white;
+  font-weight: bold;
+  font-size: 1.2em;
   border: none;
-  padding: 10px;
-  border-radius: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+#home #email-form form button:hover {
+  background-color: #1f756a;
 }
 
 .view {
-  padding: 20px;
+  padding: 10px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+.view h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  color: #333;
+  font-weight: bold;
+}
+.view h2:hover {
+  color: #0077b6;
+  transition: color 0.3s ease;
+}
+.view h3 {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+  color: gray;
 }
 
-@media (max-width: 600px) {
-  .header {
+@media (max-width: 768px) {
+  .responsive-navbar {
     flex-direction: column;
-    align-items: flex-start;
   }
-  .home-link {
-    margin-bottom: 10px;
-  }
-  #total-number h2 {
-    font-size: 1.2em;
+  .responsive-navbar a, .responsive-navbar select {
+    margin: 10px 0;
   }
 }
 #mask-container {
@@ -174,7 +244,7 @@ body {
     transform: translateX(-50px) rotate(0deg); /* start off-screen */
   }
   to {
-    transform: translateX(110vw) rotate(360deg); /* end beyond screen, one full rotation */
+    transform: translateX(calc(100vw + 100px)) rotate(360deg); /* end beyond screen, one full rotation */
   }
 }
 

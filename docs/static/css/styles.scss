@@ -1,21 +1,70 @@
-body {
-    padding-top: 60px; /* prevent hiding rest of content under header */
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
+// variables
+$primary-color: #2a9d8f;
+$secondary-color: #e76f51;
+$highlight-color: #f4a261;
+$hover-color: #0077b6;
+$background-color: #f9f9f9;
+$text-color: #333;
+$box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+$border-radius: 10px; /* rounded corners */
+$padding: 10px;
+$font-size-h2: 1.5em;
+$font-size-h3: 1.2em;
+
+// mixins
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+@mixin box-shadow {
+    box-shadow: $box-shadow;
+}
+
+// global styles
+#app-container {
+    background-color: $background-color;
+    padding-top: 60px; /* prevent hiding rest of content under header */
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    color: $text-color;
+}
+
+h2 {
+    font-size: $font-size-h2;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+h3 {
+    font-size: $font-size-h3;
+    margin: 20px 0;
+}
+
+// navbar
 .responsive-navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    display: flex;
+    position: fixed; /* stay at top of screen */
+    top: 0; /* stay at top of screen */
+    left: 0; /* take up full width */
+    right: 0; /* take up full width */
+    @include flex-center();
     justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background-color: #fff;
+    padding: $padding;
+    background-color: $background-color;
     border-bottom: 1px solid #ddd;
     z-index: 1000; /* make sure it's on top of everything */
+
+    a, select { /* links and dropdowns */
+        // color: $text-color;
+        text-decoration: none;
+        margin: 0 10px;
+        font-weight: bold;
+        transition: color 0.3s ease;
+        &:hover {
+            color: $hover-color;
+        }
+    }
 
     .home-logo {
         max-height: 50px;
@@ -24,18 +73,24 @@ body {
         margin: auto;
     }
 
+    #title {
+        font-size: 1.8em;
+        color: $highlight-color;
+        font-weight: bold;
+    }
+
     .year-dropdown {
         font-size: 1.2em;
         padding: 5px;
         border: 1px solid #ddd;
         border-radius: 5px;
+        @include box-shadow;
     }
 }
 
+// header images
 .carousel-images {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include flex-center();
     margin: 0 auto;
     width: 100%;
     height: 50vh;
@@ -46,74 +101,63 @@ body {
         width: 100%;
         height: 100%;
         object-fit: contain;
-        border-radius: 8px;
+        border-radius: $border-radius;
         position: absolute;
     }    
 }
 
-#attendee-counter,
-#email-form {
-  text-align: center;
-  margin: 20px 0;
-}
-
+// attendee counter
 #attendee-counter {
+    @include flex-center();
+    flex-direction: column;
+    text-align: center;
     background-color: #264653;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    // color: #fff;
-    // margin-top: 20px;
+    padding: $padding;
+    border-radius: $border-radius;
+    @include box-shadow;
     color: #e9c46a;
 
     h2 {
         font-size: 1.6em;
-        // margin-bottom: 10px;
         font-weight: bold;
+        &:hover {
+            color: $hover-color;
+            transition: color 0.3s ease;
+        }
     }
 
     h4 {
+        font-style: italic;
+        color: lighten($text-color, 70%);
         font-size: 1em;
-        margin-top: 5px;
-    }
-
-    FB-stats {
-        font-size: 1.6em;
-        color: #e9c46a;
     }
 }
 
+// total number div
 #total-number {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: $padding;
+    border-radius: $border-radius;
+    @include box-shadow;
     text-align: center;
 
     h2 {
-        color: #333;
-        font-weight: bold;
-        margin: 10px 0;
-        font-size: 1.5em;
+        &:hover {
+            color: $hover-color !important;
+            transition: color 0.3s ease;
+        }
     }
 
     #total-expenses-and-donations {
-        color: #2a9d8f;
+        color: $primary-color;
     }
     
     #profit-or-loss {
-        color: #e76f51;
+        color: $secondary-color;
     }
     
     #cost-per-attendee {
-        color: #f4a261;
+        color: $highlight-color;
     }
-}
-
-#total-number h2:hover,
-#attendee-counter h2:hover {
-    color: #0077b6 !important;
-    transition: color 0.3s ease;
 }
 
 @keyframes fadeIn {
@@ -125,55 +169,110 @@ body {
     animation: fadeIn 1s ease-in-out;
 }
 
-#email-form {
-  form {
-    display: inline-block;
-    width: 100%;
-    max-width: 400px;
-  }
+// home view
+#home {
+    padding: $padding;
 
-  input,
-  textarea,
-  button {
-    width: 100%;
-    margin-bottom: 10px;
-    font-family: inherit;
-    font-size: inherit;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box; /* Ensures padding does not affect the width */
-  }
+    h2 {
+        margin-bottom: $padding;
+    }
 
-  textarea {
-    resize: vertical; /* only allow resizing vertically */
-  }
+    h3 {
+        margin: 20px 0;
+        padding: $padding;
+        border-radius: $border-radius;
+        @include box-shadow;
+    }
 
-  button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-  }
+    #markdown-content {
+        margin-top: 20px;
+        background-color: #264653;
+        padding: $padding;
+        border-radius: $border-radius;
+        @include box-shadow;
+        color: #e9c46a;
+        margin: 40px 40px;
+    }
+
+    // email form
+    #email-form {
+        background-color: $background-color;
+        
+        h3 {
+            margin-bottom: 20px;
+            background-color: $secondary-color;
+            border-radius: $border-radius;
+        }
+
+        form {
+            display: inline-block; /* center form */
+            width: 100%;
+            max-width: 400px;
+
+                input, textarea, button {
+                    width: 100%;
+                    margin: 10px 0;
+                    font-family: inherit;
+                    font-size: inherit;
+                    padding: $padding;
+                    border: 1px solid lighten($text-color, 30%);
+                    border-radius: $border-radius;
+                    box-sizing: border-box; /* ensure padding doesn't affect width */
+                }
+
+                textarea {
+                    resize: vertical; /* only allow resizing vertically */
+                }
+
+                button {
+                    padding: 10px 20px;
+                    background-color: #4CAF50;
+                    color: white;
+                    font-weight: bold;
+                    font-size: 1.2em;
+                    border: none;
+                    border-radius: $border-radius;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease;
+                    &:hover {
+                    background-color: darken($primary-color, 10%);
+                    }
+                }
+            }
+    }
 }
 
 .view {
-  padding: 20px;
+    padding: $padding;
+    text-align: center;
+    border-radius: $border-radius;
+    @include box-shadow;
+    margin-bottom: 20px;
+
+    h2 {
+        font-size: $font-size-h2;
+        margin-bottom: $padding;
+        color: $text-color;
+        font-weight: bold;
+        &:hover {
+            color: $hover-color;
+            transition: color 0.3s ease;
+        }
+    }
+
+    h3 {
+        font-size: $font-size-h3;
+        margin-bottom: 20px;
+        color: lighten($text-color, 30%);
+    }
 }
 
-@media (max-width: 600px) {
-    .header {
+@media (max-width: 768px) {
+    .responsive-navbar {
         flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .home-link {
-        margin-bottom: 10px;
-    }
-
-    #total-number h2 {
-        font-size: 1.2em;
+        a, select {
+            margin: 10px 0;
+        }
     }
 }
 
@@ -192,6 +291,6 @@ body {
         transform: translateX(-50px) rotate(0deg); /* start off-screen */
     }
     to {
-        transform: translateX(110vw) rotate(360deg); /* end beyond screen, one full rotation */
+        transform: translateX(calc(100vw + 100px)) rotate(360deg); /* end beyond screen, one full rotation */
     }
 }
