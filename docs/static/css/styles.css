@@ -206,9 +206,11 @@ h3 {
   display: inline-block; /* center form */
   width: 100%;
   max-width: 400px;
+  margin: 0 auto;
+  padding: 10px;
 }
 #home #email-form form input, #home #email-form form textarea, #home #email-form form button {
-  width: 100%;
+  width: calc(100% - 20px); /* account for padding */
   margin: 10px 0;
   font-family: inherit;
   font-size: inherit;
@@ -230,6 +232,7 @@ h3 {
   border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-top: 10px;
 }
 #home #email-form form button:hover {
   background-color: #1f756a;
@@ -284,6 +287,17 @@ h3 {
   #app-container {
     padding-top: 20vh;
   }
+  #email-form {
+    padding: 10px;
+  }
+  #email-form form {
+    width: 100%;
+    max-width: none;
+    margin: 0 auto;
+  }
+  #email-form input, #email-form textarea, #email-form button {
+    width: calc(100% - 20px);
+  }
   #empty-garden {
     height: 60vh;
   }
@@ -307,6 +321,22 @@ h3 {
   }
   #home {
     padding: 5px;
+  }
+  #home #email-form {
+    padding: 5px;
+  }
+  #home #email-form form {
+    width: 100%;
+    padding: 5px;
+  }
+  #home #email-form input, #home #email-form textarea, #home #email-form button {
+    width: calc(100% - 10px);
+    margin: 5px 0;
+  }
+  #home #email-form button {
+    padding: 8px 16px;
+    font-size: 1em;
+    margin-top: 5px;
   }
   .view {
     padding: 5px;
