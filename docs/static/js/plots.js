@@ -11,7 +11,8 @@ function totalPlots(
   colorMap
 ) {
   clearElements(false);
-  document.getElementById("individual-expenses-bar-plot").style.display = "none";
+  document.getElementById("individual-expenses-bar-plot").style.display =
+    "none";
   barPlot(data, selectedYear);
   treemapPlot(data, selectedYear, colorMap);
   sunburstPlot(data, selectedYear, colorMap);
@@ -26,7 +27,8 @@ function totalPlots(
 }
 
 function singleYearPlots(data, selectedYear, colorMap) {
-  document.getElementById("individual-expenses-bar-plot").style.display = "block";
+  document.getElementById("individual-expenses-bar-plot").style.display =
+    "block";
   barPlot(data, selectedYear);
   treemapPlot(data, selectedYear, colorMap);
   individualExpensesBarPlot(data, selectedYear, colorMap);
@@ -37,7 +39,7 @@ function singleYearPlots(data, selectedYear, colorMap) {
 
 // function to clear elements
 function clearElements(onoff) {
-const elements = [
+  const elements = [
     "category-line-plot",
     "total-expenses-donations-bar-plot",
     "total-expenses-donations-line-plot",
@@ -45,13 +47,17 @@ const elements = [
     "cost-per-attendee-plot",
     "attendee-plot",
     "corn-kings-and-queens",
-    ];
+  ];
 
-    if (onoff) {
-        elements.forEach((id) => (document.getElementById(id).style.display = "none"));
-    } else {
-        elements.forEach((id) => (document.getElementById(id).style.display = "block"));
-    }
+  if (onoff) {
+    elements.forEach(
+      (id) => (document.getElementById(id).style.display = "none")
+    );
+  } else {
+    elements.forEach(
+      (id) => (document.getElementById(id).style.display = "block")
+    );
+  }
 }
 
 // colormap for categories, assigning blue and orange to Bar and Music
