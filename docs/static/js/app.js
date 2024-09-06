@@ -147,7 +147,7 @@ function updateYear(
       colorMap
     );
   } else {
-    displaySingleImage(`./resources/images/hp_logos/hp_${selectedYear}.jpg`);
+    displaySingleImage(`./static/images/hp_logos/hp_${selectedYear}.jpg`);
     updateTotals(expenseData, donationData, attendeeData, selectedYear);
     singleYearPlots(expenseData, selectedYear, colorMap);
   }
