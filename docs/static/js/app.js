@@ -18,6 +18,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     const attendeeData = d3.csvParse(attendeeText);
     const reimbData = d3.csvParse(reimbText);
 
+    // welcome modal
+    const modal = document.getElementById("welcome-modal");
+    modal.style.display = "flex";
+    modal.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+
     // populate year dropdown
     populateYearDropdown(attendeeData);
 
