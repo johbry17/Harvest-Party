@@ -110,7 +110,7 @@ function switchView(selectedYear) {
     carouselDiv.style.display = "none";
     document.getElementById("2020").style.display = "block";
     rollMask(); // tee-hee
-    setInterval(rollMask, 20000); // repeatedly roll mask
+    setInterval(rollMask, 10000); // repeatedly roll mask
   } else {
     document.getElementById("attendee-counter").style.display = "block";
     document.getElementById("view-other-years").style.display = "block";

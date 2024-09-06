@@ -123,6 +123,26 @@ function barPlot(data, selectedYear, colorMap) {
     (value) => (value / totalExpenses) * 100
   );
 
+  // format values as locale strings
+  // toLocaleString formats numbers in user's locale (thousands and decimal separators)
+  const formattedValues = sortedValues.map(
+    (value) => `$${Math.round(value).toLocaleString()}`
+  );
+  const formattedHoverValues = sortedValues.map((value) =>
+    value.toLocaleString(undefined, {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })
+  );
+  const formattedPercentages = percentages.map((value) =>
+    value.toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })
+  );
+
   // create trace
   const trace = {
     x: sortedValues,
@@ -130,21 +150,24 @@ function barPlot(data, selectedYear, colorMap) {
     type: "bar",
     orientation: "h",
     hovertemplate:
-      "<b>%{y}</b><br>Amount: $%{x:.2f}<br>Percentage: %{customdata:.2f}%<extra></extra>",
-    customdata: percentages,
-    text: sortedValues.map((value) => `$${value.toFixed(2)}`),
+      "<b>%{y}</b><br>Amount: %{customdata[0]}<br>Percentage: %{customdata[1]}%<extra></extra>",
+    customdata: sortedValues.map((value, index) => [
+      formattedHoverValues[index],
+      formattedPercentages[index],
+    ]),
+    text: formattedValues,
     textposition: "auto",
     marker: {
-        color: sortedCategories.map((category) => colorMap[category] || "#ccc"), // light graty default
-    }
+      color: sortedCategories.map((category) => colorMap[category] || "#ccc"), // light graty default
+    },
   };
 
   // create layout
   const layout = {
-    title: `Amount by Category for ${
+    title: `Expenditure by Category for ${
       selectedYear === 1 ? "All Years" : selectedYear
     }`,
-    xaxis: { title: "Amount ($)" },
+    xaxis: { title: "Amount", tickformat: "$,.0f" },
     yaxis: { title: "Category" },
     responsive: true,
     // margin: { l: 5, r: 5, t: 5, b: 5 }, // removes left, right, top, and bottom margins
@@ -176,6 +199,17 @@ function treemapPlot(data, selectedYear, colorMap) {
     0
   );
 
+  // format values as locale strings
+  const formattedValues = Object.values(categorySums).map((value) =>
+    value.toLocaleString("en-US", { style: "currency", currency: "USD" })
+  );
+  const formattedPercentages = Object.values(categorySums).map((value) =>
+    ((value / totalExpenses) * 100).toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })
+  );
+
   // create trace
   const trace = {
     type: "treemap",
@@ -184,14 +218,15 @@ function treemapPlot(data, selectedYear, colorMap) {
     values: Object.values(categorySums),
     textinfo: "label+value",
     texttemplate:
-      "<b><span style='text-decoration: underline;'>%{label}</span></b><br>$%{value:.2f}<br>%{customdata.percent:.2%}",
+      "<b><span style='text-decoration: underline;'>%{label}</span></b><br>$%{customdata.value}<br>%{customdata.percent:.2f%}%",
     hovertemplate:
-      "<b><span style='text-decoration: underline;'>%{label}</span></b><br>$%{value:.2f}<br>%{customdata.percent:.2%}<extra></extra>",
+      "<b><span style='text-decoration: underline;'>%{label}</span></b><br>$%{customdata.value}<br>%{customdata.percent}%<extra></extra>",
     marker: {
       colors: Object.keys(categorySums).map((category) => colorMap[category]),
     },
-    customdata: Object.values(categorySums).map((value) => ({
-      percent: value / totalExpenses,
+    customdata: Object.values(categorySums).map((value, index) => ({
+      value: formattedValues[index],
+      percent: formattedPercentages[index],
     })),
   };
 
@@ -214,6 +249,14 @@ function individualExpensesBarPlot(data, selectedYear, colorMap) {
     (item) => parseInt(item.Year) === selectedYear
   );
 
+  // format amounts as USD
+  const formattedAmounts = filteredData.map((item) =>
+    parseFloat(item.Amount).toLocaleString("en-US", {
+      style: "currency",
+      currency: "USD",
+    })
+  );
+
   // create trace
   const trace = {
     x: filteredData.map((item) => item.Expense),
@@ -222,12 +265,13 @@ function individualExpensesBarPlot(data, selectedYear, colorMap) {
     marker: { color: filteredData.map((item) => colorMap[item.Category]) },
     text: filteredData.map((item) => item.Category),
     hovertemplate:
-      "<b>%{x}</b><br>Amount: $%{y}<br>Category: %{text}<extra></extra>",
+      "<b>%{x}</b><br>Amount: %{customdata}<br>Category: %{text}<extra></extra>",
+    customdata: formattedAmounts,
   };
 
   // create layout
   const layout = {
-    title: `Individual Expenses for ${selectedYear}`,
+    title: `Itemized Expenses for ${selectedYear}`,
     xaxis: { title: "Category" },
     yaxis: { title: "Amount ($)" },
   };
@@ -270,6 +314,7 @@ function sunburstPlot(data, selectedYear, colorMap) {
   let parents = [];
   let values = [];
   let texts = [];
+  let formattedValues = [];
 
   // conditional for all years or individual year
   if (selectedYear === 1) {
@@ -280,6 +325,12 @@ function sunburstPlot(data, selectedYear, colorMap) {
       parents.push("");
       values.push(hierarchy[category].total);
       texts.push(category);
+      formattedValues.push(
+        hierarchy[category].total.toLocaleString("en-US", {
+          style: "currency",
+          currency: "USD",
+        })
+      );
 
       // years under each category
       Object.keys(hierarchy[category].years).forEach((year) => {
@@ -288,6 +339,12 @@ function sunburstPlot(data, selectedYear, colorMap) {
         parents.push(category);
         values.push(hierarchy[category].years[year].total);
         texts.push(year);
+        formattedValues.push(
+          hierarchy[category].years[year].total.toLocaleString("en-US", {
+            style: "currency",
+            currency: "USD",
+          })
+        );
 
         // expenses under each year
         Object.keys(hierarchy[category].years[year].expenses).forEach(
@@ -297,6 +354,12 @@ function sunburstPlot(data, selectedYear, colorMap) {
             parents.push(yearLabel);
             values.push(hierarchy[category].years[year].expenses[expense]);
             texts.push(expense);
+            formattedValues.push(
+              hierarchy[category].years[year].expenses[expense].toLocaleString(
+                "en-US",
+                { style: "currency", currency: "USD" }
+              )
+            );
           }
         );
       });
@@ -309,6 +372,12 @@ function sunburstPlot(data, selectedYear, colorMap) {
       parents.push("");
       values.push(hierarchy[category].total);
       texts.push(category);
+      formattedValues.push(
+        hierarchy[category].total.toLocaleString("en-US", {
+          style: "currency",
+          currency: "USD",
+        })
+      );
 
       // assign selected year
       const year = selectedYear.toString();
@@ -321,6 +390,12 @@ function sunburstPlot(data, selectedYear, colorMap) {
           parents.push(category);
           values.push(hierarchy[category].years[year].expenses[expense]);
           texts.push(expense);
+          formattedValues.push(
+            hierarchy[category].years[year].expenses[expense].toLocaleString(
+              "en-US",
+              { style: "currency", currency: "USD" }
+            )
+          );
         }
       );
     });
@@ -343,19 +418,22 @@ function sunburstPlot(data, selectedYear, colorMap) {
     textinfo: "text+value",
     hoverinfo: "text+value",
     texttemplate:
-      "%{text}<br><span style='font-size:10px;'>$%{value:.2f}</span>",
-    hovertemplate: "<b>%{text}</b><br>Amount: $%{value:.2f}<extra></extra>",
+      //   "%{text}<br><span style='font-size:10px;'>$%{value:.2f}</span>",
+      // hovertemplate: "<b>%{text}</b><br>Amount: $%{value:.2f}<extra></extra>",
+      "%{text}<br><span style='font-size:10px;'>%{customdata}</span>",
+    hovertemplate: "<b>%{text}</b><br>Amount: %{customdata}<extra></extra>",
     marker: {
       colors: colors,
     },
+    customdata: formattedValues,
     branchvalues: "total",
   };
 
   // create layout
   const layout = {
-    title: `Expenses by Category, Year, and Expense for ${
+    title: `Sunburst - Itemized Expenses for ${
       selectedYear === 1 ? "All Years" : selectedYear
-    }`,
+    }<br><sub>Click on a category to zoom in</sub>`,
     margin: { t: 50, l: 25, r: 25, b: 25 },
   };
 
@@ -363,7 +441,8 @@ function sunburstPlot(data, selectedYear, colorMap) {
   Plotly.newPlot("sunburst-plot", [trace], layout);
 }
 
-// line plot of expenses by category over time, that toggles categories
+// line plot of expenses by category over time, that toggles categories w/ values
+// the values rarely appear when toggled, the plotly gods are fickle creatures
 function categoryLinePlot(data, colorMap) {
   // aggregate data by year and category
   const categorySums = data.reduce((acc, item) => {
@@ -382,6 +461,12 @@ function categoryLinePlot(data, colorMap) {
   // create traces for each category
   const traces = categories.map((category) => {
     const values = years.map((year) => categorySums[year]?.[category] || 0);
+    const formattedValues = values.map((value) =>
+      value.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+      })
+    );
     return {
       x: years,
       y: values,
@@ -389,10 +474,11 @@ function categoryLinePlot(data, colorMap) {
       name: category,
       line: { color: colorMap[category] },
       marker: { color: colorMap[category] },
-      // text: values.map((value) => `$${value.toFixed(2)}`),
-      textposition: "top center",
+      text: null, // no text by default
+      textposition: null, // no text by default
       textfont: { color: colorMap[category] },
-      hovertemplate: `<b>Year: %{x}</b><br>${category}: $%{y:.2f}<extra></extra>`,
+      hovertemplate: `<b>Year: %{x}</b><br>${category}: $%{customdata}<extra></extra>`,
+      customdata: formattedValues,
       opacity: 1, // default opacity for all lines
     };
   });
@@ -400,21 +486,51 @@ function categoryLinePlot(data, colorMap) {
   // create layout with updatemenus for toggling lines dim or highlighted
   const layout = {
     title:
-      "Expenses by Category Over Time<br><sub>Click on a category to highlight</sub>",
+      "Expenses per Category Over Time<br><sub>Click on a category to highlight</sub>",
     xaxis: { title: "Year" },
-    yaxis: { title: "Amount ($)" },
+    yaxis: { title: "Amount", tickformat: "$,.0f" },
     updatemenus: [
       {
         buttons: categories
           .map((category, index) => ({
             method: "restyle",
-            args: [{ opacity: traces.map((_, i) => (i === index ? 1 : 0.2)) }],
+            args: [
+              {
+                opacity: traces.map((_, i) => (i === index ? 1 : 0.2)),
+                text: traces.map((_, i) =>
+                  i === index
+                    ? traces[i].y.map((value) =>
+                        value.toLocaleString("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                        })
+                      )
+                    : null
+                ),
+                textposition: traces.map((_, i) =>
+                  i === index ? "top center" : null
+                ),
+              },
+            ],
             label: category,
           }))
           .concat([
             {
               method: "restyle",
-              args: [{ opacity: 1 }],
+              args: [
+                {
+                  opacity: traces.map(() => 1),
+                  text: traces.map((trace) =>
+                    trace.y.map((value) =>
+                      value.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      })
+                    )
+                  ),
+                  textposition: traces.map(() => "top center"),
+                },
+              ],
               label: "Show All",
             },
           ]),
@@ -429,7 +545,7 @@ function categoryLinePlot(data, colorMap) {
   };
 
   // plot chart
-  Plotly.newPlot("category-line-plot", traces, layout);
+  Plotly.react("category-line-plot", traces, layout);
 }
 
 // bar plot that shows total expenses and donations over time
@@ -449,21 +565,24 @@ function totalExpensesDonationsBarPlot(expenseData, donationData) {
     type: "bar",
     name: "Expenses",
     marker: { color: "blue" },
-    text: Object.values(expenseSums).map((value) => `$${value.toFixed(2)}`),
+    text: Object.values(expenseSums).map(
+      (value) => `$${Math.round(value).toLocaleString("en-US")}`
+    ),
     textposition: "auto",
-    hovertemplate: "<b>Year: %{x}</b><br>Expenses: $%{y:.2f}<extra></extra>",
+    hovertemplate: "<b>Year: %{x}</b><br>Expenses: %{y:$,.2f}<extra></extra>",
   };
 
   const donationTrace = {
     x: donationData.map((item) => item.Year),
     y: donationData.map((item) => parseFloat(item.Donations)),
-    mode: "lines+markers+text",
+    mode: "lines+text",
     type: "scatter",
     name: "Donations",
     line: { color: "orange" },
     marker: { color: "orange" },
     text: donationData.map(
-      (item) => `$${parseFloat(item.Donations).toFixed(2)}`
+      (item) =>
+        `$${Math.round(parseFloat(item.Donations)).toLocaleString("en-US")}`
     ),
     textposition: donationData.map((_, index) =>
       index % 3 === 2 ? "bottom right" : "top center"
@@ -472,14 +591,14 @@ function totalExpensesDonationsBarPlot(expenseData, donationData) {
       color: "orange",
       family: "Arial Black, sans-serif, bold",
     },
-    hovertemplate: "<b>Year: %{x}</b><br>Donations: $%{y:.2f}<extra></extra>",
+    hovertemplate: "<b>Year: %{x}</b><br>Donations: %{y:$,.2f}<extra></extra>",
   };
 
   // create layout
   const layout = {
-    title: `Total Expenses and Donations Over Time`,
+    title: `Expenditure and Donations Over Time`,
     xaxis: { title: "Year" },
-    yaxis: { title: "Amount ($)" },
+    yaxis: { title: "Amount", tickformat: "$,.0f" },
   };
 
   // plot chart
@@ -504,11 +623,14 @@ function totalExpensesDonationsLinePlot(expenseData, donationData) {
   const expenseTrace = {
     x: Object.keys(expenseSums),
     y: Object.values(expenseSums),
-    mode: "lines+markers+text",
+    // mode: "lines+markers+text",
+    mode: "lines+markers",
     name: "Expenses",
     line: { color: "blue" },
     marker: { color: "blue" },
-    text: Object.values(expenseSums).map((value) => `$${value.toFixed(2)}`),
+    text: Object.values(expenseSums).map(
+      (value) => `$${Math.round(value).toLocaleString("en-US")}`
+    ),
     textposition: "top center",
     hovertemplate: "<b>Year: %{x}</b><br>Expenses: $%{y:.2f}<extra></extra>",
   };
@@ -516,12 +638,14 @@ function totalExpensesDonationsLinePlot(expenseData, donationData) {
   const donationTrace = {
     x: donationData.map((item) => item.Year),
     y: donationData.map((item) => parseFloat(item.Donations)),
-    mode: "lines+markers+text",
+    // mode: "lines+markers+text",
+    mode: "lines+markers",
     name: "Donations",
     line: { color: "orange" },
     marker: { color: "orange" },
     text: donationData.map(
-      (item) => `$${parseFloat(item.Donations).toFixed(2)}`
+      (item) =>
+        `$${Math.round(parseFloat(item.Donations)).toLocaleString("en-US")}`
     ),
     textposition: donationData.map((_, index) =>
       index % 3 === 1 ? "bottom right" : "top center"
@@ -531,9 +655,9 @@ function totalExpensesDonationsLinePlot(expenseData, donationData) {
 
   // create layout
   const layout = {
-    title: `Total Expenses and Donations Over Time`,
+    title: `Expenditure and Donations Over Time`,
     xaxis: { title: "Year" },
-    yaxis: { title: "Amount ($)" },
+    yaxis: { title: "Amount", tickformat: "$,.0f" },
   };
 
   // plot chart
@@ -590,7 +714,9 @@ function donationsVExpensesPlot(expenseData, donationData) {
     name: "Donations - Expenses",
     line: { color: "blue" },
     marker: { color: "blue" },
-    text: difference.map((value) => `$${value.toFixed(2)}`),
+    text: difference.map(
+      (value) => `$${Math.round(value).toLocaleString("en-US")}`
+    ),
     textposition: textPositions,
     texttemplate: "%{text}",
     hovertemplate: "<b>Year: %{x}</b><br>Difference: $%{y:.2f}<extra></extra>",
@@ -599,9 +725,9 @@ function donationsVExpensesPlot(expenseData, donationData) {
 
   // create layout
   const layout = {
-    title: "Total Donations Minus Expenses by Year",
+    title: "Donations Minus Expenses by Year",
     xaxis: { title: "Year" },
-    yaxis: { title: "Total Donations Minus Expenses ($)" },
+    yaxis: { title: "Donations Minus Expenses", tickformat: "$,.0f" },
     shapes: [
       {
         type: "line",
@@ -668,12 +794,15 @@ function costPerAttendeePlot(expenseData, attendeeData) {
   const traceGoing = {
     x: years,
     y: costPerGoing,
-    mode: "lines+markers+text",
+    // mode: "lines+markers+text",
+    mode: "lines+markers",
     type: "scatter",
     name: "RSVP'd",
     line: { color: "blue" },
     marker: { color: "blue" },
-    text: costPerGoing.map((value) => (value ? `$${value.toFixed(2)}` : "")),
+    text: costPerGoing.map((value) =>
+        value ? `$${value.toLocaleString("en-US", { style: "currency", currency: "USD" })}` : ""
+    ),
     textposition: "top center",
     texttemplate: "$%{y:.2f}",
     hovertemplate:
@@ -683,13 +812,14 @@ function costPerAttendeePlot(expenseData, attendeeData) {
   const traceGoingPlusMaybes = {
     x: years,
     y: costPerGoingPlusMaybes,
-    mode: "lines+markers+text",
+    // mode: "lines+markers+text",
+    mode: "lines+markers",
     type: "scatter",
     name: "RSVP'd + Maybes",
     line: { color: "orange" },
     marker: { color: "orange" },
     text: costPerGoingPlusMaybes.map((value) =>
-      value ? `$${value.toFixed(2)}` : ""
+        value ? `$${value.toLocaleString("en-US", { style: "currency", currency: "USD" })}` : ""
     ),
     textposition: "top center",
     texttemplate: "$%{y:.2f}",
@@ -699,9 +829,9 @@ function costPerAttendeePlot(expenseData, attendeeData) {
 
   // create layout
   const layout = {
-    title: "Cost per Attendee by Year",
+    title: "Cost per Attendee per Year",
     xaxis: { title: "Year" },
-    yaxis: { title: "Cost per Attendee ($)" },
+    yaxis: { title: "Cost per Attendee", tickformat: "$,.0f" },
   };
 
   // plot chart
@@ -725,7 +855,8 @@ function attendeePlot(data) {
   const goingTrace = {
     x: xValues,
     y: yValuesGoing,
-    mode: "lines+markers+text",
+    // mode: "lines+markers+text",
+    mode: "lines+markers",
     name: "Going",
     line: { color: "blue" },
     marker: { color: "blue" },
@@ -737,7 +868,8 @@ function attendeePlot(data) {
   const maybeTrace = {
     x: xValues,
     y: yValuesMaybes,
-    mode: "lines+markers+text",
+    // mode: "lines+markers+text",
+    mode: "lines+markers",
     name: "Maybes",
     line: { color: "orange" },
     marker: { color: "orange" },
@@ -749,7 +881,8 @@ function attendeePlot(data) {
   const totalTrace = {
     x: xValues,
     y: yValuesTotal,
-    mode: "lines+markers+text",
+    // mode: "lines+markers+text",
+    mode: "lines+markers",
     name: "Total",
     line: { color: "green" },
     marker: { color: "green" },
@@ -784,7 +917,10 @@ function expenseTable(data, selectedYear) {
   const headers = ["Expense", "Amount", "Name", "Year", "Category"];
   const rows = filteredData.map((item) => [
     item.Expense,
-    `$${parseFloat(item.Amount).toFixed(2)}`,
+    parseFloat(item.Amount).toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+    }),
     item.Name,
     item.Year,
     item.Category,
@@ -816,7 +952,9 @@ function expenseTable(data, selectedYear) {
 
   // create layout
   const layout = {
-    title: `Expenses for ${selectedYear === 1 ? "All Years" : selectedYear}`,
+    title: `Itemized Expenses for ${
+      selectedYear === 1 ? "All Years" : selectedYear
+    }`,
     margin: { t: 50, l: 25, r: 25, b: 25 },
   };
 
@@ -861,15 +999,17 @@ function hostLossPlot(expenseData, reimbData) {
     y: yValues,
     type: "bar",
     orientation: "h",
-    text: xValues.map((value) => `$${value.toFixed(2)}`),
+    text: xValues.map((value) =>
+        value.toLocaleString("en-US", { style: "currency", currency: "USD" })
+    ),
     textposition: "auto",
-    hovertemplate: "<b>%{y}</b><br>Host Loss: $%{x:.2f}<extra></extra>",
+    hovertemplate: "<b>%{y}</b><br>Host Loss: %{x:$,.2f}<extra></extra>",
   };
 
   // create layout
   const layout = {
     title: "Cumulative Host Losses",
-    xaxis: { title: "Host Loss ($)" },
+    xaxis: { title: "Host Loss", tickformat: "$,.0f" },
     yaxis: { title: "Person" },
   };
 

@@ -27,7 +27,13 @@ function rollMask() {
 
     // stagger start times and animate each mask
     const delay = index * 0.6;
-    mask.style.animation = `roll-across 7s linear forwards ${delay}s`;
+    mask.style.animation = `roll-across 7s ease-in-out forwards ${delay}s`;
+    // cubic-bezier css function - cubic-bezier(time1, speed1, time2, speed2)
+    // ease: cubic-bezier(0.25, 0.1, 0.25, 1) // Starts slowly, speeds up, and then slows down towards the end.
+    // linear: cubic-bezier(0, 0, 1, 1) // Progresses at a constant speed (a straight line).
+    // ease-in: cubic-bezier(0.42, 0, 1, 1) // Starts slowly and then speeds up. 
+    // ease-out: cubic-bezier(0, 0, 0.58, 1) // Starts quickly and then slows down. 
+    // ease-in-out: cubic-bezier(0.42, 0, 0.58, 1) // Combines both ease-in and ease-out; starts slowly, speeds up, then slows down.
 
     // hide the mask once the animation ends
     mask.addEventListener(
