@@ -38,10 +38,12 @@ document.addEventListener("DOMContentLoaded", async function () {
       );
     };
 
-    // initial call to update year
+    // initial call to update year, plot sizer
     updateView();
+    resizePlots();
 
-    // eventListeners for year dropdown and home button
+    // eventListeners for plot resize, year dropdown, and home button
+    window.addEventListener("resize", resizePlots);
     yearSelect.addEventListener("change", updateView);
     homeButton.addEventListener("click", () => {
       yearSelect.value = 42;
@@ -275,4 +277,39 @@ function profitOrLossText(
   } else {
     return "Break-even";
   }
+}
+
+// resize plots on window resize
+function resizePlots() {
+    // all plotly plot ids
+    const plotIds = [
+        'bar-plot',
+        'treemap-plot',
+        'individual-expenses-bar-plot',
+        'sunburst-plot',
+        'category-line-plot',
+        'total-expenses-donations-bar-plot',
+        'total-expenses-donations-line-plot',
+        'donations-v-expenses-plot',
+        'cost-per-attendee-plot',
+        'attendee-plot',
+        'expense-table',
+        'corn-kings-and-queens'
+    ];
+
+    plotIds.forEach((id) => {
+        const container = document.getElementById(id);
+        if (container) {
+            const containerWidth = container.clientWidth;
+            const containerHeight = container.clientHeight;
+
+            // Ensure dimensions are valid
+            if (containerWidth > 0 && containerHeight > 0) {
+                Plotly.relayout(container, {
+                    width: containerWidth,
+                    height: containerHeight
+                });
+            }
+        }
+    });
 }

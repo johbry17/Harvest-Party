@@ -12,6 +12,47 @@ $padding: 10px;
 $font-size-h2: 1.5em;
 $font-size-h3: 1.2em;
 
+// plots
+@mixin box-shadow {
+    box-shadow: $box-shadow;
+}
+
+@mixin responsive-plot($padding, $border-radius) {
+    background-color: #f9f9f9;
+    color: #333333;
+    border: 2px solid #e0e0e0;
+    padding: $padding;
+    border-radius: $border-radius;
+    @include box-shadow;
+
+    // responsive sizing
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    height: 400px; // set fixed height
+    // plotly and sass will race-to-the-bottom 
+    // responsively sizing their way into a pancake container
+    // very flat, can't read the plot
+
+    // media queries
+    @media (min-width: 1200px) {
+        width: 90%;
+    }
+
+    @media (min-width: 768px) {
+        max-width: 100%;
+        padding: $padding * 0.5;
+    }
+}
+
+.plot {
+    @include responsive-plot(0px, 10px);
+    margin-bottom: 10px;
+    // margin: 0;
+    overflow-x: hidden; // prevent horizontal container overflow
+    box-sizing: border-box; // ensure padding is included in width/height calculations
+}
+
 // mixins
 @mixin flex-center {
     display: flex;

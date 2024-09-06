@@ -10,6 +10,7 @@ function totalPlots(
   selectedYear,
   colorMap
 ) {
+  clearElements(false);
   document.getElementById("individual-expenses-bar-plot").style.display = "none";
   barPlot(data, selectedYear);
   treemapPlot(data, selectedYear, colorMap);
@@ -31,8 +32,12 @@ function singleYearPlots(data, selectedYear, colorMap) {
   individualExpensesBarPlot(data, selectedYear, colorMap);
   sunburstPlot(data, selectedYear, colorMap);
   expenseTable(data, selectedYear);
+  clearElements(true);
+}
 
-  const elementsToClear = [
+// function to clear elements
+function clearElements(onoff) {
+const elements = [
     "category-line-plot",
     "total-expenses-donations-bar-plot",
     "total-expenses-donations-line-plot",
@@ -40,13 +45,13 @@ function singleYearPlots(data, selectedYear, colorMap) {
     "cost-per-attendee-plot",
     "attendee-plot",
     "corn-kings-and-queens",
-  ];
-  clearElements(elementsToClear);
-}
+    ];
 
-// function to clear elements
-function clearElements(elementIds) {
-  elementIds.forEach((id) => (document.getElementById(id).innerHTML = ""));
+    if (onoff) {
+        elements.forEach((id) => (document.getElementById(id).style.display = "none"));
+    } else {
+        elements.forEach((id) => (document.getElementById(id).style.display = "block"));
+    }
 }
 
 // colormap for categories, assigning blue and orange to Bar and Music
@@ -132,6 +137,12 @@ function barPlot(data, selectedYear) {
     }`,
     xaxis: { title: "Amount ($)" },
     yaxis: { title: "Category" },
+    responsive: true,
+    // margin: { l: 5, r: 5, t: 5, b: 5 }, // removes left, right, top, and bottom margins
+    // width: container.clientWidth,
+    // height: container.clientHeight,
+    // width: containerWidth,
+    // height: containerHeight,
   };
 
   // plot chart

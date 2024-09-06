@@ -1,4 +1,31 @@
 /* rounded corners */
+.plot {
+  background-color: #f9f9f9;
+  color: #333333;
+  border: 2px solid #e0e0e0;
+  padding: 0px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  height: 400px;
+  margin-bottom: 10px;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+@media (min-width: 1200px) {
+  .plot {
+    width: 90%;
+  }
+}
+@media (min-width: 768px) {
+  .plot {
+    max-width: 100%;
+    padding: 0px;
+  }
+}
+
 #app-container {
   background-color: #f9f9f9;
   padding-top: 15vh; /* prevent hiding rest of content under header */
