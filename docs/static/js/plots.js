@@ -13,7 +13,7 @@ function totalPlots(
   clearElements(false);
   document.getElementById("individual-expenses-bar-plot").style.display =
     "none";
-  barPlot(data, selectedYear);
+  barPlot(data, selectedYear, colorMap);
   treemapPlot(data, selectedYear, colorMap);
   sunburstPlot(data, selectedYear, colorMap);
   categoryLinePlot(data, colorMap);
@@ -29,7 +29,7 @@ function totalPlots(
 function singleYearPlots(data, selectedYear, colorMap) {
   document.getElementById("individual-expenses-bar-plot").style.display =
     "block";
-  barPlot(data, selectedYear);
+  barPlot(data, selectedYear, colorMap);
   treemapPlot(data, selectedYear, colorMap);
   individualExpensesBarPlot(data, selectedYear, colorMap);
   sunburstPlot(data, selectedYear, colorMap);
@@ -88,7 +88,7 @@ function getColorMap(data) {
 }
 
 // bar plot that aggregates Amount by Category
-function barPlot(data, selectedYear) {
+function barPlot(data, selectedYear, colorMap) {
   // filter data by year
   const filteredData =
     selectedYear === 1
@@ -134,6 +134,9 @@ function barPlot(data, selectedYear) {
     customdata: percentages,
     text: sortedValues.map((value) => `$${value.toFixed(2)}`),
     textposition: "auto",
+    marker: {
+        color: sortedCategories.map((category) => colorMap[category] || "#ccc"), // light graty default
+    }
   };
 
   // create layout
@@ -145,10 +148,6 @@ function barPlot(data, selectedYear) {
     yaxis: { title: "Category" },
     responsive: true,
     // margin: { l: 5, r: 5, t: 5, b: 5 }, // removes left, right, top, and bottom margins
-    // width: container.clientWidth,
-    // height: container.clientHeight,
-    // width: containerWidth,
-    // height: containerHeight,
   };
 
   // plot chart
