@@ -45,7 +45,7 @@ I then cleaned up the EDA, adding comments on my thought process and the value (
 
 It helped me brainstorm what I wanted to put into Tableau.
 
-I built the website to be hosted by GitHub Pages. 
+I built the website to be hosted by GitHub Pages, mainly so that I don't have to pay for a back-end.
 
 The email form is handled by Formspree.
 
