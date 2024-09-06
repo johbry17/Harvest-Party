@@ -12,11 +12,11 @@ $padding: 10px;
 $font-size-h2: 1.5em;
 $font-size-h3: 1.2em;
 
-// plots
 @mixin box-shadow {
     box-shadow: $box-shadow;
 }
 
+// plots
 @mixin responsive-plot($padding, $border-radius) {
     background-color: #f9f9f9;
     color: #333333;
@@ -441,14 +441,13 @@ h3 {
     }
 }
 
+#total-number, #attendee-counter {
+    animation: fadeIn 1s ease-in-out;
+}
 
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
-}
-
-#total-number, #attendee-counter {
-    animation: fadeIn 1s ease-in-out;
 }
 
 // home view
@@ -597,7 +596,7 @@ h3 {
     #empty-garden {
         position: relative;
         width: 100%;
-        height: calc(100vh - 60px);
+        height: calc(100vh - 60px); // minus navbar height
         overflow: hidden;
         border-radius: $border-radius;
         display: flex;
@@ -666,7 +665,14 @@ h3 {
     }
 
     #empty-garden {
-        height: 40vh;
+        height: auto;
+        padding-top: 0;
+    }
+
+    #year-pic {
+        margin-top: 0;
+        width: 100%;
+        height: auto;
     }
 }
 
@@ -733,7 +739,13 @@ h3 {
     }
 
     #empty-garden {
-        height: 30vh;
+        height: auto;
+    }
+
+    #year-pic {
+        margin-top: 0;
+        width: 100%;
+        height: auto;
     }
 }
 

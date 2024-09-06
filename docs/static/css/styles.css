@@ -258,6 +258,10 @@ h3 {
   margin: 0 10px;
 }
 
+#total-number, #attendee-counter {
+  animation: fadeIn 1s ease-in-out;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -266,10 +270,6 @@ h3 {
     opacity: 1;
   }
 }
-#total-number, #attendee-counter {
-  animation: fadeIn 1s ease-in-out;
-}
-
 #home {
   padding: 10px;
 }
@@ -477,7 +477,13 @@ h3 {
     width: calc(100% - 20px);
   }
   #empty-garden {
-    height: 40vh;
+    height: auto;
+    padding-top: 0;
+  }
+  #year-pic {
+    margin-top: 0;
+    width: 100%;
+    height: auto;
   }
 }
 @media (max-width: 480px) {
@@ -530,7 +536,12 @@ h3 {
     width: 90%;
   }
   #empty-garden {
-    height: 30vh;
+    height: auto;
+  }
+  #year-pic {
+    margin-top: 0;
+    width: 100%;
+    height: auto;
   }
 }
 #mask-container {
