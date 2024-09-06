@@ -148,6 +148,7 @@ h3 {
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 60%;
 }
 #total-number h2 {
   font-size: 1.6em;
@@ -219,6 +220,19 @@ h3 {
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+#home #intro {
+  background-color: #f4a261;
+  color: #333333;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid #d89a5f;
+  width: 100%;
+  margin: 0 auto;
+  font-size: 1.4em;
+  font-weight: bold;
+  padding: 20px;
 }
 #home #markdown-content {
   margin-top: 20px;
@@ -423,6 +437,10 @@ h3 {
     width: 90%;
   }
   #home {
+    padding: 5px;
+  }
+  #home #intro {
+    width: 100%;
     padding: 5px;
   }
   #home #email-form {

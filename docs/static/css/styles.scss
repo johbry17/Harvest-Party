@@ -304,6 +304,7 @@ h3 {
     padding: $padding;
     border-radius: $border-radius;
     @include box-shadow;
+    width: 60%;
 
     h2 {
         font-size: 1.6em;
@@ -385,6 +386,15 @@ h3 {
         padding: $padding;
         border-radius: $border-radius;
         @include box-shadow;
+    }
+
+    #intro {
+        @include light-orange-w-dark-text();
+        width: 100%;
+        margin: 0 auto;
+        font-size: 1.4em;
+        font-weight: bold;
+        padding: 20px;
     }
 
     #markdown-content {
@@ -605,6 +615,11 @@ h3 {
 
     #home {
         padding: 5px;
+
+        #intro {
+            width: 100%;
+            padding: 5px;
+        }
 
         #email-form {
             padding: 5px;
