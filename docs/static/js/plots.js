@@ -632,7 +632,7 @@ function totalExpensesDonationsLinePlot(expenseData, donationData) {
       (value) => `$${Math.round(value).toLocaleString("en-US")}`
     ),
     textposition: "top center",
-    hovertemplate: "<b>Year: %{x}</b><br>Expenses: $%{y:.2f}<extra></extra>",
+    hovertemplate: "<b>Year: %{x}</b><br>Expenses: %{y:$,.2f}<extra></extra>",
   };
 
   const donationTrace = {
@@ -650,7 +650,7 @@ function totalExpensesDonationsLinePlot(expenseData, donationData) {
     textposition: donationData.map((_, index) =>
       index % 3 === 1 ? "bottom right" : "top center"
     ),
-    hovertemplate: "<b>Year: %{x}</b><br>Donations: $%{y:.2f}<extra></extra>",
+    hovertemplate: "<b>Year: %{x}</b><br>Donations: %{y:$,.2f}<extra></extra>",
   };
 
   // create layout

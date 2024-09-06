@@ -29,7 +29,7 @@ $font-size-h3: 1.2em;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-    height: 400px; // set fixed height
+    height: 500px; // set fixed height
     // plotly and sass will race-to-the-bottom 
     // responsively sizing their way into a pancake container
     // very flat, can't read the plot
