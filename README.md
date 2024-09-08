@@ -7,6 +7,7 @@ Data analysis and interactive visualizations for an annual fundraiser for the [C
 - [Usage](#usage)
 - [History](#history)
 - [Gallery](#gallery)
+- [Certificate](#certificate)
 - [References](#references)
 - [Acknowledgements](#acknowledgements)
 - [Author](#author)
@@ -21,7 +22,7 @@ Names have been changed to protect the guilty. This is a fun project.
 
 I posted the [exploratory data analysis to Google Colab](https://colab.research.google.com/drive/123nofMYi7z7l8IldtLYO9ns2wDWzKHCE?usp=sharing), as some of the hover info from Plotly will not render on GitHub, because GitHub only hosts static web content. You can see the same `exploratory_data_analysis.ipynb` here in the root directory.
 
-The website is hosted here on GitHub Pages, under the domain name [harvestpartydc.com](https://www.harvestpartydc.com/). It is under active development, but version 1.0 is ready to go. The visualizations are interactive and contain lots of extra information on hover or click. I'm still ironing out some of the formatting kinks for mobile display. For example, the line plot of "Expenses by Category Over Time" should toggle between an individual category, displaying only that category's expenditure per year while dimming the rest, but it's fickle in functionality, not always displaying amounts, or working at all on mobile.
+The website is hosted here on GitHub Pages, under the domain name [harvestpartydc.com](https://www.harvestpartydc.com/). All files are in the `/docs/` folder. It is under active development, but version 1.0 is ready to go. The visualizations are interactive and contain lots of extra information on hover or click. I'm still ironing out some of the formatting kinks for mobile display. For example, the line plot of "Expenses by Category Over Time" should toggle between an individual category, displaying only that category's expenditure per year while dimming the rest, but it's fickle in functionality, not always displaying amounts, or working at all on mobile.
 
 The Tableau explanatory data analysis is under active development. Progress can be viewed [here](https://public.tableau.com/app/profile/bryan.johns6699/vizzes). 
 
@@ -104,6 +105,10 @@ Exploratory Data Analysis:
 Coming soon: Tableau
 
 ![Tableau](./resources/images/tableau.png)
+
+## Certificate
+
+![cs50x certificate](./resources/images/CS50x.png)
 
 ## References
 
