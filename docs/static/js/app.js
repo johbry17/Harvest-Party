@@ -268,7 +268,7 @@ function profitOrLossText(
 
     return `Loss to Hosts:<br>$${Math.abs(netProfitOrLoss).toFixed(
       2
-    )}<br>Total Donated to Capital Area Food Bank over the Years: $${totalDonated.toFixed(
+    )}<br><br>Total Donated to Capital Area Food Bank over the Years:<br>$${totalDonated.toFixed(
       2
     )}`;
   } else if (selectedYear === 2019) {
