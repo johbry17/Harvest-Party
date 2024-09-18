@@ -643,7 +643,6 @@ h3 {
 
 // tableau viz
 #tableau-viz {
-    margin-bottom: 10px;
     margin: 0 auto;
     margin-bottom: 10px;
     overflow-x: hidden; // prevent horizontal container overflow
@@ -652,25 +651,27 @@ h3 {
     background-color: #ffffff;
     color: #333333;
     border: 2px solid #e0e0e0;
-    padding: $padding;
     border-radius: $border-radius;
     @include box-shadow;
 
     // responsive sizing
-    width: 100%;
-    max-width: 100%;
-    @include flex-center();
+    width: 100%; // full viewport width to prevent right shifting
+    display: flex; // prevent horizontal layout issues
+    justify-content: center; // center horizontally
+    align-items: center; // center vertically
+    flex-direction: column; // prevent horizontal layout issues
+    max-width: 420px;
 
     // media queries
-    @media (min-width: 1200px) {
-        width: 90%;
+    @media (min-width: 768px) {
+        max-width: 90%; // limit width for larger screens
     }
 
-    @media (min-width: 768px) {
-        max-width: 100%;
-        padding: $padding * 0.5;
+    @media (min-width: 1200px) {
+        max-width: 80%; // more control on larger devices
     }
 }
+
 
 @media (max-width: 768px) {
     .responsive-navbar {
