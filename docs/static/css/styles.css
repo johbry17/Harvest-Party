@@ -146,6 +146,22 @@ h3 {
   transform: translate(-50%, -50%); /* reverses the above, centering the image */
 }
 
+.carousel-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+.carousel-controls span {
+  margin: 0 30px;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+.carousel-controls #prev-button:hover,
+.carousel-controls #play-pause-button:hover,
+.carousel-controls #next-button:hover {
+  transform: scale(1.1);
+  color: #0085A1;
+}
+
 #attendee-counter {
   display: flex;
   justify-content: center;

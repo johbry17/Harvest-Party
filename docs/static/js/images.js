@@ -52,9 +52,13 @@ function displaySingleImage(imagePath) {
   carouselDiv.innerHTML = `<img src="${imagePath}">`;
 }
 
-// carousel for multiple images, auto-changing
+// carousel for multiple images, with controls
 function displayMultipleImages(imageSet) {
   const carouselDiv = document.querySelector(".carousel-images");
+  const prevButton = document.querySelector("#prev-button");
+  const playPauseButton = document.querySelector("#play-pause-button");
+  const nextButton = document.querySelector("#next-button");
+  
   // clear previous images
   carouselDiv.innerHTML = "";
 
@@ -70,14 +74,68 @@ function displayMultipleImages(imageSet) {
     carouselDiv.appendChild(img);
   });
 
-  // rotate through images
+  // initialize variables
   let index = 0;
+  let intervalId;
   const imgElements = carouselDiv.querySelectorAll(".carousel-image");
-  setInterval(() => {
+  let isPlaying = true;
+
+  // rotate through images
+  function showNextImage() {
     imgElements[index].style.display = "none";
     index = (index + 1) % images.length;
     imgElements[index].style.display = "block";
-  }, 5000);
+  }
+
+  // go back through images
+  function showPrevImage() {
+    imgElements[index].style.display = "none";
+    index = (index - 1 + images.length) % images.length;
+    imgElements[index].style.display = "block";
+  }
+
+  // play carousel, set interval, change button to pause
+  function startCarousel() {
+    intervalId = setInterval(showNextImage, 5000);
+    playPauseButton.innerHTML = `
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fas fa-pause fa-stack-1x fa-inverse"></i>
+    `;
+  }
+
+  // pause carousel, clear interval, change button to play
+  function stopCarousel() {
+    clearInterval(intervalId);
+    playPauseButton.innerHTML = `
+      <i class="fas fa-circle fa-stack-2x"></i>
+      <i class="fas fa-play fa-stack-1x fa-inverse"></i>
+    `;
+  }
+
+  // initial play
+  startCarousel();
+
+  // add event listeners
+  prevButton.addEventListener("click", () => {
+    stopCarousel(); // stop interval to avoid conflicts
+    showPrevImage();
+    if (isPlaying) startCarousel(); // restart if carousel was playing
+  });
+
+  nextButton.addEventListener("click", () => {
+    stopCarousel(); // stop interval to avoid conflicts
+    showNextImage();
+    if (isPlaying) startCarousel(); // restart if carousel was playing
+  });
+
+  playPauseButton.addEventListener("click", () => {
+    if (isPlaying) {
+      stopCarousel();
+    } else {
+      startCarousel();
+    }
+    isPlaying = !isPlaying;
+  });
 }
 
 // image sets for home and total page

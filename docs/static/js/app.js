@@ -100,6 +100,9 @@ function switchView(selectedYear) {
   const carouselDiv = document.querySelector(".carousel-images");
   carouselDiv.style.display = "block";
 
+  const carouselControlDiv = document.querySelector(".carousel-controls");
+  carouselControlDiv.style.display = selectedYear === 42 || selectedYear === 1 ? "flex" : "none";
+
   // show view based on selected year
   if (selectedYear === 42) {
     document.getElementById("home").style.display = "block";

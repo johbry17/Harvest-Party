@@ -326,6 +326,25 @@ h3 {
     }    
 }
 
+// play/pause and next/prev buttons
+.carousel-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+
+  span {
+    margin: 0 30px;
+    transition: transform 0.3s ease, color 0.3s ease; // smooth hover transition
+  }
+
+  #prev-button:hover, 
+  #play-pause-button:hover, 
+  #next-button:hover {
+    transform: scale(1.1); // slightly enlarge button on hover
+    color: #0085A1; // hover color
+  }
+}
+
 // attendee counter
 #attendee-counter {
     @include flex-center();
