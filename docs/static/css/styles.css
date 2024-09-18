@@ -87,11 +87,10 @@ h3 {
   left: 0; /* take up full width */
   right: 0; /* take up full width */
   display: flex;
-  justify-content: center;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   padding: 10px;
-  background-color: #f9f9f9;
+  background-color: rgba(249, 249, 249, 0.8);
   border-bottom: 1px solid #ddd;
   z-index: 1000; /* make sure it's on top of everything */
 }
@@ -114,6 +113,8 @@ h3 {
   font-size: 1.8em;
   color: #f4a261;
   font-weight: bold;
+  padding: 10px;
+  border-radius: 10px;
 }
 .responsive-navbar .year-dropdown {
   font-size: 1.2em;
@@ -420,6 +421,7 @@ h3 {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: -100px;
 }
 .view #empty-garden #year-pic {
   max-width: 100%; /* scale within the container */
@@ -427,7 +429,7 @@ h3 {
   object-fit: contain;
   border-radius: 10px;
 }
-.view #plot-instructions {
+.view .plot-instructions {
   background-color: #2a9d8f;
   color: #ffffff;
   border: 2px solid #1d5d5c;
@@ -444,15 +446,15 @@ h3 {
   padding: 10px;
   transition: color 0.3s ease;
 }
-.view #plot-instructions:hover {
+.view .plot-instructions:hover {
   color: #e9c46a;
 }
-.view #plot-instructions h3 {
+.view .plot-instructions h3 {
   font-size: 1.2em;
   margin-bottom: 10px;
   font-weight: bold;
 }
-.view #plot-instructions h3:hover {
+.view .plot-instructions h3:hover {
   color: #e9c46a;
   transition: color 0.3s ease;
 }
@@ -486,8 +488,8 @@ h3 {
 }
 
 @media (max-width: 768px) {
-  .responsive-navbar {
-    flex-direction: column;
+  #title {
+    display: none;
   }
   .responsive-navbar a, .responsive-navbar select {
     margin: 10px 0;
@@ -519,7 +521,6 @@ h3 {
 @media (max-width: 480px) {
   .responsive-navbar {
     padding: 5px;
-    flex-direction: column;
   }
   .responsive-navbar a, .responsive-navbar select {
     margin: 10px 0;
@@ -562,7 +563,7 @@ h3 {
   #early-years {
     width: 90%;
   }
-  #plot-instructions {
+  .plot-instructions {
     width: 90%;
   }
   #empty-garden {

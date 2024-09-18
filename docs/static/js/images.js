@@ -178,7 +178,7 @@ function getImages(imageSet) {
       "./static/images/hp_pics/hp82.jpg",
       "./static/images/hp_pics/hp90.jpg",
       "./static/images/hp_pics/hp75.jpg",
-      "./static/images/hp_pics/hp69.jpg",
+      // "./static/images/hp_pics/hp69.jpg",
       "./static/images/hp_pics/hp71.jpg",
       "./static/images/hp_pics/hp72.jpg",
       "./static/images/hp_pics/hp56.jpg",

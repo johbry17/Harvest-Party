@@ -257,10 +257,12 @@ h3 {
     top: 0; /* stay at top of screen */
     left: 0; /* take up full width */
     right: 0; /* take up full width */
-    @include flex-center();
+    // @include flex-center();
+    display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: $padding;
-    background-color: $background-color;
+    background-color: rgba(249, 249, 249, 0.8);;
     border-bottom: 1px solid #ddd;
     z-index: 1000; /* make sure it's on top of everything */
 
@@ -286,6 +288,11 @@ h3 {
         font-size: 1.8em;
         color: $highlight-color;
         font-weight: bold;
+        // background-color: rgba(249, 249, 249, 0.5);
+        // border: 2px solid rgba(249, 249, 249, 0.5);
+        padding: $padding;
+        border-radius: $border-radius;
+        // @include box-shadow;
     }
 
     .year-dropdown {
@@ -604,6 +611,7 @@ h3 {
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-top: -100px;
 
         #year-pic {
             max-width: 100%; /* scale within the container */
@@ -614,7 +622,7 @@ h3 {
     }
 
     // plot instructions
-    #plot-instructions {
+    .plot-instructions {
         @include teal-w-white-text;
         width: 50%;
         @include flex-center();
@@ -674,8 +682,12 @@ h3 {
 
 
 @media (max-width: 768px) {
+    #title {
+        display: none;
+    }
+
     .responsive-navbar {
-        flex-direction: column;
+        // flex-direction: column;
         a, select {
             margin: 10px 0;
         }
@@ -714,7 +726,7 @@ h3 {
 @media (max-width: 480px) {
     .responsive-navbar {
         padding: 5px;
-        flex-direction: column;
+        // flex-direction: column;
         a, select {
             margin: 10px 0;
         }
@@ -769,7 +781,7 @@ h3 {
         width: 90%;
     }
 
-    #plot-instructions {
+    .plot-instructions {
         width: 90%;
     }
 
