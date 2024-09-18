@@ -47,6 +47,15 @@ h3 {
   margin: 20px 0;
 }
 
+h1 {
+  font-size: 1.6em;
+  font-weight: bold;
+}
+h1:hover {
+  color: #e14a24;
+  transition: color 0.3s ease;
+}
+
 .modal {
   display: none; /* hide by default */
   position: fixed;

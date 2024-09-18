@@ -269,21 +269,21 @@ function profitOrLossText(
     // flimsy justification for pocketing the money, but this is where the idea to donate came from
     const netProfitOrLoss = profitOrLoss - totalDonated - profitOrLoss2019;
 
-    return `Loss to Hosts:<br>$${Math.abs(netProfitOrLoss).toFixed(
+    return `<i class="fas fa-exclamation-triangle"></i> Loss to Hosts:<br>$${Math.abs(netProfitOrLoss).toFixed(
       2
-    )}<br><br>Total Donated to Capital Area Food Bank over the Years:<br>$${totalDonated.toFixed(
+    )}<br><br><i class="fas fa-hand-holding-heart"></i><br>Total Donated to Capital Area Food Bank over the Years:<br>$${totalDonated.toFixed(
       2
     )}`;
   } else if (selectedYear === 2019) {
-    return `Profit:<br>$${profitOrLoss.toFixed(
+    return `<i class="fas fa-piggy-bank"></i> Profit:<br>$${profitOrLoss.toFixed(
       2
     )}<br>The surplus was a surprise. Never turned a profit before. I think we threw a pizza party`;
   } else if (profitOrLoss > 0) {
-    return `Profit:<br>$${profitOrLoss.toFixed(
+    return `<i class="fas fa-donate"></i> Profit:<br>$${profitOrLoss.toFixed(
       2
-    )}<br>Donated to Capital Area Food Bank`;
+    )}<br><i class="fas fa-gift"></i> Donated to Capital Area Food Bank`;
   } else if (profitOrLoss < 0) {
-    return `Loss:<br>-$${Math.abs(profitOrLoss).toFixed(2)}`;
+    return `<i class="fas fa-frown"></i> Loss:<br>-$${Math.abs(profitOrLoss).toFixed(2)}`;
   } else {
     return "Break-even";
   }

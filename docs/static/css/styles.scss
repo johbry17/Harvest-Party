@@ -214,6 +214,15 @@ h3 {
     margin: 20px 0;
 }
 
+h1 {
+    font-size: 1.6em;
+    font-weight: bold;
+    &:hover {
+        color: darken($secondary-color, 10%);
+        transition: color 0.3s ease;
+    }
+}
+
 // modal
 .modal {
     display: none; /* hide by default */
