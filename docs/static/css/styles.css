@@ -28,6 +28,16 @@
   box-sizing: border-box;
 }
 
+.fade-out {
+  opacity: 1;
+  transition: opacity 0.5s ease-out;
+}
+
+.fade-in {
+  opacity: 0;
+  transition: opacity 0.5s ease-in;
+}
+
 #app-container {
   background-color: #f9f9f9;
   padding-top: 15vh; /* prevent hiding rest of content under header */
@@ -332,6 +342,10 @@ h1:hover {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 40px 40px;
+}
+#home #markdown-content ul {
+  margin-left: 0;
+  padding-left: 0;
 }
 #home #email-form {
   background-color: #f4a261;

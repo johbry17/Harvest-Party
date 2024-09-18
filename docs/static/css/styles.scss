@@ -66,6 +66,17 @@ $font-size-h3: 1.2em;
     box-shadow: $box-shadow;
 }
 
+.fade-out {
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+}
+
+.fade-in {
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+}
+  
+
 // a bunch of these are here for future reference,
 // not used in this project
 @mixin dark-blue-w-gold-text {
@@ -515,6 +526,11 @@ h1 {
         margin-top: 20px;
         @include dark-blue-w-gold-text;
         margin: 40px 40px;
+
+        ul {
+            margin-left: 0;
+            padding-left: 0;
+        }
     }
 
     // email form
