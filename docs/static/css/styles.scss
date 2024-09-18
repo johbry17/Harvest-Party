@@ -47,10 +47,12 @@ $font-size-h3: 1.2em;
 
 .plot {
     @include responsive-plot(0px, 10px);
-    margin-bottom: 10px;
-    // margin: 0;
-    overflow-x: hidden; // prevent horizontal container overflow
-    box-sizing: border-box; // ensure padding is included in width/height calculations
+    & {
+        margin-bottom: 10px;
+        // margin: 0;
+        overflow-x: hidden; // prevent horizontal container overflow
+        box-sizing: border-box; // ensure padding is included in width/height calculations
+    }
 }
 
 // mixins
@@ -635,6 +637,38 @@ h3 {
                 transition: color 0.3s ease;
             }
         }
+    }
+}
+
+
+// tableau viz
+#tableau-viz {
+    margin-bottom: 10px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    overflow-x: hidden; // prevent horizontal container overflow
+    box-sizing: border-box; // ensure padding is included in width/height calculations
+
+    background-color: #ffffff;
+    color: #333333;
+    border: 2px solid #e0e0e0;
+    padding: $padding;
+    border-radius: $border-radius;
+    @include box-shadow;
+
+    // responsive sizing
+    width: 100%;
+    max-width: 100%;
+    @include flex-center();
+
+    // media queries
+    @media (min-width: 1200px) {
+        width: 90%;
+    }
+
+    @media (min-width: 768px) {
+        max-width: 100%;
+        padding: $padding * 0.5;
     }
 }
 
