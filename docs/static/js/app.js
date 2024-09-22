@@ -111,7 +111,7 @@ function switchView(selectedYear) {
     document.getElementById("view-2014-2016").style.display = "block";
   } else if (selectedYear === 2020) {
     carouselDiv.style.display = "none";
-    document.getElementById("2020").style.display = "block";
+    document.getElementById("year-2020").style.display = "block";
     rollMask(); // tee-hee
     setInterval(rollMask, 10000); // repeatedly roll mask
   } else {

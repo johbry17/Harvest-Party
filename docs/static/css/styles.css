@@ -28,16 +28,6 @@
   box-sizing: border-box;
 }
 
-.fade-out {
-  opacity: 1;
-  transition: opacity 0.5s ease-out;
-}
-
-.fade-in {
-  opacity: 0;
-  transition: opacity 0.5s ease-in;
-}
-
 #app-container {
   background-color: #f9f9f9;
   padding-top: 15vh; /* prevent hiding rest of content under header */
@@ -295,7 +285,7 @@ h1:hover {
   margin: 0 10px;
 }
 
-#total-number, #attendee-counter {
+.carousel-container, #attendee-counter, #home, #view-2014-2016, #year-2020, #total-number, .plot-instructions {
   animation: fadeIn 1s ease-in-out;
 }
 

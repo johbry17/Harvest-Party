@@ -66,17 +66,6 @@ $font-size-h3: 1.2em;
     box-shadow: $box-shadow;
 }
 
-.fade-out {
-    opacity: 1;
-    transition: opacity 0.5s ease-out;
-}
-
-.fade-in {
-    opacity: 0;
-    transition: opacity 0.5s ease-in;
-}
-  
-
 // a bunch of these are here for future reference,
 // not used in this project
 @mixin dark-blue-w-gold-text {
@@ -489,7 +478,7 @@ h1 {
     }
 }
 
-#total-number, #attendee-counter {
+.carousel-container, #attendee-counter, #home, #view-2014-2016, #year-2020, #total-number, .plot-instructions {
     animation: fadeIn 1s ease-in-out;
 }
 
