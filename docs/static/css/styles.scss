@@ -272,7 +272,7 @@ h1 {
     align-items: center;
     padding: $padding;
     background-color: rgba(249, 249, 249, 0.8);;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid rgba(249, 249, 249, 0.8);
     z-index: 1000; /* make sure it's on top of everything */
 
     a, select { /* links and dropdowns */
