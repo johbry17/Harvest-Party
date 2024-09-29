@@ -218,9 +218,9 @@ function treemapPlot(data, selectedYear, colorMap) {
     values: Object.values(categorySums),
     textinfo: "label+value",
     texttemplate:
-      "<b><span style='text-decoration: underline;'>%{label}</span></b><br>$%{customdata.value}<br>%{customdata.percent:.2f%}%",
+      "<b><span style='text-decoration: underline;'>%{label}</span></b><br>%{customdata.value}<br>%{customdata.percent:.2f%}%",
     hovertemplate:
-      "<b><span style='text-decoration: underline;'>%{label}</span></b><br>$%{customdata.value}<br>%{customdata.percent}%<extra></extra>",
+      "<b><span style='text-decoration: underline;'>%{label}</span></b><br>%{customdata.value}<br>%{customdata.percent}%<extra></extra>",
     marker: {
       colors: Object.keys(categorySums).map((category) => colorMap[category]),
     },
