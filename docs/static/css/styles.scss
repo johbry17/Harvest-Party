@@ -256,6 +256,19 @@ h1 {
             height: auto;
             width: auto;
             border-radius: $border-radius;
+            object-fit: cover;
+        }
+
+        .modal-text {
+            position: absolute;
+            bottom: 20px;
+            color: white;
+            font-size: 1.2rem;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.4);
+            // padding: 10px;
+            border-radius: $border-radius;
+            width: calc(60% - 40px);
         }
     }
 }

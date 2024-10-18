@@ -87,6 +87,17 @@ h1:hover {
   height: auto;
   width: auto;
   border-radius: 10px;
+  object-fit: cover;
+}
+.modal .modal-content .modal-text {
+  position: absolute;
+  bottom: 20px;
+  color: white;
+  font-size: 1.2rem;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  width: calc(60% - 40px);
 }
 
 .responsive-navbar {
