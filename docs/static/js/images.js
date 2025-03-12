@@ -1,7 +1,7 @@
 // set home logo randomly
 function setHomeLogo(data) {
-  // get unique years, chose a random year, set the path
-  const uniqueYears = [...new Set(data.map((d) => parseInt(d.Year)))];
+  // get unique years - not 2024, chose a random year, set the path
+  const uniqueYears = [...new Set(data.map((d) => parseInt(d.Year)))].filter(year => year !== 2024);
   const randomYear =
     uniqueYears[Math.floor(Math.random() * uniqueYears.length)];
   const logoPath = `./static/images/hp_logos/hp_${randomYear}.jpg`;

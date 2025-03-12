@@ -1,14 +1,10 @@
-# Prototype / Testing
-
-# ---------
-
 # !!!This event has already happened!!!
 
 # ---------
 
 # Lindos Amigos,
 
-What this year really needs, is more cowbell. And fall revelry. And your closest friends, with maybe some new ones, too! Join us on **Saturday, October 21st, 2023** for **HARVEST PARTY TEN (HPX)**, the annual celebration of all things fall. This will be a **DAYTIME PARTY** starting at **NOON**!
+What this year really needs, is more cowbell. And fall revelry. And your closest friends, with maybe some new ones, too! Join us on **Saturday, October 19th, 2024** for **HARVEST PARTY ELEVEN (HPXI)**, the annual celebration of all things fall. This will be a **DAYTIME PARTY** starting at **NOON**!
 
 As usual, we will journey together into a dance/rave/kegger (*ahem* soiree) throughout the day but we have a hard stop at 10 – to avoid a visit from DC’s finest this year. #lifegoals
 
