@@ -266,12 +266,22 @@ function updateTotals(expenseData, donationData, attendeeData, selectedYear) {
     document.getElementById("young-once?").style.display = "none";
   }
 
-  document.getElementById("total-amount").innerHTML = `$${totalAmount.toFixed(
-    2
+  // document.getElementById("total-amount").innerHTML = `$${totalAmount.toFixed(
+  //   2
+  // )}`;
+  // document.getElementById(
+  //   "total-donations"
+  // ).textContent = `$${totalDonations.toFixed(2)}`;
+  document.getElementById("total-amount").innerHTML = `$${totalAmount.toLocaleString(
+    undefined,
+    { minimumFractionDigits: 2, maximumFractionDigits: 2 }
   )}`;
   document.getElementById(
     "total-donations"
-  ).textContent = `$${totalDonations.toFixed(2)}`;
+  ).textContent = `$${totalDonations.toLocaleString(
+    undefined,
+    { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+  )}`;
   document.getElementById("profit-loss-value").innerHTML = profitOrLossText(
     profitOrLoss,
     selectedYear,
@@ -327,21 +337,27 @@ function profitOrLossText(
     // flimsy justification for pocketing the money, but this is where the idea to donate came from
     const netProfitOrLoss = profitOrLoss - totalDonated - profitOrLoss2019;
 
-    return `<i class="fas fa-exclamation-triangle"></i> Loss to Hosts:<br>$${Math.abs(netProfitOrLoss).toFixed(
-      2
-    )}<br><br><i class="fas fa-hand-holding-heart"></i><br>Total Donated to Capital Area Food Bank over the Years:<br>$${totalDonated.toFixed(
-      2
+    return `<i class="fas fa-exclamation-triangle"></i> Loss to Hosts:<br>$${Math.abs(netProfitOrLoss).toLocaleString(
+      undefined,
+      { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+    )}<br><br><i class="fas fa-hand-holding-heart"></i><br>Total Donated to Capital Area Food Bank over the Years:<br>$${totalDonated.toLocaleString(
+      undefined,
+      { minimumFractionDigits: 2, maximumFractionDigits: 2 }
     )}`;
   } else if (selectedYear === 2019) {
     return `<i class="fas fa-piggy-bank"></i> Profit:<br>$${profitOrLoss.toFixed(
       2
     )}<br>The surplus was a surprise. Never turned a profit before. I think we threw a pizza party`;
   } else if (profitOrLoss > 0) {
-    return `<i class="fas fa-donate"></i> Profit:<br>$${profitOrLoss.toFixed(
-      2
+    return `<i class="fas fa-donate"></i> Profit:<br>$${profitOrLoss.toLocaleString(
+      undefined,
+      { minimumFractionDigits: 2, maximumFractionDigits: 2 }
     )}<br><i class="fas fa-gift"></i> Donated to Capital Area Food Bank`;
   } else if (profitOrLoss < 0) {
-    return `<i class="fas fa-frown"></i> Loss:<br>-$${Math.abs(profitOrLoss).toFixed(2)}`;
+    return `<i class="fas fa-frown"></i> Loss:<br>-$${Math.abs(profitOrLoss).toLocaleString(
+      undefined,
+      { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+    )}`;
   } else {
     return "Break-even";
   }
