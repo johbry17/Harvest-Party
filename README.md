@@ -20,13 +20,13 @@ Names have been changed to protect the guilty. This is a fun project.
 
 ## Usage
 
-I posted the [exploratory data analysis](https://colab.research.google.com/drive/123nofMYi7z7l8IldtLYO9ns2wDWzKHCE?usp=sharing) to Google Colab, as some of the hover info from Plotly will not render on GitHub, because GitHub only hosts static web content. You can see the same `exploratory_data_analysis.ipynb` here in the root directory.
+I posted the 2023 [exploratory data analysis](https://colab.research.google.com/drive/123nofMYi7z7l8IldtLYO9ns2wDWzKHCE?usp=sharing) (EDA) to Google Colab, as some of the hover info from Plotly will not render on GitHub, because GitHub only hosts static web content. You can see the same `exploratory_data_analysis.ipynb` here in the root directory, updated for 2024.
 
 The website is hosted here on GitHub Pages, under the domain name [harvestpartydc.com](https://www.harvestpartydc.com/). All files are in the `/docs/` folder. The visualizations are interactive and contain lots of extra information on hover or click. I'm still ironing out some of the formatting kinks for mobile display. For example, the line plot of "Expenses by Category Over Time" should toggle between an individual category, displaying only that category's expenditure per year while dimming the rest, but it's fickle in functionality, not always displaying amounts, or working at all on mobile.
 
-The Tableau explanatory data analysis can be viewed [here](https://public.tableau.com/app/profile/bryan.johns6699/viz/HarvestParty/HarvestPartyStory). For best viewing, check the bottom right corner and expand to full screen.
+The 2023 Tableau explanatory data analysis can be viewed [here](https://public.tableau.com/app/profile/bryan.johns6699/viz/HarvestParty/HarvestPartyStory). For best viewing, check the bottom right corner and expand to full screen.
 
-All told, the data analysis found a way to shave roughly $1,000 off the expenses of the party, a 20% savings.
+All told, the data analysis found a way to shave roughly $1,000 off the expenses of the party, a 20% savings, which happened in 2024.
 
 ## History
 
@@ -70,7 +70,7 @@ The website does contain a few extra flourishes. For example, the homepage logo 
 
 Future tasks include consulting a graphic designer to improve the aesthetics of the website and adding efficiency enhancements, like preloading images, lazy loading for the image carousel, and caching fetched data in the browser's localStorage or sessionStorage. I might also add a dark mode, subtle animations, or custom icons. Projects never end.
 
-The Tableau explanatory data analysis has two formats, one for desktop, and one for mobile. The desktop version contains a more comprehensive analysis, while the mobile version distills down to only the highlights. It summarizes the results of the data analysis, explaining to attendees the rationale behind setting suggested donations, and identifying explicit cost-cutting opportunities to be presented to the Harvest Party planning committee, likely resulting in a 20% decrease in expenditures for the upcoming year.
+The 2023 Tableau explanatory data analysis has two formats, one for desktop, and one for mobile. The desktop version contains a more comprehensive analysis, while the mobile version distills down to only the highlights. It summarizes the results of the data analysis, explaining to attendees the rationale behind setting suggested donations, and identifying explicit cost-cutting opportunities to be presented to the Harvest Party planning committee, likely resulting in a 20% decrease in expenditures for the upcoming year (n.b., this happened).
 
 ## Gallery
 

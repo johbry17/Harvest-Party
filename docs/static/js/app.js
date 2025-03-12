@@ -282,6 +282,8 @@ function updateTotals(expenseData, donationData, attendeeData, selectedYear) {
   // toggle visibility of cost per attendee elements based on selected year
   document.getElementById("cost-per-attendee").style.display =
     selectedYear === "all" ? "none" : "block";
+  document.getElementById("end-metric").style.display =
+    selectedYear === "all" ? "block" : "none";
 }
 
 // determine profit or loss text
