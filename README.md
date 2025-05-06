@@ -7,7 +7,7 @@ Data analysis and interactive visualizations for an annual fundraiser for the [C
 - [Usage](#usage)
 - [History](#history)
 - [Gallery](#gallery)
-- [Certificate](#certificate)
+- [Course Certificate](#course-certificate)
 - [References](#references)
 - [Acknowledgements](#acknowledgements)
 - [Author](#author)
@@ -112,7 +112,9 @@ Pictures from the image carousel:
 
 ![2020 with masks rolling across it](./resources/images/2020.png)
 
-## Certificate
+## Course Certificate
+
+This was submitted as the final project for [cs50x](https://cs50.harvard.edu/x), "Harvard University’s introduction to the intellectual enterprises of computer science and the art of programming," the free online version for non-Ivy League plebians.
 
 ![cs50x certificate](./resources/images/CS50x.png)
 
