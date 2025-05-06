@@ -114,7 +114,7 @@ Pictures from the image carousel:
 
 ## Course Certificate
 
-This was submitted as the final project for [cs50x](https://cs50.harvard.edu/x), "Harvard University’s introduction to the intellectual enterprises of computer science and the art of programming," the free online version for non-Ivy League plebians.
+This was submitted as the final project for [cs50x](https://cs50.harvard.edu/x), "Harvard University’s introduction to the intellectual enterprises of computer science and the art of programming," the free online version, not the expensive Ivy League version. When I want to annoy my friends, I tell them I'm Harvard-educated.
 
 ![cs50x certificate](./resources/images/CS50x.png)
 
