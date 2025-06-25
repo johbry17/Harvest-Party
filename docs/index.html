@@ -1,248 +1,397 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Harvest Party</title>
-    <link rel="stylesheet" href="./static/css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="icon" href="hp_2022.ico" type="image/x-icon">
-</head>
-<body id="app-container">
+    <link rel="stylesheet" href="./static/css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    />
+    <link rel="icon" href="hp_2022.ico" type="image/x-icon" />
+  </head>
+  <body id="app-container">
     <!-- welcome modal -->
     <div id="welcome-modal" class="modal">
-        <div class="modal-content">
-            <!-- <img src="./static/images/welcome.jpg" alt="Welcome" class="welcome-image"> -->
-             <img src="./static/images/313British.jpg" alt="Welcome" class="welcome-image">
-             <div class="modal-text">
-                Tap / click anywhere to continue
-             </div>
-        </div>
+      <div class="modal-content">
+        <!-- <img src="./static/images/welcome.jpg" alt="Welcome" class="welcome-image"> -->
+        <img
+          src="./static/images/313British.jpg"
+          alt="Welcome"
+          class="welcome-image"
+        />
+        <div class="modal-text">Tap / click anywhere to continue</div>
+      </div>
     </div>
 
     <!-- navbar -->
     <div class="responsive-navbar">
-        <a href="#" id="home-link">Home</a>
-        <span id="title">Harvest Party</span>
-        <select id="year" class="year-dropdown"></select>
+      <a href="#" id="home-link">Home</a>
+      <span id="title">Harvest Party</span>
+      <select id="year" class="year-dropdown"></select>
     </div>
 
     <!-- image container -->
     <div class="carousel-container">
-        <div class="carousel-images"></div>
-        <div class="carousel-controls">
-          <span id="prev-button" class="fa-stack fa-lg">
-            <i class="fas fa-circle fa-stack-2x"></i>
-            <i class="fas fa-chevron-left fa-stack-1x fa-inverse"></i>
-          </span>
-          <span id="play-pause-button" class="fa-stack fa-lg">
-            <i class="fas fa-circle fa-stack-2x"></i>
-            <i class="fas fa-pause fa-stack-1x fa-inverse"></i>
-          </span>
-          <span id="next-button" class="fa-stack fa-lg">
-            <i class="fas fa-circle fa-stack-2x"></i>
-            <i class="fas fa-chevron-right fa-stack-1x fa-inverse"></i>
-          </span>
-        </div>
-    </div>  
-    <br>
+      <div class="carousel-images"></div>
+      <div class="carousel-controls">
+        <span id="prev-button" class="fa-stack fa-lg">
+          <i class="fas fa-circle fa-stack-2x"></i>
+          <i class="fas fa-chevron-left fa-stack-1x fa-inverse"></i>
+        </span>
+        <span id="play-pause-button" class="fa-stack fa-lg">
+          <i class="fas fa-circle fa-stack-2x"></i>
+          <i class="fas fa-pause fa-stack-1x fa-inverse"></i>
+        </span>
+        <span id="next-button" class="fa-stack fa-lg">
+          <i class="fas fa-circle fa-stack-2x"></i>
+          <i class="fas fa-chevron-right fa-stack-1x fa-inverse"></i>
+        </span>
+      </div>
+    </div>
+    <br />
 
     <!-- attendee counter -->
     <div id="attendee-counter">
-        <h2><i class="fab fa-facebook"></i> Facebook Attendees</h2>
-        <h4>An increasingly irrelevant metric</h4>
-        <h4 id="irrelevant-metric" style="display: none;"><br>...so irrelevant we dropped it</h4>
-        <h4 id="end-metric" style="display: none;">All good things must come to an end...<br>...like this Facebook tally, after 2023</h4>
-        <div class="attendee-stats">
-            <div class="stat">
-                <div class="stat-wrapper">
-                    <h2><i class="fas fa-check-circle"></i> RSVP'd:</h2>
-                    <p id="rsvp-count">0</p>
-                </div>
-            </div>
-            <div class="stat">
-                <div class="stat-wrapper">
-                    <h2><i class="fas fa-question-circle"></i> Maybe:</h2>
-                    <p id="maybe-count">0</p>
-                </div>
-            </div>
+      <h2><i class="fab fa-facebook"></i> Facebook Attendees</h2>
+      <h4>An increasingly irrelevant metric</h4>
+      <h4 id="irrelevant-metric" style="display: none">
+        <br />...so irrelevant we dropped it
+      </h4>
+      <h4 id="end-metric" style="display: none">
+        All good things must come to an end...<br />...like this Facebook tally,
+        after 2023
+      </h4>
+      <div class="attendee-stats">
+        <div class="stat">
+          <div class="stat-wrapper">
+            <h2><i class="fas fa-check-circle"></i> RSVP'd:</h2>
+            <p id="rsvp-count">0</p>
+          </div>
         </div>
+        <div class="stat">
+          <div class="stat-wrapper">
+            <h2><i class="fas fa-question-circle"></i> Maybe:</h2>
+            <p id="maybe-count">0</p>
+          </div>
+        </div>
+      </div>
     </div>
-    <br>
+    <br />
 
     <!-- home page view -->
     <div id="home" class="view">
-        <div id="intro">
-            <h2>Welcome to Harvest Party</h2>
-            <h2><i class="fas fa-leaf"></i></h2>
-            <h4>Harvest Party is a yearly event that takes place in the fall. It is a time to celebrate the harvest and the end of the growing season. The event is a fundraiser for the Capital Area Food Bank. The event features live music, food, and drinks. The event is open to the public and is a great way to support the local community.</h4>
-            <h2><i class="fas fa-music"></i><br><i class="fas fa-cocktail"></i> <i class="fas fa-utensils"></i></h2>
-        </div>
-        <div id="markdown-content"></div>
-        <div id="email-form">
-            <h3>Contact Us</h3>
-            <h1><i class="fas fa-envelope"></i></h1>
-            <form id="form" action="https://formspree.io/f/xqazjagw" method="POST">
-                <input type="text" id="name" name="name" placeholder="Enter your name" required>
-                <br><br>
-                <input type="email" id="email" name="email" placeholder="Enter your email" required>
-                <input type="hidden" name="_subject" value="Harvest Party Email">
-                <br><br>
-                <textarea rows="5" id="message" name="message" placeholder="Enter your message" required></textarea>
-                <br><br>
-                <button type="submit">Send</button>
-            </form>
-        </div>
+      <div id="intro">
+        <h2>Welcome to Harvest Party</h2>
+        <h2><i class="fas fa-leaf"></i></h2>
+        <h4>
+          Harvest Party is a yearly event that takes place in the fall. It is a
+          time to celebrate the harvest and the end of the growing season. The
+          event is a fundraiser for the Capital Area Food Bank. The event
+          features live music, food, and drinks. The event is open to the public
+          and is a great way to support the local community.
+        </h4>
+        <h2>
+          <i class="fas fa-music"></i><br /><i class="fas fa-cocktail"></i>
+          <i class="fas fa-utensils"></i>
+        </h2>
+      </div>
+      <div id="markdown-content"></div>
+      <div id="email-form">
+        <h3>Contact Us</h3>
+        <h1><i class="fas fa-envelope"></i></h1>
+        <form id="form" action="https://formspree.io/f/xqazjagw" method="POST">
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Enter your name"
+            required
+          />
+          <br /><br />
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+          />
+          <input type="hidden" name="_subject" value="Harvest Party Email" />
+          <br /><br />
+          <textarea
+            rows="5"
+            id="message"
+            name="message"
+            placeholder="Enter your message"
+            required
+          ></textarea>
+          <br /><br />
+          <button type="submit">Send</button>
+        </form>
+      </div>
     </div>
 
     <!-- views based on year -->
     <!-- early years -->
     <div id="view-2014-2016" class="view">
-        <div id="early-years">
-            <h2><i class="fas fa-glass-cheers"></i> We Were Young Once <i class="fas fa-users"></i></h2>
-            <br>
-            <h4>Data unknown. Probably $400 for a band and a keg of PBR</h4>
-        </div>
+      <div id="early-years">
+        <h2>
+          <i class="fas fa-glass-cheers"></i> We Were Young Once
+          <i class="fas fa-users"></i>
+        </h2>
+        <br />
+        <h4>Data unknown. Probably $400 for a band and a keg of PBR</h4>
+      </div>
     </div>
 
     <!-- 2020 view -->
     <div id="year-2020" class="view">
-        <div id="empty-garden">
-            <img src="./static/images/hp_logos/hp_2020.jpg" alt="2020" id="year-pic">
-        </div>
-        <div id="mask-container">
-            <img src="./static/images/masks/mask1.png" alt="Mask 1" class="mask" id="mask1">
-            <img src="./static/images/masks/mask2.png" alt="Mask 2" class="mask" id="mask2">
-            <img src="./static/images/masks/mask3.png" alt="Mask 3" class="mask" id="mask3">
-        </div>
+      <div id="empty-garden">
+        <img
+          src="./static/images/hp_logos/hp_2020.jpg"
+          alt="2020"
+          id="year-pic"
+        />
+      </div>
+      <div id="mask-container">
+        <img
+          src="./static/images/masks/mask1.png"
+          alt="Mask 1"
+          class="mask"
+          id="mask1"
+        />
+        <img
+          src="./static/images/masks/mask2.png"
+          alt="Mask 2"
+          class="mask"
+          id="mask2"
+        />
+        <img
+          src="./static/images/masks/mask3.png"
+          alt="Mask 3"
+          class="mask"
+          id="mask3"
+        />
+      </div>
     </div>
 
     <!-- plots based on year -->
-    <div id="view-other-years" class="view">    
-        <div id="total-number">
-            <h2 id="young-once?"><i class="fas fa-glass-cheers"></i> We Were Young Once... <i class="fas fa-users"></i><br><i class="fas fa-battery-quarter"></i><br><i class="fas fa-mug-hot"></i> ...And Now We Need Naps <i class="fas fa-bed"></i><br><br></h2>
-            <div class="totals">
-                <div class="total">
-                    <div class="total-wrapper">
-                        <h2><i class="fas fa-chart-line"></i> Total Expenses:</h2>
-                        <h2 id="total-amount">$0.00</h2>
-                    </div>
-                </div>
-                <div class="total"> 
-                    <div class="total-wrapper">
-                        <h2><i class="fas fa-hand-holding-usd"></i> Total Donations:</h2>
-                        <h2 id="total-donations">$0.00</h2>
-                    </div>
-                </div>
+    <div id="view-other-years" class="view">
+      <div id="total-number">
+        <h2 id="young-once?">
+          <i class="fas fa-glass-cheers"></i> We Were Young Once...
+          <i class="fas fa-users"></i><br /><i
+            class="fas fa-battery-quarter"
+          ></i
+          ><br /><i class="fas fa-mug-hot"></i> ...And Now We Need Naps
+          <i class="fas fa-bed"></i><br /><br />
+        </h2>
+        <div class="totals">
+          <div class="total">
+            <div class="total-wrapper">
+              <h2><i class="fas fa-chart-line"></i> Total Expenses:</h2>
+              <h2 id="total-amount">$0.00</h2>
             </div>
-            <br>
-            <div class="profit-loss">
-                <h2 id="profit-loss-value">$0.00</h2>
+          </div>
+          <div class="total">
+            <div class="total-wrapper">
+              <h2><i class="fas fa-hand-holding-usd"></i> Total Donations:</h2>
+              <h2 id="total-donations">$0.00</h2>
             </div>
-            <br>
-            <div id="cost-per-attendee">
-                <div class="totals">
-                    <div class="total">
-                        <div class="total-wrapper">
-                            <h2><i class="fas fa-tag"></i> Cost per RSVP:</h2>
-                            <h2 id="rsvp-amount">$0.00</h2>
-                        </div>
-                    </div>
-                    <div class="total"> 
-                        <div class="total-wrapper">  
-                            <h2><i class="fas fa-tag"></i> Cost per RSVP & Maybe:</h2>
-                            <h2 id="rsvp-maybe-amount">$0.00</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
-        <br>
-        <h3 class="plot-instructions">Explore the data highlights in Tableau.<i class="fas fa-chart-line"></i>Tap or hover, and use the dropdowns.</h3>
-        <br>
-        <div class="col-sm-12 col-md-12">
-            <div id="tableau-viz">
-                <!-- begin tableau mobile embed code -->
-                <div class='tableauPlaceholder' id='viz1726633006452' style='position: relative'>
-                    <noscript>
-                        <a href='#'>
-                            <img alt='Harvest Party Mobile ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ha&#47;HarvestPartyMobile&#47;HarvestPartyMobile&#47;1_rss.png' style='border: none' />
-                        </a>
-                    </noscript>
-                    <object class='tableauViz'  style='display:none;'>
-                        <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
-                        <param name='embed_code_version' value='3' /> 
-                        <param name='site_root' value='' />
-                        <param name='name' value='HarvestPartyMobile&#47;HarvestPartyMobile' />
-                        <param name='tabs' value='no' />
-                        <param name='toolbar' value='yes' />
-                        <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ha&#47;HarvestPartyMobile&#47;HarvestPartyMobile&#47;1.png' /> 
-                        <param name='animate_transition' value='yes' />
-                        <param name='display_static_image' value='yes' />
-                        <param name='display_spinner' value='yes' />
-                        <param name='display_overlay' value='yes' />
-                        <param name='display_count' value='yes' />
-                        <param name='language' value='en-US' />
-                    </object>
-                </div>
-                <script type='text/javascript'>
-                    var divElement = document.getElementById('viz1726633006452');
-                    var vizElement = divElement.getElementsByTagName('object')[0];
-                    vizElement.style.width='420px';
-                    vizElement.style.height='677px';
-                    var scriptElement = document.createElement('script');
-                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
-                    vizElement.parentNode.insertBefore(scriptElement, vizElement);
-                </script>
-                <!-- end tableau mobile embed code -->
-            </div>
+        <br />
+        <div class="profit-loss">
+          <h2 id="profit-loss-value">$0.00</h2>
         </div>
-        <br>
-        <h3 class="plot-instructions">Plots offer limited interactivity.<i class="fas fa-chart-bar"></i>Tap or hover for details.<i class="fas fa-mobile-alt"></i>Mobile users, turn your phone sideways.</h3>
-        <br>
-        <div id="plot-container" class="container">
-            <div class="row">
-                <div class="col-sm-12 col-md-6">
-                    <div id="bar-plot" class="plot"></div>
-                </div>
-                <div class="col-sm-12 col-md-6">
-                    <div id="treemap-plot" class="plot"></div>
-                </div>
-                <div class="col-sm-12">
-                    <div id="individual-expenses-bar-plot" class="plot"></div>
-                </div>
-                <div class="col-sm-12 col-md-6">
-                    <div id="sunburst-plot" class="plot"></div>
-                </div>
-                <div class="col-sm-12 col-md-6">
-                    <div id="category-line-plot" class="plot"></div>
-                </div>
-                <div class="col-sm-12 col-md-6">
-                    <div id="total-expenses-donations-bar-plot" class="plot"></div>
-                </div>
-                <div class="col-sm-12 col-md-6">
-                    <div id="total-expenses-donations-line-plot" class="plot"></div>
-                </div>
-                <div class="col-sm-12 col-md-6">
-                    <div id="donations-v-expenses-plot" class="plot"></div>
-                </div>
-                <div class="col-sm-12 col-md-6">
-                    <div id="cost-per-attendee-plot" class="plot"></div>
-                </div>
-                <div class="col-sm-12 col-md-6">
-                    <div id="attendee-plot" class="plot"></div>
-                </div>
-                <div class="col-sm-12">
-                    <div id="expense-table" class="plot"></div>
-                </div>
-                <div class="col-sm-12">
-                    <div id="corn-kings-and-queens" class="plot"></div>
-                </div>
+        <br />
+        <div id="cost-per-attendee">
+          <div class="totals">
+            <div class="total">
+              <div class="total-wrapper">
+                <h2><i class="fas fa-tag"></i> Cost per RSVP:</h2>
+                <h2 id="rsvp-amount">$0.00</h2>
+              </div>
             </div>
+            <div class="total">
+              <div class="total-wrapper">
+                <h2><i class="fas fa-tag"></i> Cost per RSVP & Maybe:</h2>
+                <h2 id="rsvp-maybe-amount">$0.00</h2>
+              </div>
+            </div>
+          </div>
         </div>
-        
+      </div>
+      <br />
+      <h3 class="plot-instructions">
+        Explore the data highlights in Tableau.<i class="fas fa-chart-line"></i
+        >Tap or hover, and use the dropdowns.
+      </h3>
+      <br />
+      <div class="col-sm-12 col-md-12">
+        <div id="tableau-viz">
+          <!-- begin tableau mobile embed code -->
+          <div
+            class="tableauPlaceholder"
+            id="viz1726633006452"
+            style="position: relative"
+          >
+            <noscript>
+              <a href="#">
+                <img
+                  alt="Harvest Party Mobile "
+                  src="https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ha&#47;HarvestPartyMobile&#47;HarvestPartyMobile&#47;1_rss.png"
+                  style="border: none"
+                />
+              </a>
+            </noscript>
+            <object class="tableauViz" style="display: none">
+              <param
+                name="host_url"
+                value="https%3A%2F%2Fpublic.tableau.com%2F"
+              />
+              <param name="embed_code_version" value="3" />
+              <param name="site_root" value="" />
+              <param
+                name="name"
+                value="HarvestPartyMobile&#47;HarvestPartyMobile"
+              />
+              <param name="tabs" value="no" />
+              <param name="toolbar" value="yes" />
+              <param
+                name="static_image"
+                value="https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ha&#47;HarvestPartyMobile&#47;HarvestPartyMobile&#47;1.png"
+              />
+              <param name="animate_transition" value="yes" />
+              <param name="display_static_image" value="yes" />
+              <param name="display_spinner" value="yes" />
+              <param name="display_overlay" value="yes" />
+              <param name="display_count" value="yes" />
+              <param name="language" value="en-US" />
+            </object>
+          </div>
+          <script type="text/javascript">
+            var divElement = document.getElementById("viz1726633006452");
+            var vizElement = divElement.getElementsByTagName("object")[0];
+            vizElement.style.width = "420px";
+            vizElement.style.height = "677px";
+            var scriptElement = document.createElement("script");
+            scriptElement.src =
+              "https://public.tableau.com/javascripts/api/viz_v1.js";
+            vizElement.parentNode.insertBefore(scriptElement, vizElement);
+          </script>
+          <!-- end tableau mobile embed code -->
+        </div>
+      </div>
+      <br />
+      <h3 class="plot-instructions">
+        Plots offer limited interactivity.<i class="fas fa-chart-bar"></i>Tap or
+        hover for details.<i class="fas fa-mobile-alt"></i>Mobile users, turn
+        your phone sideways.
+      </h3>
+      <br />
+      <div id="plot-container" class="container">
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+            <div id="bar-plot" class="plot"></div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div id="treemap-plot" class="plot"></div>
+          </div>
+          <div class="col-sm-12">
+            <div id="individual-expenses-bar-plot" class="plot"></div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div id="sunburst-plot" class="plot"></div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div id="category-line-plot" class="plot"></div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div id="total-expenses-donations-bar-plot" class="plot"></div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div id="total-expenses-donations-line-plot" class="plot"></div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div id="donations-v-expenses-plot" class="plot"></div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div id="cost-per-attendee-plot" class="plot"></div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div id="attendee-plot" class="plot"></div>
+          </div>
+          <div class="col-sm-12">
+            <div id="expense-table" class="plot"></div>
+          </div>
+          <div class="col-sm-12">
+            <div id="corn-kings-and-queens" class="plot"></div>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="site-footer" role="contentinfo">
+      <span class="footer-owner">
+        &copy; <span id="copyright-year">2025</span>
+        <span class="footer-author">Bryan C. Johns</span>
+      </span>
+      <span class="footer-links">
+        <a
+          href="https://johbry17.github.io/portfolio/index.html"
+          target="_blank"
+          class="portfolio-link"
+          aria-label="Portfolio"
+        >
+          <i
+            class="fas fa-laptop-code footer-icon"
+            aria-hidden="true"
+            title="Portfolio"
+          ></i
+          >Portfolio
+        </a>
+        <a
+          href="https://www.linkedin.com/in/b-johns/"
+          target="_blank"
+          class="linkedin-link"
+          aria-label="LinkedIn"
+        >
+          <i
+            class="fab fa-linkedin footer-icon"
+            aria-hidden="true"
+            title="LinkedIn"
+          ></i
+          >LinkedIn
+        </a>
+        <a
+          href="https://github.com/johbry17/Harvest-Party"
+          target="_blank"
+          class="github-link"
+          aria-label="GitHub"
+        >
+          <i
+            class="fab fa-github footer-icon"
+            aria-hidden="true"
+            title="GitHub"
+          ></i
+          >GitHub
+        </a>
+      </span>
+    </footer>
+    <script>
+      // Auto-update year
+      const yearElement = document.getElementById("copyright-year");
+      if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+      }
+    </script>
 
     <!-- JavaScript -->
     <script src="https://d3js.org/d3.v6.min.js"></script>
@@ -251,6 +400,5 @@
     <script src="static/js/images.js"></script>
     <script src="static/js/plots.js"></script>
     <script src="static/js/app.js"></script>
-
-</body>
+  </body>
 </html>
