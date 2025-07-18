@@ -40,6 +40,7 @@ function singleYearPlots(data, selectedYear, colorMap) {
 // function to clear elements
 function clearElements(onoff) {
   const elements = [
+    "tableau-story",
     "category-line-plot",
     "total-expenses-donations-bar-plot",
     "total-expenses-donations-line-plot",
