@@ -46,6 +46,7 @@ function clearElements(onoff) {
     "total-expenses-donations-line-plot",
     "donations-v-expenses-plot",
     "cost-per-attendee-plot",
+    "facebook-plot-note",
     "attendee-plot",
     "corn-kings-and-queens",
   ];
@@ -171,7 +172,7 @@ function barPlot(data, selectedYear, colorMap) {
     xaxis: { title: "Amount", tickformat: "$,.0f" },
     yaxis: { title: "Category" },
     responsive: true,
-    // margin: { l: 5, r: 5, t: 5, b: 5 }, // removes left, right, top, and bottom margins
+    margin: { t: 100, l: 80, r: 30, b: 80 },
   };
 
   // plot chart
@@ -275,6 +276,7 @@ function individualExpensesBarPlot(data, selectedYear, colorMap) {
     title: `Itemized Expenses for ${selectedYear}`,
     xaxis: { title: "Category" },
     yaxis: { title: "Amount ($)" },
+    margin: { t: 100, l: 80, r: 30, b: 80 },
   };
 
   // plot chart
@@ -443,7 +445,7 @@ function sunburstPlot(data, selectedYear, colorMap) {
 }
 
 // line plot of expenses by category over time, that toggles categories w/ values
-// the values rarely appear when toggled, the plotly gods are fickle creatures
+// the values sometimes appear when toggled - the plotly gods are fickle creatures
 function categoryLinePlot(data, colorMap) {
   // aggregate data by year and category
   const categorySums = data.reduce((acc, item) => {
@@ -476,7 +478,7 @@ function categoryLinePlot(data, colorMap) {
       line: { color: colorMap[category] },
       marker: { color: colorMap[category] },
       text: null, // no text by default
-      textposition: null, // no text by default
+      textposition: "top center",
       textfont: { color: colorMap[category] },
       hovertemplate: `<b>Year: %{x}</b><br>${category}: $%{customdata}<extra></extra>`,
       customdata: formattedValues,
@@ -484,62 +486,63 @@ function categoryLinePlot(data, colorMap) {
     };
   });
 
-  // create layout with updatemenus for toggling lines dim or highlighted
+  // create dropdown for toggling category lines dim or highlighted
+  const categoryButtons = categories.map((category, index) => ({
+    method: "restyle",
+    args: [
+      {
+        opacity: traces.map((_, i) => (i === index ? 1 : 0.2)),
+        texttemplate: traces.map((_, i) =>
+          i === index
+            ? traces[i].y.map((value) =>
+                value.toLocaleString("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                })
+              )
+            : null
+        ),
+      },
+    ],
+    label: category,
+  }));
+
+  // "Show All" button to reset all lines to full opacity and no text
+  const showAllButton = {
+    method: "restyle",
+    args: [
+      {
+        opacity: traces.map(() => 1),
+        texttemplate: traces.map(() => null),
+      },
+    ],
+    label: "Show All",
+  };
+
+  // put "Show All" first
+  const buttons = [showAllButton, ...categoryButtons];
+
+  // create layout with dropdown menu
   const layout = {
-    title:
-      "Expenses per Category Over Time<br><sub>Click on a category to highlight</sub>",
+    title: "Expenses per Category Over Time",
     xaxis: { title: "Year" },
     yaxis: { title: "Amount", tickformat: "$,.0f" },
+    legend: {
+      orientation: "h",
+      x: 0.5,
+      xanchor: "center",
+      y: -0.2,
+      yanchor: "top",
+    },
+    margin: { t: 100, l: 80, r: 30, b: 80 },
     updatemenus: [
       {
-        buttons: categories
-          .map((category, index) => ({
-            method: "restyle",
-            args: [
-              {
-                opacity: traces.map((_, i) => (i === index ? 1 : 0.2)),
-                text: traces.map((_, i) =>
-                  i === index
-                    ? traces[i].y.map((value) =>
-                        value.toLocaleString("en-US", {
-                          style: "currency",
-                          currency: "USD",
-                        })
-                      )
-                    : null
-                ),
-                textposition: traces.map((_, i) =>
-                  i === index ? "top center" : null
-                ),
-              },
-            ],
-            label: category,
-          }))
-          .concat([
-            {
-              method: "restyle",
-              args: [
-                {
-                  opacity: traces.map(() => 1),
-                  text: traces.map((trace) =>
-                    trace.y.map((value) =>
-                      value.toLocaleString("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      })
-                    )
-                  ),
-                  textposition: traces.map(() => "top center"),
-                },
-              ],
-              label: "Show All",
-            },
-          ]),
+        buttons: buttons,
         direction: "down",
         showactive: true,
-        x: 0.1,
+        x: 0.5,
         y: 1.15,
-        xanchor: "left",
+        xanchor: "center",
         yanchor: "top",
       },
     ],
@@ -600,6 +603,14 @@ function totalExpensesDonationsBarPlot(expenseData, donationData) {
     title: `Expenditure and Donations Over Time`,
     xaxis: { title: "Year" },
     yaxis: { title: "Amount", tickformat: "$,.0f" },
+    legend: {
+      orientation: "h",
+      x: 0.5,
+      xanchor: "center",
+      y: 1.0,
+      yanchor: "bottom",
+    },
+    margin: { t: 100, l: 80, r: 30, b: 80 },
   };
 
   // plot chart
@@ -659,6 +670,14 @@ function totalExpensesDonationsLinePlot(expenseData, donationData) {
     title: `Expenditure and Donations Over Time`,
     xaxis: { title: "Year" },
     yaxis: { title: "Amount", tickformat: "$,.0f" },
+    legend: {
+      orientation: "h",
+      x: 0.5,
+      xanchor: "center",
+      y: 1.0,
+      yanchor: "bottom",
+    },
+    margin: { t: 100, l: 80, r: 30, b: 80 },
   };
 
   // plot chart
@@ -729,6 +748,7 @@ function donationsVExpensesPlot(expenseData, donationData) {
     title: "Donations Minus Expenses by Year",
     xaxis: { title: "Year" },
     yaxis: { title: "Donations Minus Expenses", tickformat: "$,.0f" },
+    margin: { t: 100, l: 80, r: 30, b: 80 },
     shapes: [
       {
         type: "line",
@@ -754,7 +774,7 @@ function costPerAttendeePlot(expenseData, attendeeData) {
   // aggregate expenses by year
   const expenseSums = expenseData.reduce((acc, item) => {
     const year = parseInt(item.Year);
-    if (year >= 2017) {
+    if (year >= 2017 && year <= 2023) {
       const amount = parseFloat(item.Amount) || 0;
       acc[year] = (acc[year] || 0) + amount;
     }
@@ -798,16 +818,21 @@ function costPerAttendeePlot(expenseData, attendeeData) {
     // mode: "lines+markers+text",
     mode: "lines+markers",
     type: "scatter",
-    name: "RSVP'd",
+    name: "RSVP",
     line: { color: "blue" },
     marker: { color: "blue" },
     text: costPerGoing.map((value) =>
-        value ? `$${value.toLocaleString("en-US", { style: "currency", currency: "USD" })}` : ""
+      value
+        ? `$${value.toLocaleString("en-US", {
+            style: "currency",
+            currency: "USD",
+          })}`
+        : ""
     ),
     textposition: "top center",
     texttemplate: "$%{y:.2f}",
     hovertemplate:
-      "<b>Year: %{x}</b><br>Cost per RSVP'd: $%{y:.2f}<extra></extra>",
+      "<b>Year: %{x}</b><br>Cost per RSVP: $%{y:.2f}<extra></extra>",
   };
 
   const traceGoingPlusMaybes = {
@@ -816,23 +841,36 @@ function costPerAttendeePlot(expenseData, attendeeData) {
     // mode: "lines+markers+text",
     mode: "lines+markers",
     type: "scatter",
-    name: "RSVP'd + Maybes",
+    name: "RSVP + Maybes",
     line: { color: "orange" },
     marker: { color: "orange" },
     text: costPerGoingPlusMaybes.map((value) =>
-        value ? `$${value.toLocaleString("en-US", { style: "currency", currency: "USD" })}` : ""
+      value
+        ? `$${value.toLocaleString("en-US", {
+            style: "currency",
+            currency: "USD",
+          })}`
+        : ""
     ),
     textposition: "top center",
     texttemplate: "$%{y:.2f}",
     hovertemplate:
-      "<b>Year: %{x}</b><br>Cost per RSVP'd + Maybes: $%{y:.2f}<extra></extra>",
+      "<b>Year: %{x}</b><br>Cost per RSVP + Maybes: $%{y:.2f}<extra></extra>",
   };
 
   // create layout
   const layout = {
-    title: "Cost per Attendee per Year",
+    title: "Cost per FB Attendee per Year",
     xaxis: { title: "Year" },
     yaxis: { title: "Cost per Attendee", tickformat: "$,.0f" },
+    legend: {
+      orientation: "h",
+      x: 0.5,
+      xanchor: "center",
+      y: 1.0,
+      yanchor: "bottom",
+    },
+    margin: { t: 100, l: 80, r: 30, b: 80 },
   };
 
   // plot chart
@@ -845,9 +883,12 @@ function costPerAttendeePlot(expenseData, attendeeData) {
 
 // plot of attendees over time
 function attendeePlot(data) {
-  xValues = data.map((item) => parseInt(item.Year));
-  yValuesGoing = data.map((item) => parseInt(item.Going));
-  yValuesMaybes = data.map((item) => parseInt(item.Maybes));
+  // Filter out years greater than 2023
+  const filteredData = data.filter((item) => parseInt(item.Year) <= 2023);
+
+  xValues = filteredData.map((item) => parseInt(item.Year));
+  yValuesGoing = filteredData.map((item) => parseInt(item.Going));
+  yValuesMaybes = filteredData.map((item) => parseInt(item.Maybes));
   yValuesTotal = yValuesGoing.map(
     (going, index) => going + yValuesMaybes[index]
   );
@@ -894,13 +935,21 @@ function attendeePlot(data) {
 
   // create layout
   const layout = {
-    title: "Attendees Over Time",
+    title: "FB Attendees Over Time",
     xaxis: { title: "Year" },
     yaxis: { title: "Number of Attendees" },
+    legend: {
+      orientation: "h",
+      x: 0.5,
+      xanchor: "center",
+      y: 1.0,
+      yanchor: "bottom",
+    },
+    margin: { t: 100, l: 80, r: 30, b: 80 },
   };
 
   // plot chart
-  Plotly.newPlot("attendee-plot", [goingTrace, maybeTrace, totalTrace], layout);
+  Plotly.newPlot("attendee-plot", [totalTrace, goingTrace, maybeTrace], layout);
 }
 
 // table of expenses for selected year with plotly
@@ -919,8 +968,8 @@ function expenseTable(data, selectedYear) {
   const rows = filteredData.map((item) => [
     item.Expense,
     parseFloat(item.Amount).toLocaleString("en-US", {
-        style: "currency",
-        currency: "USD",
+      style: "currency",
+      currency: "USD",
     }),
     item.Name,
     item.Year,
@@ -987,12 +1036,15 @@ function hostLossPlot(expenseData, reimbData) {
       person: person,
       loss: expenseSums[person] - (reimbSums[person] || 0),
     }))
-    .filter((d) => d.loss > 0 || d.loss < 0) // filter out zeros, keep Latvia
+    .filter((d) => d.loss > 0 || d.loss < -1) // filter out zeros, switch < -1 to < 0 to keep Latvia
     .sort((a, b) => b.loss - a.loss);
 
   // extract sorted values for plotting
   const xValues = lossData.map((d) => d.loss);
   const yValues = lossData.map((d) => d.person);
+
+  // for y-axis ticks, use names with <br>
+  const yTickText = yValues.map((name) => name.replace(/\s/g, "<br>"));
 
   // create trace
   const trace = {
@@ -1001,17 +1053,24 @@ function hostLossPlot(expenseData, reimbData) {
     type: "bar",
     orientation: "h",
     text: xValues.map((value) =>
-        value.toLocaleString("en-US", { style: "currency", currency: "USD" })
+      value.toLocaleString("en-US", { style: "currency", currency: "USD" })
     ),
     textposition: "auto",
-    hovertemplate: "<b>%{y}</b><br>Host Loss: %{x:$,.2f}<extra></extra>",
+    customdata: yValues, // doesn't replace whitespace with <br> in hover
+    hovertemplate:
+      "<b>%{customdata}</b><br>Host Loss: %{x:$,.2f}<extra></extra>",
   };
 
   // create layout
   const layout = {
     title: "Cumulative Host Losses",
     xaxis: { title: "Host Loss", tickformat: "$,.0f" },
-    yaxis: { title: "Person" },
+    yaxis: {
+      title: "Person",
+      tickvals: yValues,
+      ticktext: yTickText,
+    },
+    margin: { t: 100, l: 80, r: 30, b: 80 },
   };
 
   // plot chart
