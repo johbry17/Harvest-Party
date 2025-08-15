@@ -3,8 +3,8 @@
 *Where music, food, and data come together—an interactive analysis of a D.C. fundraiser.*
 
 🔗 [Live Website](https://www.harvestpartydc.com/)  
-📊 [Tableau Dashboard](https://public.tableau.com/app/profile/bryan.johns6699/viz/HarvestParty/HarvestPartyStory)  
-🧠 [Exploratory Data Analysis (EDA)](https://colab.research.google.com/drive/123nofMYi7z7l8IldtLYO9ns2wDWzKHCE?usp=sharing)
+🔗 [Tableau Dashboard](https://public.tableau.com/app/profile/bryan.johns6699/viz/HarvestParty/HarvestPartyStory)  
+🔗 [Exploratory Data Analysis (EDA)](https://colab.research.google.com/drive/123nofMYi7z7l8IldtLYO9ns2wDWzKHCE?usp=sharing)
 
 > ℹ️ Status: While not under active development, data and dashboards are updated annually.
 
@@ -24,9 +24,9 @@
 
 **Harvest Party** is a data-driven look at an annual D.C.-based fundraiser supporting the [Capital Area Food Bank](https://www.capitalareafoodbank.org/). Starting with a chaotic Google Sheet, this project cleans and transforms the data into:
 
-- 📊 A Python-based exploratory data analysis (EDA)
-- 🧾 A story-style Tableau dashboard
-- 🖥️ A responsive public website with interactive visualizations
+- A Python-based exploratory data analysis (EDA)
+- A story-style Tableau dashboard
+- A responsive public website with interactive visualizations
 
 Originally a fun side project, it now doubles as a case study in real-world data wrangling and design-driven storytelling. 
 
