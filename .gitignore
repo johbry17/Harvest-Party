@@ -1,5 +1,6 @@
 # folder for changing names and stiching together the csv's
 git_ignored/
+2025/data/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
