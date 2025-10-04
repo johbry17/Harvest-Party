@@ -51,7 +51,7 @@ h1 {
   font-weight: bold;
 }
 h1:hover {
-  color: #2a9d8f;
+  color: #e9c46a;
   transition: color 0.3s ease;
 }
 
@@ -367,6 +367,10 @@ h1:hover {
 #home #email-form {
   background-color: #f4a261;
   border-radius: 10px;
+}
+#home #email-form h1:hover {
+  color: #e76f51;
+  transition: color 0.3s ease;
 }
 #home #email-form h3 {
   margin-bottom: 20px;
