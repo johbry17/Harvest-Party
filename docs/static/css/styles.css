@@ -51,7 +51,7 @@ h1 {
   font-weight: bold;
 }
 h1:hover {
-  color: #e14a24;
+  color: #2a9d8f;
   transition: color 0.3s ease;
 }
 
@@ -113,14 +113,17 @@ h1:hover {
   border-bottom: 1px solid rgba(249, 249, 249, 0.8);
   z-index: 1000; /* make sure it's on top of everything */
 }
-.responsive-navbar a, .responsive-navbar select { /* links and dropdowns */
+.responsive-navbar a,
+.responsive-navbar select {
+  /* links and dropdowns */
   text-decoration: none;
   margin: 0 10px;
   font-weight: bold;
   transition: color 0.3s ease;
 }
-.responsive-navbar a:hover, .responsive-navbar select:hover {
-  color: #00a8cc;
+.responsive-navbar a:hover,
+.responsive-navbar select:hover {
+  color: #2a9d8f;
 }
 .responsive-navbar .home-logo {
   max-height: 50px;
@@ -180,7 +183,7 @@ h1:hover {
 .carousel-controls #play-pause-button:hover,
 .carousel-controls #next-button:hover {
   transform: scale(1.1);
-  color: #0085A1;
+  color: #0085a1;
 }
 
 #attendee-counter {
@@ -257,7 +260,7 @@ h1:hover {
   margin: 10px 0;
 }
 #total-number h2:hover {
-  color: #00a8cc !important;
+  color: #2a9d8f !important;
   transition: color 0.3s ease;
 }
 #total-number .totals {
@@ -270,7 +273,7 @@ h1:hover {
   text-align: center;
 }
 #total-number .totals .total .total-wrapper:hover h2, #total-number .totals .total .total-wrapper:hover p {
-  color: #00a8cc;
+  color: #2a9d8f;
 }
 #total-number .totals .total .total-wrapper h2 {
   font-size: 1.4em;
@@ -298,7 +301,13 @@ h1:hover {
   margin: 0 10px;
 }
 
-.carousel-container, #attendee-counter, #home, #view-2014-2016, #year-2020, #total-number, .plot-instructions {
+.carousel-container,
+#attendee-counter,
+#home,
+#view-2014-2016,
+#year-2020,
+#total-number,
+.plot-instructions {
   animation: fadeIn 1s ease-in-out;
 }
 
@@ -312,6 +321,14 @@ h1:hover {
 }
 #home {
   padding: 10px;
+  max-width: 900px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  margin: 0 auto;
+  box-shadow: none;
 }
 #home h2 {
   margin-bottom: 10px;
@@ -319,8 +336,6 @@ h1:hover {
 #home h3 {
   margin: 20px 0;
   padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 #home #intro {
   background-color: #f4a261;
@@ -337,9 +352,9 @@ h1:hover {
 }
 #home #markdown-content {
   margin-top: 20px;
-  background-color: #264653;
-  color: #e9c46a;
-  border: 2px solid #1e3d42;
+  background-color: #2a9d8f;
+  color: #ffffff;
+  border: 2px solid #1d5d5c;
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -362,7 +377,7 @@ h1:hover {
   transition: background-color 0.3s ease;
 }
 #home #email-form h3:hover {
-  background-color: #e14a24;
+  background-color: #2a9d8f;
 }
 #home #email-form form {
   display: inline-block; /* center form */
@@ -371,7 +386,9 @@ h1:hover {
   margin: 0 auto;
   padding: 10px;
 }
-#home #email-form form input, #home #email-form form textarea, #home #email-form form button {
+#home #email-form form input,
+#home #email-form form textarea,
+#home #email-form form button {
   width: calc(100% - 20px); /* account for padding */
   margin: 10px 0;
   font-family: inherit;
@@ -386,7 +403,7 @@ h1:hover {
 }
 #home #email-form form button {
   padding: 10px 20px;
-  background-color: #4CAF50;
+  background-color: #2a9d8f;
   color: white;
   font-weight: bold;
   font-size: 1.2em;
@@ -414,13 +431,14 @@ h1:hover {
   font-weight: bold;
 }
 .view h2:hover {
-  color: #00a8cc;
+  color: #2a9d8f;
   transition: color 0.3s ease;
 }
 .view h3 {
   font-size: 1.2em;
   margin-bottom: 20px;
-  color: gray;
+  color: #333;
+  font-weight: bold;
 }
 .view #early-years {
   background-color: #f4a261;
@@ -446,7 +464,7 @@ h1:hover {
   font-weight: bold;
 }
 .view #early-years h2:hover {
-  color: #00a8cc;
+  color: #2a9d8f;
   transition: color 0.3s ease;
 }
 .view #early-years h4 {
@@ -533,7 +551,8 @@ h1:hover {
   #title {
     display: none;
   }
-  .responsive-navbar a, .responsive-navbar select {
+  .responsive-navbar a,
+  .responsive-navbar select {
     margin: 10px 0;
   }
   #app-container {
@@ -547,7 +566,9 @@ h1:hover {
     max-width: none;
     margin: 0 auto;
   }
-  #email-form input, #email-form textarea, #email-form button {
+  #email-form input,
+  #email-form textarea,
+  #email-form button {
     width: calc(100% - 20px);
   }
   #empty-garden {
@@ -564,7 +585,8 @@ h1:hover {
   .responsive-navbar {
     padding: 5px;
   }
-  .responsive-navbar a, .responsive-navbar select {
+  .responsive-navbar a,
+  .responsive-navbar select {
     margin: 10px 0;
   }
   #app-container {
@@ -590,7 +612,9 @@ h1:hover {
     width: 100%;
     padding: 5px;
   }
-  #home #email-form input, #home #email-form textarea, #home #email-form button {
+  #home #email-form input,
+  #home #email-form textarea,
+  #home #email-form button {
     width: calc(100% - 10px);
     margin: 5px 0;
   }
