@@ -329,6 +329,36 @@ h1 {
 }
 
 // header images
+.carousel-container {
+  position: relative; // needed for absolute positioning of controls in fullscreen
+
+  &.fullscreen {
+    .carousel-controls {
+      position: absolute;
+      bottom: 30px;
+      left: 0;
+      width: 100%;
+      justify-content: center;
+      margin: 0; // remove margin-top
+      z-index: 10;
+
+      span {
+        margin: 0 20px;
+        background: rgba(0,0,0,0.4); // add a semi-transparent shadow bg for visibility
+        border-radius: 50%;
+        padding: 8px;
+      }
+    }
+    .carousel-images {
+      height: 100vh;
+      border-radius: 0;
+      img {
+        border-radius: 0;
+      }
+    }
+  }
+}
+
 .carousel-images {
   @include flex-center();
   margin: 0 auto;
@@ -368,6 +398,7 @@ h1 {
 
   #prev-button:hover,
   #play-pause-button:hover,
+  #fullscreen-button:hover,
   #next-button:hover {
     transform: scale(1.1); // slightly enlarge button on hover
     color: #0085a1; // hover color

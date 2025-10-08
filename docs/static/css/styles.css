@@ -146,6 +146,32 @@ h1:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.carousel-container {
+  position: relative;
+}
+.carousel-container.fullscreen .carousel-controls {
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  width: 100%;
+  justify-content: center;
+  margin: 0;
+  z-index: 10;
+}
+.carousel-container.fullscreen .carousel-controls span {
+  margin: 0 20px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 50%;
+  padding: 8px;
+}
+.carousel-container.fullscreen .carousel-images {
+  height: 100vh;
+  border-radius: 0;
+}
+.carousel-container.fullscreen .carousel-images img {
+  border-radius: 0;
+}
+
 .carousel-images {
   display: flex;
   justify-content: center;
@@ -181,6 +207,7 @@ h1:hover {
 }
 .carousel-controls #prev-button:hover,
 .carousel-controls #play-pause-button:hover,
+.carousel-controls #fullscreen-button:hover,
 .carousel-controls #next-button:hover {
   transform: scale(1.1);
   color: #0085a1;
