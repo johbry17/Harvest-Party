@@ -13,16 +13,23 @@ document.addEventListener("DOMContentLoaded", async function () {
       ]);
 
     const homePageInfo = marked.parse(homePageText);
-    const expenseData = d3.csvParse(expenseText);
+    const expenseDataUnfiltered = d3.csvParse(expenseText);
     const donationData = d3.csvParse(donationText);
     const attendeeData = d3.csvParse(attendeeText);
     const reimbData = d3.csvParse(reimbText);
+
+    // remove T-shirts and Annie's candles from Merch
+    const expenseData = removeCandlesAndShirtsFromMerch(
+      expenseDataUnfiltered,
+      donationData,
+      reimbData
+    );
 
     // welcome modal
     const modal = document.getElementById("welcome-modal");
     // modal.style.display = "flex"; // toggle modal display on / off
     modal.addEventListener("click", () => {
-        modal.style.display = "none";
+      modal.style.display = "none";
     });
 
     // populate year dropdown
@@ -60,6 +67,50 @@ document.addEventListener("DOMContentLoaded", async function () {
     console.error("Error fetching or parsing CSV:", error);
   }
 });
+
+// filter data to remove candles and shirts from expenses, donations, and reimbursements
+function removeCandlesAndShirtsFromMerch(expenseData, donationData, reimbData) {
+  // find all "Merch" expenses with "candles" or "shirts" in the Expense field
+  const toDeduct = expenseData.filter(
+    (d) => d.Category === "Merch" && /candles|shirts/i.test(d.Expense)
+  );
+
+  // sum by year to deduct from donations
+  const deductPerYear = {};
+  toDeduct.forEach((d) => {
+    const year = d.Year;
+    const amount = parseFloat(d.Amount) || 0;
+    if (!deductPerYear[year]) deductPerYear[year] = 0;
+    deductPerYear[year] += amount;
+  });
+
+  // subtract from Donations for each year
+  donationData.forEach((d) => {
+    const year = d.Year;
+    if (deductPerYear[year]) {
+      d.Donations = (parseFloat(d.Donations) - deductPerYear[year]).toString();
+    }
+  });
+
+  // remove "candles" and "shirts" from expenseData
+  const filteredExpenses = expenseData.filter(
+    (d) => !(d.Category === "Merch" && /candles|shirts/i.test(d.Expense))
+  );
+
+  // remove reimbursements for those expenses (by Year and Name) (for host loss plot)
+  toDeduct.forEach((deduct) => {
+    const match = reimbData.find(
+      (r) => r.Year === deduct.Year && r.Name === deduct.Name
+    );
+    if (match) {
+      match.Paid = (
+        parseFloat(match.Paid) - parseFloat(deduct.Amount)
+      ).toString();
+    }
+  });
+
+  return filteredExpenses;
+}
 
 // populate the year dropdown
 function populateYearDropdown(attendeeData) {
@@ -101,7 +152,8 @@ function switchView(selectedYear) {
   carouselDiv.style.display = "block";
 
   const carouselControlDiv = document.querySelector(".carousel-controls");
-  carouselControlDiv.style.display = selectedYear === 42 || selectedYear === 1 ? "flex" : "none";
+  carouselControlDiv.style.display =
+    selectedYear === 42 || selectedYear === 1 ? "flex" : "none";
 
   // show view based on selected year
   if (selectedYear === 42) {
@@ -272,16 +324,18 @@ function updateTotals(expenseData, donationData, attendeeData, selectedYear) {
   // document.getElementById(
   //   "total-donations"
   // ).textContent = `$${totalDonations.toFixed(2)}`;
-  document.getElementById("total-amount").innerHTML = `$${totalAmount.toLocaleString(
-    undefined,
-    { minimumFractionDigits: 2, maximumFractionDigits: 2 }
-  )}`;
+  document.getElementById(
+    "total-amount"
+  ).innerHTML = `$${totalAmount.toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
   document.getElementById(
     "total-donations"
-  ).textContent = `$${totalDonations.toLocaleString(
-    undefined,
-    { minimumFractionDigits: 2, maximumFractionDigits: 2 }
-  )}`;
+  ).textContent = `$${totalDonations.toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
   document.getElementById("profit-loss-value").innerHTML = profitOrLossText(
     profitOrLoss,
     selectedYear,
@@ -337,10 +391,12 @@ function profitOrLossText(
     // flimsy justification for pocketing the money, but this is where the idea to donate came from
     const netProfitOrLoss = profitOrLoss - totalDonated - profitOrLoss2019;
 
-    return `<i class="fas fa-exclamation-triangle"></i> Loss to Hosts:<br>$${Math.abs(netProfitOrLoss).toLocaleString(
-      undefined,
-      { minimumFractionDigits: 2, maximumFractionDigits: 2 }
-    )}<br><br><i class="fas fa-hand-holding-heart"></i><br>Total Donated to Capital Area Food Bank over the Years:<br>$${totalDonated.toLocaleString(
+    return `<i class="fas fa-exclamation-triangle"></i> Loss to Hosts:<br>$${Math.abs(
+      netProfitOrLoss
+    ).toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}<br><br><i class="fas fa-hand-holding-heart"></i><br>Total Donated to Capital Area Food Bank over the Years:<br>$${totalDonated.toLocaleString(
       undefined,
       { minimumFractionDigits: 2, maximumFractionDigits: 2 }
     )}`;
@@ -354,10 +410,12 @@ function profitOrLossText(
       { minimumFractionDigits: 2, maximumFractionDigits: 2 }
     )}<br><i class="fas fa-gift"></i> Donated to Capital Area Food Bank`;
   } else if (profitOrLoss < 0) {
-    return `<i class="fas fa-frown"></i> Loss:<br>-$${Math.abs(profitOrLoss).toLocaleString(
-      undefined,
-      { minimumFractionDigits: 2, maximumFractionDigits: 2 }
-    )}`;
+    return `<i class="fas fa-frown"></i> Loss:<br>-$${Math.abs(
+      profitOrLoss
+    ).toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
   } else {
     return "Break-even";
   }
