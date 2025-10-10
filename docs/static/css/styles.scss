@@ -344,7 +344,12 @@ h1 {
 
       span {
         margin: 0 20px;
-        background: rgba(0,0,0,0.4); // add a semi-transparent shadow bg for visibility
+        background: rgba(
+          0,
+          0,
+          0,
+          0.4
+        ); // add a semi-transparent shadow bg for visibility
         border-radius: 50%;
         padding: 8px;
       }
@@ -595,10 +600,10 @@ h1 {
     border-radius: $border-radius;
 
     h1 {
-        &:hover {
-          color: $secondary-color;
-          transition: color 0.3s ease;
-        }
+      &:hover {
+        color: $secondary-color;
+        transition: color 0.3s ease;
+      }
     }
 
     h3 {
@@ -755,6 +760,25 @@ h1 {
         transition: color 0.3s ease;
       }
     }
+  }
+}
+
+// 4:3 aspect ratio for pumpkin pie chart
+#expense-pie-chart {
+  // position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3; /* 1500x1125 is 4:3 */
+  min-height: 200px;
+  max-width: 700px;
+  margin: 0 auto;
+
+  .slice text {
+    paint-order: stroke;
+    stroke: white;
+    stroke-width: 3px;
+    stroke-linejoin: round;
+    fill: black; /* main text color */
+    font-size: 14px;
   }
 }
 

@@ -425,6 +425,7 @@ function profitOrLossText(
 function resizePlots() {
   // all plotly plot ids
   const plotIds = [
+    "expense-pie-chart",
     "bar-plot",
     "treemap-plot",
     "individual-expenses-bar-plot",

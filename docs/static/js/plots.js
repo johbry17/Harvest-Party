@@ -1,5 +1,4 @@
 // I'm sure I could refactor many of these plot functions to be more DRY
-// But then I couldn't toggle them on and off easily
 
 // call plots for total view
 function totalPlots(
@@ -13,6 +12,7 @@ function totalPlots(
   clearElements(false);
   document.getElementById("individual-expenses-bar-plot").style.display =
     "none";
+  expensePieChartWithBackground(data, selectedYear);
   barPlot(data, selectedYear, colorMap);
   treemapPlot(data, selectedYear, colorMap);
   sunburstPlot(data, selectedYear, colorMap);
@@ -29,6 +29,7 @@ function totalPlots(
 function singleYearPlots(data, selectedYear, colorMap) {
   document.getElementById("individual-expenses-bar-plot").style.display =
     "block";
+  expensePieChartWithBackground(data, selectedYear);
   barPlot(data, selectedYear, colorMap);
   treemapPlot(data, selectedYear, colorMap);
   individualExpensesBarPlot(data, selectedYear, colorMap);
@@ -87,6 +88,101 @@ function getColorMap(data) {
   });
 
   return colorMap;
+}
+
+// helper functions, new for the pie chart in 2025
+// To be refactored into all other plots... someday. Maybe. Probably not.
+const formatCurrency = (val) => `$${Math.round(val).toLocaleString("en-US")}`;
+const formatPercent = (amt, total) => `${((amt / total) * 100).toFixed(1)}%`;
+
+// pie chart with background image
+function expensePieChartWithBackground(data, selectedYear) {
+  // filter data by year
+  const filteredData =
+    selectedYear === 1
+      ? data
+      : data.filter((item) => parseInt(item.Year) === selectedYear);
+
+  // merge smaller categories into "Other"
+  const mainCats = ["Bar", "Music", "Food"];
+  const grouped = filteredData.reduce((acc, d) => {
+    const cat = mainCats.includes(d.Category) ? d.Category : "Other";
+    acc[cat] = (acc[cat] || 0) + parseFloat(d.Amount);
+    return acc;
+  }, {});
+
+  // aggregate amounts and categories
+  const categories = Object.keys(grouped);
+  const amounts = categories.map((cat) => grouped[cat]);
+  const total = amounts.reduce((a, b) => a + b, 0);
+
+  // format title total, slice labels & hover data
+  const totalFormatted = formatCurrency(total);
+  const text = amounts.map(
+    (amt, i) => `${categories[i]}<br>${formatCurrency(amt)}`
+  );
+  const hoverData = amounts.map((amt, i) => {
+    const label = categories[i];
+    const amount = formatCurrency(amt);
+    const percent = formatPercent(amt, total);
+    return ` <b>${label}</b> <br> ${amount} <br> ${percent} `;
+  });
+
+  // create trace
+  const fadedColor = "rgba(255,255,255,0.25)"; // semi-transparent white
+  const trace = {
+    values: amounts,
+    labels: categories,
+    type: "pie",
+    text: text,
+    textinfo: "text",
+    hovertemplate: "%{customdata}<extra></extra>",
+    customdata: hoverData,
+    marker: {
+      colors: categories.map(() => fadedColor), // all slices faded white
+      line: { color: "white", width: 2 },
+    },
+    textfont: { color: "black", size: 16 },
+    direction: "clockwise",
+    sort: false,
+    hole: 0,
+    rotation: 90,
+    domain: { x: [0.15, 0.85], y: [0.15, 0.85] }, // shrink pie and center it
+  };
+
+  // create layout with background image
+  const layout = {
+    title: {
+      text:
+        (selectedYear === 1
+          ? "Total Expenses by Category"
+          : `${selectedYear} Expenses by Category`) +
+        `<br><span style="font-size:16px;">Total ${totalFormatted}</span>`,
+      font: { color: "white", size: 20 },
+    },
+    paper_bgcolor: "black", // background outside plot
+    plot_bgcolor: "rgba(0,0,0,0)",
+    showlegend: false,
+    images: [
+      {
+        source: "./static/images/pumpkin_pie.jpg",
+        xref: "paper",
+        yref: "paper",
+        x: 0.5,
+        y: 0.5,
+        sizex: 1,
+        sizey: 0.75, // adjust for 4:3 aspect of image
+        xanchor: "center",
+        yanchor: "middle",
+        sizing: "contain",
+        opacity: 1,
+        layer: "below",
+      },
+    ],
+    margin: { t: 60, l: 20, r: 20, b: 20 },
+  };
+
+  Plotly.newPlot("expense-pie-chart", [trace], layout, { responsive: true });
 }
 
 // bar plot that aggregates Amount by Category
@@ -572,7 +668,8 @@ function totalExpensesDonationsBarPlot(expenseData, donationData) {
     text: Object.values(expenseSums).map(
       (value) => `$${Math.round(value).toLocaleString("en-US")}`
     ),
-    textposition: "auto",
+    textposition: "inside",
+    insidetextanchor: "start",
     hovertemplate: "<b>Year: %{x}</b><br>Expenses: %{y:$,.2f}<extra></extra>",
   };
 
@@ -588,12 +685,10 @@ function totalExpensesDonationsBarPlot(expenseData, donationData) {
       (item) =>
         `$${Math.round(parseFloat(item.Donations)).toLocaleString("en-US")}`
     ),
-    textposition: donationData.map((_, index) =>
-      index % 3 === 2 ? "bottom right" : "top center"
-    ),
+    textposition: "auto",
     textfont: {
       color: "orange",
-      family: "Arial Black, sans-serif, bold",
+      family: "Arial Black, sans-serif",
     },
     hovertemplate: "<b>Year: %{x}</b><br>Donations: %{y:$,.2f}<extra></extra>",
   };

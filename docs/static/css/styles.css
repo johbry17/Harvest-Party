@@ -550,6 +550,22 @@ h1:hover {
   transition: color 0.3s ease;
 }
 
+#expense-pie-chart {
+  width: 100%;
+  aspect-ratio: 4/3; /* 1500x1125 is 4:3 */
+  min-height: 200px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+#expense-pie-chart .slice text {
+  paint-order: stroke;
+  stroke: white;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  fill: black; /* main text color */
+  font-size: 14px;
+}
+
 #tableau-viz {
   margin: 0 auto;
   margin-bottom: 10px;
