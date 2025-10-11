@@ -1,5 +1,19 @@
 // I'm sure I could refactor many of these plot functions to be more DRY
 
+// color scale for colorMap and plots
+const harvestColors = [
+  "#2a9d8f", // teal
+  "#f4a261", // amber
+  "#e76f51", // orange-red
+  "#e9c46a", // gold
+  "#6d6875", // smoky mauve
+  "#a98467", // clay
+  "#b5838d", // rosewood
+  "#8e9aaf", // soft slate
+  "#ccd5ae", // pale sage
+];
+const attendeeGreen = "#4caf50"; // green for attendees
+
 // call plots for total view
 function totalPlots(
   data,
@@ -78,13 +92,10 @@ function getColorMap(data) {
     (a, b) => categorySums[b] - categorySums[a]
   );
 
-  // color scale for categories
-  const colorScale = Plotly.d3.scale.category10().domain(sortedCategories);
-
   // assign colors to categories
   const colorMap = {};
   sortedCategories.forEach((category, index) => {
-    colorMap[category] = colorScale(category);
+    colorMap[category] = harvestColors[index % harvestColors.length];
   });
 
   return colorMap;
@@ -262,7 +273,7 @@ function barPlot(data, selectedYear, colorMap) {
 
   // create layout
   const layout = {
-    title: `Expenditure by Category for ${
+    title: `Expenses by Category for ${
       selectedYear === 1 ? "All Years" : selectedYear
     }`,
     xaxis: { title: "Amount", tickformat: "$,.0f" },
@@ -664,9 +675,9 @@ function totalExpensesDonationsBarPlot(expenseData, donationData) {
     y: Object.values(expenseSums),
     type: "bar",
     name: "Expenses",
-    marker: { color: "blue" },
+    marker: { color: harvestColors[0] },
     text: Object.values(expenseSums).map(
-      (value) => `$${Math.round(value).toLocaleString("en-US")}`
+      (value) => `<b>$${Math.round(value).toLocaleString("en-US")}</b>`
     ),
     textposition: "inside",
     insidetextanchor: "start",
@@ -679,23 +690,22 @@ function totalExpensesDonationsBarPlot(expenseData, donationData) {
     mode: "lines+text",
     type: "scatter",
     name: "Donations",
-    line: { color: "orange" },
-    marker: { color: "orange" },
+    line: { color: harvestColors[1] },
+    marker: { color: harvestColors[1] },
     text: donationData.map(
       (item) =>
-        `$${Math.round(parseFloat(item.Donations)).toLocaleString("en-US")}`
+        `<b>$${Math.round(parseFloat(item.Donations)).toLocaleString(
+          "en-US"
+        )}</b>`
     ),
     textposition: "auto",
-    textfont: {
-      color: "orange",
-      family: "Arial Black, sans-serif",
-    },
+    // textfont: { color: harvestColors[1] },
     hovertemplate: "<b>Year: %{x}</b><br>Donations: %{y:$,.2f}<extra></extra>",
   };
 
   // create layout
   const layout = {
-    title: `Expenditure and Donations Over Time`,
+    title: `Expenses and Donations Over Time`,
     xaxis: { title: "Year" },
     yaxis: { title: "Amount", tickformat: "$,.0f" },
     legend: {
@@ -733,8 +743,8 @@ function totalExpensesDonationsLinePlot(expenseData, donationData) {
     // mode: "lines+markers+text",
     mode: "lines+markers",
     name: "Expenses",
-    line: { color: "blue" },
-    marker: { color: "blue" },
+    line: { color: harvestColors[0] },
+    marker: { color: harvestColors[0] },
     text: Object.values(expenseSums).map(
       (value) => `$${Math.round(value).toLocaleString("en-US")}`
     ),
@@ -748,8 +758,8 @@ function totalExpensesDonationsLinePlot(expenseData, donationData) {
     // mode: "lines+markers+text",
     mode: "lines+markers",
     name: "Donations",
-    line: { color: "orange" },
-    marker: { color: "orange" },
+    line: { color: harvestColors[1] },
+    marker: { color: harvestColors[1] },
     text: donationData.map(
       (item) =>
         `$${Math.round(parseFloat(item.Donations)).toLocaleString("en-US")}`
@@ -762,7 +772,7 @@ function totalExpensesDonationsLinePlot(expenseData, donationData) {
 
   // create layout
   const layout = {
-    title: `Expenditure and Donations Over Time`,
+    title: `Expenses and Donations Over Time`,
     xaxis: { title: "Year" },
     yaxis: { title: "Amount", tickformat: "$,.0f" },
     legend: {
@@ -818,7 +828,9 @@ function donationsVExpensesPlot(expenseData, donationData) {
   });
 
   // color text based on "in the red" or "in the black"
-  const textColors = difference.map((value) => (value < 0 ? "red" : "black"));
+  const textColors = difference.map((value) =>
+    value < 0 ? harvestColors[2] : "black"
+  );
 
   // create trace
   const trace = {
@@ -827,15 +839,17 @@ function donationsVExpensesPlot(expenseData, donationData) {
     mode: "lines+markers+text",
     type: "scatter",
     name: "Donations - Expenses",
-    line: { color: "blue" },
-    marker: { color: "blue" },
+    line: { color: harvestColors[0] },
+    marker: { color: harvestColors[0] },
     text: difference.map(
       (value) => `$${Math.round(value).toLocaleString("en-US")}`
     ),
-    textposition: textPositions,
     texttemplate: "%{text}",
-    hovertemplate: "<b>Year: %{x}</b><br>Difference: $%{y:.2f}<extra></extra>",
+    textposition: textPositions,
     textfont: { color: textColors },
+    hovertemplate:
+      "<b>Year: %{x}</b><br>Gain or Loss:<br>$%{y:.2f}<extra></extra>",
+    hoverlabel: { bgcolor: "white" },
   };
 
   // create layout
@@ -852,7 +866,7 @@ function donationsVExpensesPlot(expenseData, donationData) {
         y0: 0,
         y1: 0,
         line: {
-          color: "red",
+          color: "black",
           width: 2,
           dash: "dash",
         },
@@ -914,8 +928,8 @@ function costPerAttendeePlot(expenseData, attendeeData) {
     mode: "lines+markers",
     type: "scatter",
     name: "RSVP",
-    line: { color: "blue" },
-    marker: { color: "blue" },
+    line: { color: harvestColors[0] },
+    marker: { color: harvestColors[0] },
     text: costPerGoing.map((value) =>
       value
         ? `$${value.toLocaleString("en-US", {
@@ -937,8 +951,8 @@ function costPerAttendeePlot(expenseData, attendeeData) {
     mode: "lines+markers",
     type: "scatter",
     name: "RSVP + Maybes",
-    line: { color: "orange" },
-    marker: { color: "orange" },
+    line: { color: harvestColors[1] },
+    marker: { color: harvestColors[1] },
     text: costPerGoingPlusMaybes.map((value) =>
       value
         ? `$${value.toLocaleString("en-US", {
@@ -995,8 +1009,8 @@ function attendeePlot(data) {
     // mode: "lines+markers+text",
     mode: "lines+markers",
     name: "Going",
-    line: { color: "blue" },
-    marker: { color: "blue" },
+    line: { color: harvestColors[0] },
+    marker: { color: harvestColors[0] },
     text: yValuesGoing,
     textposition: "top center",
     hovertemplate: "<b>Year: %{x}</b><br>Going: %{y}<extra></extra>",
@@ -1008,8 +1022,8 @@ function attendeePlot(data) {
     // mode: "lines+markers+text",
     mode: "lines+markers",
     name: "Maybes",
-    line: { color: "orange" },
-    marker: { color: "orange" },
+    line: { color: harvestColors[1] },
+    marker: { color: harvestColors[1] },
     text: yValuesMaybes,
     textposition: "top center",
     hovertemplate: "<b>Year: %{x}</b><br>Maybes: %{y}<extra></extra>",
@@ -1020,12 +1034,12 @@ function attendeePlot(data) {
     y: yValuesTotal,
     // mode: "lines+markers+text",
     mode: "lines+markers",
-    name: "Total",
-    line: { color: "green" },
-    marker: { color: "green" },
+    name: "Both",
+    line: { color: attendeeGreen },
+    marker: { color: attendeeGreen },
     text: yValuesTotal,
     textposition: "top center",
-    hovertemplate: "<b>Year: %{x}</b><br>Total: %{y}<extra></extra>",
+    hovertemplate: "<b>Year: %{x}</b><br>Both: %{y}<extra></extra>",
   };
 
   // create layout
@@ -1076,22 +1090,30 @@ function expenseTable(data, selectedYear) {
     rows.map((row) => row[colIndex])
   );
 
+  // generate alternating row colors for striped effect
+  const nRows = columns[0].length;
+  const rowColors = Array.from({ length: nRows }, (_, i) =>
+    i % 2 === 0 ? "#f9f9f9" : "#e9c46a33"
+  );
+  // Plotly expects one color array per column
+  const fillColors = columns.map(() => rowColors);
+
   // create trace
   const trace = {
     type: "table",
     header: {
       values: headers,
       align: "left",
-      line: { width: 1, color: "black" },
-      fill: { color: "paleturquoise" },
-      font: { family: "Arial", size: 12, color: "black" },
+      line: { width: 1, color: "#ccc" },
+      fill: { color: harvestColors[0] },
+      font: { family: "Arial", size: 12, color: "white" },
     },
     cells: {
       values: columns,
       align: "left",
-      line: { width: 1, color: "black" },
-      fill: { color: "lavender" },
-      font: { family: "Arial", size: 11, color: ["black"] },
+      line: { width: 1, color: "#ccc" },
+      fill: { color: fillColors }, // striped effect
+      font: { family: "Arial", size: 11, color: "black" },
     },
   };
 
@@ -1154,6 +1176,7 @@ function hostLossPlot(expenseData, reimbData) {
     customdata: yValues, // doesn't replace whitespace with <br> in hover
     hovertemplate:
       "<b>%{customdata}</b><br>Host Loss: %{x:$,.2f}<extra></extra>",
+    marker: { color: harvestColors[0] },
   };
 
   // create layout
