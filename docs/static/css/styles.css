@@ -377,6 +377,15 @@ h1:hover {
   font-weight: bold;
   padding: 20px;
 }
+#home #intro a {
+  color: #264653;
+  text-decoration: underline;
+  font-weight: bold;
+}
+#home #intro a:hover, #home #intro a:focus {
+  color: #222;
+  text-decoration: underline;
+}
 #home #markdown-content {
   margin-top: 20px;
   background-color: #2a9d8f;

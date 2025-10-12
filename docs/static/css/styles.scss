@@ -581,6 +581,18 @@ h1 {
     font-size: 1.4em;
     font-weight: bold;
     padding: 20px;
+
+    a {
+      color: #264653; // dark blue for contrast on orange
+      text-decoration: underline;
+      font-weight: bold;
+
+      &:hover,
+      &:focus {
+        color: #222; // even darker on hover
+        text-decoration: underline;
+      }
+    }
   }
 
   #markdown-content {
