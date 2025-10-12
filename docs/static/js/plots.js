@@ -151,7 +151,7 @@ function expensePieChartWithBackground(data, selectedYear) {
     customdata: hoverData,
     marker: {
       colors: categories.map(() => fadedColor), // all slices faded white
-      line: { color: "white", width: 2 },
+      line: { color: "white", width: 3 },
     },
     textfont: { color: "black", size: 16 },
     direction: "clockwise",
@@ -169,9 +169,9 @@ function expensePieChartWithBackground(data, selectedYear) {
           ? "Total Expenses by Category"
           : `${selectedYear} Expenses by Category`) +
         `<br><span style="font-size:16px;">Total ${totalFormatted}</span>`,
-      font: { color: "white", size: 20 },
+      font: { color: "black", size: 20 },
     },
-    paper_bgcolor: "black", // background outside plot
+    paper_bgcolor: "white", // background outside plot
     plot_bgcolor: "rgba(0,0,0,0)",
     showlegend: false,
     images: [
