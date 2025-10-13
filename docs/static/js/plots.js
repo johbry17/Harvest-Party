@@ -139,6 +139,20 @@ function expensePieChartWithBackground(data, selectedYear) {
     return ` <b>${label}</b> <br> ${amount} <br> ${percent} `;
   });
 
+  const isMobile = window.innerWidth < 600;
+
+  // Set domain and margin based on device
+  const pieDomain = {
+    x: isMobile ? [0.25, 0.75] : [0.15, 0.85],
+    y: [0.15, 0.85],
+  };
+  const pieMargin = isMobile
+    ? { t: 40, l: 8, r: 8, b: 20 }
+    : { t: 60, l: 20, r: 20, b: 20 };
+  const imageSize = isMobile
+    ? { sizex: 1.05, sizey: 0.7 } // try these values for mobile
+    : { sizex: 1.35, sizey: 0.9 };
+
   // create trace
   const fadedColor = "rgba(255,255,255,0.25)"; // semi-transparent white
   const trace = {
@@ -158,7 +172,7 @@ function expensePieChartWithBackground(data, selectedYear) {
     sort: false,
     hole: 0,
     rotation: 90,
-    domain: { x: [0.15, 0.85], y: [0.15, 0.85] }, // shrink pie and center it
+    domain: pieDomain, // shrink pie and center it
   };
 
   // create layout with background image
@@ -181,8 +195,8 @@ function expensePieChartWithBackground(data, selectedYear) {
         yref: "paper",
         x: 0.5,
         y: 0.5,
-        sizex: 1.35,
-        sizey: 0.9, // adjust for 3:2 aspect of image
+        sizex: imageSize.sizex,
+        sizey: imageSize.sizey, // adjust for 3:2 aspect of image
         xanchor: "center",
         yanchor: "middle",
         sizing: "contain",
