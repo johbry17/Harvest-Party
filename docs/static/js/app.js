@@ -57,9 +57,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     resizePlots();
 
     // eventListeners for plot resize, year dropdown, and home button
-    // window.addEventListener("resize", resizePlots);
-    // 2025: ditch resizePlots, use updateView to handle pie chart resizing on mobile orientation change
-    window.addEventListener("resize", updateView);
+    window.addEventListener("resize", () => {
+      const selectedYear = parseInt(document.getElementById("year").value);
+      expensePieChartWithBackground(expenseData, selectedYear); // 2025 addition
+      resizePlots();
+    });
     yearSelect.addEventListener("change", updateView);
     homeButton.addEventListener("click", () => {
       yearSelect.value = 42;
@@ -423,38 +425,38 @@ function profitOrLossText(
   }
 }
 
-// // resize plots on window resize
-// function resizePlots() {
-//   // all plotly plot ids
-//   const plotIds = [
-//     "expense-pie-chart",
-//     "bar-plot",
-//     "treemap-plot",
-//     "individual-expenses-bar-plot",
-//     "sunburst-plot",
-//     "category-line-plot",
-//     "total-expenses-donations-bar-plot",
-//     "total-expenses-donations-line-plot",
-//     "donations-v-expenses-plot",
-//     "cost-per-attendee-plot",
-//     "attendee-plot",
-//     "expense-table",
-//     "corn-kings-and-queens",
-//   ];
+// resize plots on window resize
+function resizePlots() {
+  // all plotly plot ids
+  const plotIds = [
+    "expense-pie-chart",
+    "bar-plot",
+    "treemap-plot",
+    "individual-expenses-bar-plot",
+    "sunburst-plot",
+    "category-line-plot",
+    "total-expenses-donations-bar-plot",
+    "total-expenses-donations-line-plot",
+    "donations-v-expenses-plot",
+    "cost-per-attendee-plot",
+    "attendee-plot",
+    "expense-table",
+    "corn-kings-and-queens",
+  ];
 
-//   plotIds.forEach((id) => {
-//     const container = document.getElementById(id);
-//     if (container) {
-//       const containerWidth = container.clientWidth;
-//       const containerHeight = container.clientHeight;
+  plotIds.forEach((id) => {
+    const container = document.getElementById(id);
+    if (container) {
+      const containerWidth = container.clientWidth;
+      const containerHeight = container.clientHeight;
 
-//       // Ensure dimensions are valid
-//       if (containerWidth > 0 && containerHeight > 0) {
-//         Plotly.relayout(container, {
-//           width: containerWidth,
-//           height: containerHeight,
-//         });
-//       }
-//     }
-//   });
-// }
+      // Ensure dimensions are valid
+      if (containerWidth > 0 && containerHeight > 0) {
+        Plotly.relayout(container, {
+          width: containerWidth,
+          height: containerHeight,
+        });
+      }
+    }
+  });
+}
