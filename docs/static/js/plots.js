@@ -139,18 +139,14 @@ function expensePieChartWithBackground(data, selectedYear) {
     return ` <b>${label}</b> <br> ${amount} <br> ${percent} `;
   });
 
+  // Set image and chart size based on device
   const isMobile = window.innerWidth < 600;
-
-  // Set domain and margin based on device
   const pieDomain = {
     x: isMobile ? [0.25, 0.75] : [0.15, 0.85],
     y: [0.15, 0.85],
   };
-  const pieMargin = isMobile
-    ? { t: 40, l: 8, r: 8, b: 20 }
-    : { t: 60, l: 20, r: 20, b: 20 };
   const imageSize = isMobile
-    ? { sizex: 1.05, sizey: 0.7 } // try these values for mobile
+    ? { sizex: 1.05, sizey: 0.7 }
     : { sizex: 1.35, sizey: 0.9 };
 
   // create trace
