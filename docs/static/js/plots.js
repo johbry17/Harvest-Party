@@ -176,13 +176,13 @@ function expensePieChartWithBackground(data, selectedYear) {
     showlegend: false,
     images: [
       {
-        source: "./static/images/pumpkin_pie.jpg",
+        source: "./static/images/pumpkin_pie6.png",
         xref: "paper",
         yref: "paper",
         x: 0.5,
         y: 0.5,
-        sizex: 1,
-        sizey: 0.75, // adjust for 4:3 aspect of image
+        sizex: 1.35,
+        sizey: 0.9, // adjust for 3:2 aspect of image
         xanchor: "center",
         yanchor: "middle",
         sizing: "contain",
