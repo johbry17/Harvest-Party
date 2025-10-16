@@ -59,19 +59,9 @@ All told, the data analysis found a way to shave roughly $1,000 off the expenses
 
 ## Gallery
 
-Exploratory Data Analysis:
-
-![Box and Whisker Plot from Exploratory Data Analysis](./resources/images/eda.png)
-
-Tableau Story:
-
-![Tableau Net Annual Profit or Loss](./resources/images/tableau.png)
-
-![Tableau Yearly Totals](./resources/images/tableau_alt.png)
-
-![Tableau Cost per Person](./resources/images/tableau_alt_2.png)
-
 Website Plots:
+
+![Pie Chart of Expenses by Category layered on image of pumpkin pie](./resources/images/pumpkin_pie_plot.png)
 
 ![Expenditure by Category, All Years](./resources/images/expenditure_by_category.png)
 
@@ -81,9 +71,25 @@ Website Plots:
 
 ![Donations Minus Expenses](./resources/images/donations_minus_expenses.png)
 
-Sunburst chart (for fun, not clarity):
+Sunburst chart (Pretty! And even more useless than a pie chart):
 
 ![Sunburst of All Expenses, All Years](./resources/images/Sunburst.png)
+
+2020 gag:
+
+![2020 with masks rolling across it](./resources/images/2020.png)
+
+Tableau Story:
+
+![Tableau Net Annual Profit or Loss](./resources/images/tableau.png)
+
+![Tableau Yearly Totals](./resources/images/tableau_alt.png)
+
+![Tableau Cost per Person](./resources/images/tableau_alt_2.png)
+
+Exploratory Data Analysis:
+
+![Box and Whisker Plot from Exploratory Data Analysis](./resources/images/eda.png)
 
 Photos & Logos:
 
@@ -96,8 +102,6 @@ Photos & Logos:
 ![Logo 2019](./resources/images/hp_2019.jpg)
 
 ![Logo 2022](./resources/images/hp_2022.jpg)
-
-![2020 with masks rolling across it](./resources/images/2020.png)
 
 ## Course Certificate
 
