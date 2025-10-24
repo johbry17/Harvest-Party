@@ -395,15 +395,15 @@ function profitOrLossText(
     // flimsy justification for pocketing the money, but this is where the idea to donate came from
     const netProfitOrLoss = profitOrLoss - totalDonated - profitOrLoss2019;
 
-    return `<i class="fas fa-exclamation-triangle"></i> Loss to Hosts:<br>$${Math.abs(
+    return `<i class="fas fa-hand-holding-heart"></i><br>Total Donated to Capital Area Food Bank over the Years:<br>$${totalDonated.toLocaleString(
+      undefined,
+      { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+    )}<br><br><i class="fas fa-exclamation-triangle"></i> Loss to Hosts:<br>$${Math.abs(
       netProfitOrLoss
     ).toLocaleString(undefined, {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
-    })}<br><br><i class="fas fa-hand-holding-heart"></i><br>Total Donated to Capital Area Food Bank over the Years:<br>$${totalDonated.toLocaleString(
-      undefined,
-      { minimumFractionDigits: 2, maximumFractionDigits: 2 }
-    )}`;
+    })}`;
   } else if (selectedYear === 2019) {
     return `<i class="fas fa-piggy-bank"></i> Profit:<br>$${profitOrLoss.toFixed(
       2
