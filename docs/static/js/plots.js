@@ -361,6 +361,45 @@ function treemapPlot(data, selectedYear, colorMap) {
   Plotly.newPlot("treemap-plot", [trace], layout);
 }
 
+// // bar plot that shows individual expenses for selected year
+// function individualExpensesBarPlot(data, selectedYear, colorMap) {
+//   // filter data by year
+//   const filteredData = data.filter(
+//     (item) => parseInt(item.Year) === selectedYear
+//   );
+
+//   // format amounts as USD
+//   const formattedAmounts = filteredData.map((item) =>
+//     parseFloat(item.Amount).toLocaleString("en-US", {
+//       style: "currency",
+//       currency: "USD",
+//     })
+//   );
+
+//   // create trace
+//   const trace = {
+//     x: filteredData.map((item) => item.Expense),
+//     y: filteredData.map((item) => item.Amount),
+//     type: "bar",
+//     marker: { color: filteredData.map((item) => colorMap[item.Category]) },
+//     text: filteredData.map((item) => item.Category),
+//     hovertemplate:
+//       "<b>%{x}</b><br>Amount: %{customdata}<br>Category: %{text}<extra></extra>",
+//     customdata: formattedAmounts,
+//   };
+
+//   // create layout
+//   const layout = {
+//     title: `Itemized Expenses for ${selectedYear}`,
+//     xaxis: { title: "Category" },
+//     yaxis: { title: "Amount ($)" },
+//     margin: { t: 100, l: 80, r: 30, b: 80 },
+//   };
+
+//   // plot chart
+//   Plotly.newPlot("individual-expenses-bar-plot", [trace], layout);
+// }
+
 // bar plot that shows individual expenses for selected year
 function individualExpensesBarPlot(data, selectedYear, colorMap) {
   // filter data by year
@@ -368,36 +407,83 @@ function individualExpensesBarPlot(data, selectedYear, colorMap) {
     (item) => parseInt(item.Year) === selectedYear
   );
 
-  // format amounts as USD
-  const formattedAmounts = filteredData.map((item) =>
-    parseFloat(item.Amount).toLocaleString("en-US", {
-      style: "currency",
-      currency: "USD",
-    })
+  // group amounts by Expense -> Category (summing multiple rows)
+  const expenseMap = {};
+  filteredData.forEach((item) => {
+    const expense = item.Expense;
+    const category = item.Category || "Other";
+    const amount = parseFloat(item.Amount) || 0;
+    if (!expenseMap[expense]) expenseMap[expense] = { __total: 0 };
+    expenseMap[expense][category] = (expenseMap[expense][category] || 0) + amount;
+    expenseMap[expense].__total += amount;
+  });
+  // // for example
+  // exampleExpenseMap = {
+  //   "Costco": {
+  //     "Bar": 200,
+  //     "Food": 100,
+  //     "__total": 300
+  //   },
+  //   // other expenses...
+  // }
+
+  // sort expense names by total descending
+  const sortedExpenses = Object.keys(expenseMap).sort(
+    (a, b) => expenseMap[b].__total - expenseMap[a].__total
   );
 
-  // create trace
-  const trace = {
-    x: filteredData.map((item) => item.Expense),
-    y: filteredData.map((item) => item.Amount),
-    type: "bar",
-    marker: { color: filteredData.map((item) => colorMap[item.Category]) },
-    text: filteredData.map((item) => item.Category),
-    hovertemplate:
-      "<b>%{x}</b><br>Amount: %{customdata}<br>Category: %{text}<extra></extra>",
-    customdata: formattedAmounts,
-  };
+  // get list of all categories present (stable order: try colorMap keys then remaining)
+  const categoriesSet = new Set();
+  filteredData.forEach((d) => categoriesSet.add(d.Category || "Other"));
+  const categories = [
+    // preserve colorMap order if possible
+    ...Object.keys(colorMap || {}).filter((c) => categoriesSet.has(c)),
+    // then any remaining categories
+    ...[...categoriesSet].filter((c) => !(colorMap || {})[c]),
+  ];
+
+  // build one trace per category so bars stack per expense
+  const traces = categories.map((cat) => {
+    // use null for zero values so Plotly ignores that point in hover/unified hover
+    const y = sortedExpenses.map((exp) => {
+      const v = expenseMap[exp][cat] || 0;
+      return v === 0 ? null : v;
+    });
+
+    // format customdata for hover (empty string for zero values)
+    const customdata = sortedExpenses.map((exp, i) => {
+      const v = expenseMap[exp][cat] || 0;
+      return v === 0
+        ? ""
+        : v.toLocaleString("en-US", { style: "currency", currency: "USD" });
+    });
+
+    return {
+      x: sortedExpenses,
+      y: y,
+      name: cat,
+      type: "bar",
+      marker: { color: colorMap[cat] || "#777" },
+      customdata: customdata,
+      meta: cat,
+      // show category and value (if present)
+      hovertemplate: "%{meta}: %{customdata}<extra></extra>",
+    };
+  });
 
   // create layout
   const layout = {
     title: `Itemized Expenses for ${selectedYear}`,
-    xaxis: { title: "Category" },
-    yaxis: { title: "Amount ($)" },
-    margin: { t: 100, l: 80, r: 30, b: 80 },
+    xaxis: { title: "Expense", automargin: true },
+    yaxis: { title: "Amount ($)", tickformat: "$, .0f" },
+    margin: { t: 100, l: 80, r: 30, b: 160 },
+    barmode: "stack",
+    hovermode: "x unified", // shows all non-null stacked parts on hover for that expense
+    bargap: 0.15,
   };
 
   // plot chart
-  Plotly.newPlot("individual-expenses-bar-plot", [trace], layout);
+  Plotly.newPlot("individual-expenses-bar-plot", traces, layout, { responsive: true });
 }
 
 // sunburst plot that shows expenses by category, year, and expense
