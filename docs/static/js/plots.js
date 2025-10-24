@@ -361,7 +361,7 @@ function treemapPlot(data, selectedYear, colorMap) {
   Plotly.newPlot("treemap-plot", [trace], layout);
 }
 
-// // bar plot that shows individual expenses for selected year
+// // bar plot that shows individual expenses for selected year, pre-2025
 // function individualExpensesBarPlot(data, selectedYear, colorMap) {
 //   // filter data by year
 //   const filteredData = data.filter(
@@ -401,6 +401,7 @@ function treemapPlot(data, selectedYear, colorMap) {
 // }
 
 // bar plot that shows individual expenses for selected year
+// 2025: refactored to stack same expenses by category (i.e., Costco - Bar and Food)
 function individualExpensesBarPlot(data, selectedYear, colorMap) {
   // filter data by year
   const filteredData = data.filter(
