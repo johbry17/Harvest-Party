@@ -1,3 +1,5 @@
+## THIS EVENT HAS PASSED!!
+
 # Queridos Amigos,
 
 While we can’t bring about the end of the government shutdown, we could definitely end your wait for the most anticipated annual fall event in Northeast DC, North of H St., East of North Capitol Street and South of Florida Ave!
