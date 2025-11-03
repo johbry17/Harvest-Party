@@ -233,42 +233,21 @@ function updateTotals(expenseData, donationData, attendeeData, selectedYear) {
     "Donations"
   );
 
-  // // calculate attendee totals, pre 2024
-  // const yesAttendees =
-  //   selectedYear === "all"
-  //     ? calculateTotal(attendeeData, "Going")
-  //     : parseInt(
-  //         attendeeData.find((item) => parseInt(item.Year) === selectedYear)
-  //           ?.Going || 0
-  //       );
-  // const maybeAttendees =
-  //   selectedYear === "all"
-  //     ? calculateTotal(attendeeData, "Maybes")
-  //     : parseInt(
-  //         attendeeData.find((item) => parseInt(item.Year) === selectedYear)
-  //           ?.Maybes || 0
-  //       );
-
-  // calculate attendee totals, with 2024
-  let yesAttendees = 0;
-  let maybeAttendees = 0;
-
-  if (selectedYear !== 2024) {
-    yesAttendees =
-      selectedYear === "all"
-        ? calculateTotal(attendeeData, "Going")
-        : parseInt(
-            attendeeData.find((item) => parseInt(item.Year) === selectedYear)
-              ?.Going || 0
-          );
-    maybeAttendees =
-      selectedYear === "all"
-        ? calculateTotal(attendeeData, "Maybes")
-        : parseInt(
-            attendeeData.find((item) => parseInt(item.Year) === selectedYear)
-              ?.Maybes || 0
-          );
-  }
+  // calculate attendee totals
+  const yesAttendees =
+    selectedYear === "all"
+      ? calculateTotal(attendeeData, "Going")
+      : parseInt(
+          attendeeData.find((item) => parseInt(item.Year) === selectedYear)
+            ?.Going || 0 // "|| 0" to handle NaN in 2024 attendee data
+        );
+  const maybeAttendees =
+    selectedYear === "all"
+      ? calculateTotal(attendeeData, "Maybes")
+      : parseInt(
+          attendeeData.find((item) => parseInt(item.Year) === selectedYear)
+            ?.Maybes || 0 // "|| 0" to handle NaN in 2024 attendee data
+        );
 
   // calculate cost per attendee metrics
   const costPerYes = yesAttendees ? totalAmount / yesAttendees : 0;
@@ -301,7 +280,26 @@ function updateTotals(expenseData, donationData, attendeeData, selectedYear) {
   //   "rsvp-maybe-amount"
   // ).innerHTML = `$${costPerYesAndMaybe.toFixed(2)}`;
 
-  // update HTML with the calculated data, with 2024
+  // 2025 Partiful addition:
+  const attendeeHeader = document.querySelector("#attendee-counter h2");
+  const attendeeSub = document.querySelector("#attendee-counter h4");
+
+  // swap to Partiful text for 2025
+  if (attendeeHeader && attendeeSub) {
+    if (selectedYear === 2025) {
+      attendeeHeader.innerHTML =
+  `<img src="./static/images/partiful-256.png" alt="Partiful" class="partiful-icon" /> Partiful Attendees`;
+      attendeeSub.textContent = "A dubiously better metric for 2025";
+      document.getElementById("attendee-counter").classList.add("partiful");
+    } else {
+      // restore the default Facebook text for other years
+      attendeeHeader.innerHTML = `<i class="fab fa-facebook"></i> Facebook Attendees`;
+      attendeeSub.textContent = "An increasingly irrelevant metric";
+      document.getElementById("attendee-counter").classList.remove("partiful");
+    }
+  }
+
+  // update HTML with calculated data, with 2024 conditional
   if (selectedYear === 2024) {
     document.getElementById("rsvp-count").textContent = "?";
     document.getElementById("maybe-count").textContent = "?";
@@ -322,12 +320,7 @@ function updateTotals(expenseData, donationData, attendeeData, selectedYear) {
     document.getElementById("young-once?").style.display = "none";
   }
 
-  // document.getElementById("total-amount").innerHTML = `$${totalAmount.toFixed(
-  //   2
-  // )}`;
-  // document.getElementById(
-  //   "total-donations"
-  // ).textContent = `$${totalDonations.toFixed(2)}`;
+  // summary metrics
   document.getElementById(
     "total-amount"
   ).innerHTML = `$${totalAmount.toLocaleString(undefined, {
@@ -368,7 +361,7 @@ function profitOrLossText(
       return acc;
     }, {});
 
-    // sum profits, ignoring loss years and the year 2019
+    // sum profits, ignoring loss years and the years 2019 and 2025
     const totalDonated = Object.keys(yearlyTotals).reduce((total, year) => {
       const donations = parseFloat(
         donationData.find((d) => parseInt(d.Year) === parseInt(year))
@@ -376,7 +369,11 @@ function profitOrLossText(
       );
       const yearProfitOrLoss = donations - yearlyTotals[year];
 
-      if (yearProfitOrLoss > 0 && parseInt(year) !== 2019) {
+      if (
+        yearProfitOrLoss > 0 &&
+        parseInt(year) !== 2019 &&
+        parseInt(year) !== 2025
+      ) {
         return total + yearProfitOrLoss;
       }
       return total;
@@ -389,11 +386,19 @@ function profitOrLossText(
         ) - yearlyTotals[2019]
       : 0;
 
+    // calculate 2025 profit
+    const profitOrLoss2025 = yearlyTotals[2025]
+      ? parseFloat(
+          donationData.find((d) => parseInt(d.Year) === 2025)?.Donations || 0
+        ) - yearlyTotals[2025]
+      : 0;
+
     // calculate net loss (after subtracting donations) to Harvest Party hosts
     // technically, 2019 was a profit, but nobody knows what happened to the $179
     // we were surprised to have a profit, probably got pizza
     // flimsy justification for pocketing the money, but this is where the idea to donate came from
-    const netProfitOrLoss = profitOrLoss - totalDonated - profitOrLoss2019;
+    const netProfitOrLoss =
+      profitOrLoss - totalDonated - profitOrLoss2019 - profitOrLoss2025;
 
     return `<i class="fas fa-hand-holding-heart"></i><br>Total Donated to Capital Area Food Bank over the Years:<br>$${totalDonated.toLocaleString(
       undefined,
@@ -408,13 +413,17 @@ function profitOrLossText(
     return `<i class="fas fa-piggy-bank"></i> Profit:<br>$${profitOrLoss.toFixed(
       2
     )}<br>The surplus was a surprise. Never turned a profit before. I think we threw a pizza party`;
+  } else if (selectedYear === 2025) {
+    return `<i class="fas fa-piggy-bank"></i> Profit:<br>$${profitOrLoss.toFixed(
+      2
+    )}<br>Somebody got a cup of coffee`;
   } else if (profitOrLoss > 0) {
     return `<i class="fas fa-donate"></i> Profit:<br>$${profitOrLoss.toLocaleString(
       undefined,
       { minimumFractionDigits: 2, maximumFractionDigits: 2 }
     )}<br><i class="fas fa-gift"></i> Donated to Capital Area Food Bank`;
   } else if (profitOrLoss < 0) {
-    return `<i class="fas fa-frown"></i> Loss:<br>-$${Math.abs(
+    return `<i class="fas fa-frown loss-icon"></i> Loss:<br>-$${Math.abs(
       profitOrLoss
     ).toLocaleString(undefined, {
       minimumFractionDigits: 2,

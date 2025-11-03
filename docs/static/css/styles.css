@@ -264,6 +264,29 @@ h1:hover {
   transition: color 0.3s ease;
 }
 
+#attendee-counter.partiful {
+  background: linear-gradient(180deg, #9c47ae 0%, #0f0f0f 50%, #0f0f0f 100%);
+  color: #fff;
+  border-radius: 12px;
+  padding: 1rem;
+  font-weight: 600; /* slightly bolder text, offsets dark background */
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+}
+#attendee-counter.partiful h2 i {
+  color: #9c47ae;
+}
+#attendee-counter.partiful h4 {
+  color: rgba(255, 255, 255, 0.85);
+}
+#attendee-counter.partiful .partiful-icon {
+  height: 1.2em; /* roughly matches heading size */
+  width: auto;
+  vertical-align: middle; /* aligns with text baseline */
+  transform: translateY(-0.08em); /* nudge up slightly */
+  margin-right: 0.5rem; /* space between icon and text */
+  display: inline-block;
+}
+
 #total-number {
   background-color: #f4a261;
   color: #333333;
