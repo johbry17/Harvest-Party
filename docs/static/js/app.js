@@ -287,8 +287,7 @@ function updateTotals(expenseData, donationData, attendeeData, selectedYear) {
   // swap to Partiful text for 2025
   if (attendeeHeader && attendeeSub) {
     if (selectedYear === 2025) {
-      attendeeHeader.innerHTML =
-  `<img src="./static/images/partiful-256.png" alt="Partiful" class="partiful-icon" /> Partiful Attendees`;
+      attendeeHeader.innerHTML = `<img src="./static/images/partiful-256.png" alt="Partiful" class="partiful-icon" /> Partiful Attendees`;
       attendeeSub.textContent = "A dubiously better metric for 2025";
       document.getElementById("attendee-counter").classList.add("partiful");
     } else {
@@ -369,11 +368,7 @@ function profitOrLossText(
       );
       const yearProfitOrLoss = donations - yearlyTotals[year];
 
-      if (
-        yearProfitOrLoss > 0 &&
-        parseInt(year) !== 2019 &&
-        parseInt(year) !== 2025
-      ) {
+      if (yearProfitOrLoss > 0 && parseInt(year) !== 2019) {
         return total + yearProfitOrLoss;
       }
       return total;
@@ -386,19 +381,11 @@ function profitOrLossText(
         ) - yearlyTotals[2019]
       : 0;
 
-    // calculate 2025 profit
-    const profitOrLoss2025 = yearlyTotals[2025]
-      ? parseFloat(
-          donationData.find((d) => parseInt(d.Year) === 2025)?.Donations || 0
-        ) - yearlyTotals[2025]
-      : 0;
-
     // calculate net loss (after subtracting donations) to Harvest Party hosts
     // technically, 2019 was a profit, but nobody knows what happened to the $179
     // we were surprised to have a profit, probably got pizza
     // flimsy justification for pocketing the money, but this is where the idea to donate came from
-    const netProfitOrLoss =
-      profitOrLoss - totalDonated - profitOrLoss2019 - profitOrLoss2025;
+    const netProfitOrLoss = profitOrLoss - totalDonated - profitOrLoss2019;
 
     return `<i class="fas fa-hand-holding-heart"></i><br>Total Donated to Capital Area Food Bank over the Years:<br>$${totalDonated.toLocaleString(
       undefined,
@@ -413,10 +400,6 @@ function profitOrLossText(
     return `<i class="fas fa-piggy-bank"></i> Profit:<br>$${profitOrLoss.toFixed(
       2
     )}<br>The surplus was a surprise. Never turned a profit before. I think we threw a pizza party`;
-  } else if (selectedYear === 2025) {
-    return `<i class="fas fa-piggy-bank"></i> Profit:<br>$${profitOrLoss.toFixed(
-      2
-    )}<br>Somebody got a cup of coffee`;
   } else if (profitOrLoss > 0) {
     return `<i class="fas fa-donate"></i> Profit:<br>$${profitOrLoss.toLocaleString(
       undefined,

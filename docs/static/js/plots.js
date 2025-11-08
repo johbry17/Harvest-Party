@@ -415,7 +415,8 @@ function individualExpensesBarPlot(data, selectedYear, colorMap) {
     const category = item.Category || "Other";
     const amount = parseFloat(item.Amount) || 0;
     if (!expenseMap[expense]) expenseMap[expense] = { __total: 0 };
-    expenseMap[expense][category] = (expenseMap[expense][category] || 0) + amount;
+    expenseMap[expense][category] =
+      (expenseMap[expense][category] || 0) + amount;
     expenseMap[expense].__total += amount;
   });
   // // for example
@@ -484,7 +485,9 @@ function individualExpensesBarPlot(data, selectedYear, colorMap) {
   };
 
   // plot chart
-  Plotly.newPlot("individual-expenses-bar-plot", traces, layout, { responsive: true });
+  Plotly.newPlot("individual-expenses-bar-plot", traces, layout, {
+    responsive: true,
+  });
 }
 
 // sunburst plot that shows expenses by category, year, and expense
@@ -1226,8 +1229,12 @@ function expenseTable(data, selectedYear) {
   Plotly.newPlot("expense-table", [trace], layout);
 }
 
-// bar plot of each host's losses
+// bar plot of each host's losses, excluding 2025
 function hostLossPlot(expenseData, reimbData) {
+  //exclude 2025 (loss was spread amongst many people, clutters the chart)
+  expenseData = expenseData.filter((d) => parseInt(d.Year) !== 2025);
+  reimbData = reimbData.filter((r) => parseInt(r.Year) !== 2025);
+
   // aggregate expenses by person
   const expenseSums = expenseData.reduce((acc, item) => {
     const person = item.Name;
