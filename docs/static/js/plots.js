@@ -14,6 +14,28 @@ const harvestColors = [
 ];
 const attendeeGreen = "#4caf50"; // green for attendees
 
+// config for all plots, removing unnecessary buttons
+// reduces user confusion, especially on mobile
+const config = {
+  displayModeBar: "hover",
+  hovermode: 'closest',
+  modeBarButtonsToRemove: [
+    "zoom2d",
+    "pan2d",
+    "select2d",
+    "lasso2d",
+    "zoomIn2d",
+    "zoomOut2d",
+    "autoScale2d",
+    "toggleSpikelines",
+    "hoverClosestCartesian",
+    "hoverCompareCartesian",
+    "hoverClosestPie",
+    "toggleHover",
+    // "toImage"
+  ],
+};
+
 // call plots for total view
 function totalPlots(
   data,
@@ -203,7 +225,9 @@ function expensePieChartWithBackground(data, selectedYear) {
     margin: { t: 60, l: 20, r: 20, b: 20 },
   };
 
-  Plotly.newPlot("expense-pie-chart", [trace], layout, { responsive: true });
+  Plotly.newPlot("expense-pie-chart", [trace], layout, config, {
+    responsive: true,
+  });
 }
 
 // bar plot that aggregates Amount by Category
@@ -293,7 +317,7 @@ function barPlot(data, selectedYear, colorMap) {
   };
 
   // plot chart
-  Plotly.newPlot("bar-plot", [trace], layout);
+  Plotly.newPlot("bar-plot", [trace], layout, config);
 }
 
 // treemap plot that aggregates Amount by Category
@@ -358,7 +382,7 @@ function treemapPlot(data, selectedYear, colorMap) {
   };
 
   // plot chart
-  Plotly.newPlot("treemap-plot", [trace], layout);
+  Plotly.newPlot("treemap-plot", [trace], layout, config);
 }
 
 // // bar plot that shows individual expenses for selected year, pre-2025
@@ -397,7 +421,7 @@ function treemapPlot(data, selectedYear, colorMap) {
 //   };
 
 //   // plot chart
-//   Plotly.newPlot("individual-expenses-bar-plot", [trace], layout);
+//   Plotly.newPlot("individual-expenses-bar-plot", [trace], layout, config);
 // }
 
 // bar plot that shows individual expenses for selected year
@@ -485,7 +509,7 @@ function individualExpensesBarPlot(data, selectedYear, colorMap) {
   };
 
   // plot chart
-  Plotly.newPlot("individual-expenses-bar-plot", traces, layout, {
+  Plotly.newPlot("individual-expenses-bar-plot", traces, layout, config, {
     responsive: true,
   });
 }
@@ -648,7 +672,7 @@ function sunburstPlot(data, selectedYear, colorMap) {
   };
 
   // plot chart
-  Plotly.newPlot("sunburst-plot", [trace], layout);
+  Plotly.newPlot("sunburst-plot", [trace], layout, config);
 }
 
 // line plot of expenses by category over time, that toggles categories w/ values
@@ -756,7 +780,7 @@ function categoryLinePlot(data, colorMap) {
   };
 
   // plot chart
-  Plotly.react("category-line-plot", traces, layout);
+  Plotly.react("category-line-plot", traces, layout, config);
 }
 
 // bar plot that shows total expenses and donations over time
@@ -822,7 +846,8 @@ function totalExpensesDonationsBarPlot(expenseData, donationData) {
   Plotly.newPlot(
     "total-expenses-donations-bar-plot",
     [expenseTrace, donationTrace],
-    layout
+    layout,
+    config
   );
 }
 
@@ -889,7 +914,8 @@ function totalExpensesDonationsLinePlot(expenseData, donationData) {
   Plotly.newPlot(
     "total-expenses-donations-line-plot",
     [expenseTrace, donationTrace],
-    layout
+    layout,
+    config
   );
 }
 
@@ -975,7 +1001,7 @@ function donationsVExpensesPlot(expenseData, donationData) {
   };
 
   // plot chart
-  Plotly.newPlot("donations-v-expenses-plot", [trace], layout);
+  Plotly.newPlot("donations-v-expenses-plot", [trace], layout, config);
 }
 
 // line plot of cost per attendee over time
@@ -1086,7 +1112,8 @@ function costPerAttendeePlot(expenseData, attendeeData) {
   Plotly.newPlot(
     "cost-per-attendee-plot",
     [traceGoing, traceGoingPlusMaybes],
-    layout
+    layout,
+    config
   );
 }
 
@@ -1158,7 +1185,12 @@ function attendeePlot(data) {
   };
 
   // plot chart
-  Plotly.newPlot("attendee-plot", [totalTrace, goingTrace, maybeTrace], layout);
+  Plotly.newPlot(
+    "attendee-plot",
+    [totalTrace, goingTrace, maybeTrace],
+    layout,
+    config
+  );
 }
 
 // table of expenses for selected year with plotly
@@ -1226,7 +1258,7 @@ function expenseTable(data, selectedYear) {
   };
 
   // plot chart
-  Plotly.newPlot("expense-table", [trace], layout);
+  Plotly.newPlot("expense-table", [trace], layout, config);
 }
 
 // bar plot of each host's losses, excluding 2025
@@ -1296,5 +1328,5 @@ function hostLossPlot(expenseData, reimbData) {
   };
 
   // plot chart
-  Plotly.newPlot("corn-kings-and-queens", [trace], layout);
+  Plotly.newPlot("corn-kings-and-queens", [trace], layout, config);
 }
